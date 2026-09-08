@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Bir Kere Daha</title>
+<style>
+*{box-sizing:border-box;touch-action:none}
+body{
+ margin:0;background:#111;color:white;font-family:Arial,sans-serif;
+ display:flex;justify-content:center;min-height:100vh;overflow:hidden
+}
+#game{width:100%;max-width:500px;padding:18px}
+h1{text-align:center;font-size:25px;margin:5px 0}
+#info{display:flex;justify-content:space-between;color:#aaa;margin:10px 4px}
+#msg{text-align:center;height:45px;font-weight:bold;padding:12px}
+#arena{
+ position:relative;width:100%;aspect-ratio:1;
+ background:#eee;border-radius:20px;overflow:hidden
+}
+#ball{
+ position:absolute;width:38px;height:38px;background:#111;
+ border-radius:50%;z-index:5
+}
+#goal{
+ position:absolute;width:75px;height:75px;background:#20b45a;
+ border-radius:15px;right:18px;top:18px;
+ display:flex;align-items:center;justify-content:center;
+ font-size:11px;font-weight:bold
+}
+.wall{
+ position:absolute;background:#222;border-radius:7px
+}
+.w1{left:27%;top:0;width:13%;height:60%}
+.w2{left:40%;top:52%;width:48%;height:13%}
+.w3{left:65%;top:15%;width:12%;height:50%}
+.w4{left:8%;top:73%;width:55%;height:10%}
+#bottom{text-align:center;color:#777;font-size:12px;margin-top:12px}
+#screen{
+ position:fixed;inset:0;background:#090909ee;
+ display:flex;align-items:center;justify-content:center;
+ z-index:20;padding:25px
+}
+.card{
+ width:100%;max-width:400px;background:#1b1b1f;
+ border-radius:24px;padding:28px;text-align:center
+}
+.card h2{font-size:34px;margin:0 0 12px}
+.card p{color:#bbb;line-height:1.5}
+button{
+ background:white;color:#111;border:0;border-radius:14px;
+ padding:15px 25px;font-size:17px;font-weight:bold
+}
+</style>
+</head>
+
+<body>
+<div id="game">
+
+<h1>BİR KERE DAHA 😈</h1>
+
+<div id="info">
+ <span>Bölüm <b id="level">1</b></span>
+ <span>Deneme <b id="tries">0</b></span>
+</div>
+
+<div id="msg">TOPU YEŞİL KUTUYA GÖTÜR.</div>
+
+<div id="arena">
+
+<div id="goal">BURAYA</div>
+
+<div class="wall w1"></div>
+<div class="wall w2"></div>
+<div class="wall w3"></div>
+<div class="wall w4"></div>
+
+<div id="ball"></div>
+
+</div>
+
+<div id="bottom">Parmağını topun üzerinde sürükle.</div>
+</div>
+
+<div id="screen">
+<div class="card">
+<h2>BİR KERE DAHA</h2>
+
+<p>
+Görev çok basit.<br><br>
+<b>Topu yeşil kutuya götür.</b>
+</p>
+
+<p>
+Sadece bir şey var...<br>
+<b>Oyuna fazla güvenme.</b> 😈
+</p>
+
+<button id="start">BAŞLA</button>
+</div>
+</div>
+
+<script>
+
+const arena=document.getElementById("arena");
+const ball=document.getElementById("ball");
+const goal=document.getElementById("goal");
+const msg=document.getElementById("msg");
+const triesText=document.getElementById("tries");
+const levelText=document.getElementById("level");
+const screen=document.getElementById("screen");
+
+let x=20,y=0;
+let level=1;
+let tries=0;
+let dragging=false;
+let finished=false;
+
+function reset(){
+
+ let r=arena.getBoundingClientRect();
+
+ x=18;
+ y=r.height-58;
+
+ ball.style.left=x+"px";
+ ball.style.top=y+"px";
+
+ finished=false;
+
+ levelText.textContent=level;
+
+ if(level==1)
+  msg.textContent="TOPU YEŞİL KUTUYA GÖTÜR.";
+
+ if(level==2)
+  msg.textContent="BU SEFER DAHA DİKKATLİ. 👀";
+
+ if(level==3)
+  msg.textContent="ARTIK BUNU BİLİYORSUN.";
+
+ if(level==4)
+  msg.textContent="NEREYE GİTTİ? 😇";
+
+ if(level==5)
+  msg.textContent="SON BİR KEZ. SÖZ.";
+
+}
+
+function collision(nx,ny){
+
+ let br=arena.getBoundingClientRect();
+
+ let b={
+  left:br.left+nx,
+  right:br.left+nx+38,
+  top:br.top+ny,
+  bottom:br.top+ny+38
+ };
+
+ let walls=document.querySelectorAll(".wall");
+
+ for(let w of walls){
+
+  let r=w.getBoundingClientRect();
+
+  if(
+   b.left<r.right &&
+   b.right>r.left &&
+   b.top<r.bottom &&
+   b.bottom>r.top
+  ) return true;
+
+ }
+
+ return false;
+}
+
+function move(e){
+
+ if(!dragging || finished)return;
+
+ let r=arena.getBoundingClientRect();
+
+ let nx=e.clientX-r.left-19;
+ let ny=e.clientY-r.top-19;
+
+ nx=Math.max(0,Math.min(r.width-38,nx));
+ ny=Math.max(0,Math.min(r.height-38,ny));
+
+ if(collision(nx,ny)){
+
+  fail();
+  return;
+
+ }
+
+ x=nx;
+ y=ny;
+
+ ball.style.left=x+"px";
+ ball.style.top=y+"px";
+
+ checkGoal();
+
+}
+
+function checkGoal(){
+
+ let r=arena.getBoundingClientRect();
+ let g=goal.getBoundingClientRect();
+
+ let bx=r.left+x;
+ let by=r.top+y;
+
+ if(
+  bx+38>g.left+8 &&
+  bx<g.right-8 &&
+  by+38>g.top+8 &&
+  by<g.bottom-8
+ ){
+
+  success();
+
+ }
+
+}
+
+function fail(){
+
+ dragging=false;
+ tries++;
+
+ triesText.textContent=tries;
+
+ ball.animate(
+  [
+   {transform:"translateX(0)"},
+   {transform:"translateX(-8px)"},
+   {transform:"translateX(8px)"},
+   {transform:"translateX(0)"}
+ ],
+ {duration:180}
+ );
+
+ let messages=[
+  "ÇARPTIN. 😇",
+  "DUVAR ORADAYDI.",
+  "BUNA DAHA DİKKATLİ BAK.",
+  "YAKLAŞMIŞTIN.",
+  "HAYIR. 😈"
+ ];
+
+ msg.textContent=messages[Math.min(tries-1,4)];
+
+ setTimeout(reset,450);
+
+}
+
+function success(){
+
+ if(finished)return;
+
+ finished=true;
+ dragging=false;
+
+ if(level==1){
+
+  msg.textContent="BAŞARDIN!";
+
+  setTimeout(()=>{
+
+   level=2;
+
+   goal.style.right="auto";
+   goal.style.left="18px";
+
+   document.querySelector(".w4").style.display="none";
+
+   reset();
+
+   msg.textContent="GÜZEL. ŞİMDİ AYNI ŞEYİ YAP.";
+
+  },900);
+
+  return;
+ }
+
+ if(level==2){
+
+  msg.textContent="GÜZEL...";
+
+  setTimeout(()=>{
+
+   level=3;
+
+   goal.style.left="auto";
+   goal.style.right="18px";
+
+   document.querySelector(".w1").style.height="78%";
+
+   reset();
+
+  },900);
+
+  return;
+ }
+
+ if(level==3){
+
+  msg.textContent="BİLİYORDUN.";
+
+  setTimeout(()=>{
+
+   level=4;
+
+   goal.style.top="auto";
+   goal.style.bottom="18px";
+
+   document.querySelector(".w3").style.left="50%";
+
+   reset();
+
+  },900);
+
+  return;
+ }
+
+ if(level==4){
+
+  msg.textContent="SON BÖLÜM.";
+
+  setTimeout(()=>{
+
+   level=5;
+
+   goal.style.left="42%";
+   goal.style.right="auto";
+   goal.style.top="42%";
+   goal.style.bottom="auto";
+
+   document.querySelector(".w2").style.top="35%";
+   document.querySelector(".w2").style.left="15%";
+
+   reset();
+
+  },900);
+
+  return;
+ }
+
+ end();
+
+}
+
+function end(){
+
+ screen.innerHTML=`
+ <div class="card">
+ <h2>😈 BİTTİ.</h2>
+
+ <p>
+ Tebrikler.<br>
+ Oyunun bütün numaralarını çözdün.
+ </p>
+
+ <p>
+ <b>${tries} denemede</b> tamamladın.
+ </p>
+
+ <p>
+ Ama dürüst ol...
+ </p>
+
+ <p>
+ <b>Bir kere daha oynayacak mısın?</b>
+ </p>
+
+ <button onclick="location.reload()">
+ BİR KERE DAHA
+ </button>
+
+ </div>
+ `;
+
+ screen.style.display="flex";
+
+}
+
+arena.addEventListener("pointerdown",e=>{
+
+ if(screen.style.display!="none")return;
+
+ dragging=true;
+ move(e);
+
+});
+
+window.addEventListener("pointermove",move);
+
+window.addEventListener("pointerup",()=>{
+ dragging=false;
+});
+
+document.getElementById("start").onclick=()=>{
+
+ screen.style.display="none";
+ reset();
+
+};
+
+reset();
+
+</script>
+
+</body>
+</html>
