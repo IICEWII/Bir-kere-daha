@@ -2,406 +2,192 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<meta name="viewport"
+      content="width=device-width,
+      initial-scale=1.0,
+      maximum-scale=1.0,
+      user-scalable=no">
 
 <title>KAÇ!</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-  user-select: none;
+
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
 }
 
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #fffdf5;
-  font-family: "Comic Sans MS", "Chalkboard SE", cursive;
-  touch-action: none;
+html,body{
+  margin:0;
+  padding:0;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:#fff8df;
+  font-family:"Comic Sans MS","Chalkboard SE",cursive;
+  touch-action:none;
 }
 
-#game {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background: #fffdf5;
+#game{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  background:#bfe8ff;
 }
 
-/* GÖKYÜZÜ */
-
-#sky {
-  position: absolute;
-  inset: 0 0 35% 0;
-  background: #dff4ff;
-}
-
-.sun {
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  right: 8%;
-  top: 8%;
-  border: 4px solid #222;
-  border-radius: 50%;
-  background: #ffe66d;
-}
-
-/* UZAK TEPELER */
-
-.hill {
-  position: absolute;
-  bottom: 0;
-  border: 5px solid #222;
-  border-bottom: 0;
-  border-radius: 50% 50% 0 0;
-  background: #9bd18b;
-}
-
-.hill1 {
-  left: 0;
-  width: 230px;
-  height: 110px;
-}
-
-.hill2 {
-  left: 35%;
-  width: 280px;
-  height: 145px;
-}
-
-.hill3 {
-  left: 70%;
-  width: 240px;
-  height: 95px;
-}
-
-/* ZEMİN */
-
-#ground {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 35%;
-  background: #b7df91;
-  border-top: 6px solid #222;
-}
-
-#road {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 23%;
-  background: #ead8ad;
-  border-top: 5px dashed #555;
-}
-
-/* OYUNCU */
-
-#player {
-  position: absolute;
-  left: 15%;
-  bottom: 23%;
-  width: 48px;
-  height: 80px;
-  z-index: 50;
-}
-
-.head {
-  position: absolute;
-  left: 6px;
-  top: 0;
-  width: 34px;
-  height: 34px;
-  border: 4px solid #222;
-  border-radius: 50%;
-  background: #ffe0bd;
-}
-
-.body {
-  position: absolute;
-  left: 20px;
-  top: 31px;
-  width: 5px;
-  height: 36px;
-  background: #222;
-}
-
-.arm {
-  position: absolute;
-  left: 20px;
-  top: 36px;
-  width: 5px;
-  height: 28px;
-  background: #222;
-  transform-origin: top;
-}
-
-.arm1 {
-  transform: rotate(50deg);
-}
-
-.arm2 {
-  transform: rotate(-50deg);
-}
-
-.leg {
-  position: absolute;
-  left: 20px;
-  top: 64px;
-  width: 5px;
-  height: 30px;
-  background: #222;
-  transform-origin: top;
-}
-
-.leg1 {
-  transform: rotate(28deg);
-}
-
-.leg2 {
-  transform: rotate(-28deg);
-}
-
-/* SİLAH */
-
-.gun {
-  display: none;
-  position: absolute;
-  left: 25px;
-  top: 40px;
-  width: 30px;
-  height: 8px;
-  background: #555;
-  border: 3px solid #222;
-  transform: rotate(-15deg);
-}
-
-.armed .gun {
-  display: block;
-}
-
-/* NESNELER */
-
-.object {
-  position: absolute;
-  bottom: 23%;
-  z-index: 30;
-}
-
-/* ZOMBİ */
-
-.zombie {
-  width: 48px;
-  height: 78px;
-}
-
-.zhead {
-  position: absolute;
-  left: 5px;
-  top: 0;
-  width: 37px;
-  height: 37px;
-  border: 4px solid #222;
-  border-radius: 50%;
-  background: #a8d08d;
-}
-
-.zbody {
-  position: absolute;
-  left: 20px;
-  top: 34px;
-  width: 7px;
-  height: 38px;
-  background: #222;
-}
-
-.zleg {
-  position: absolute;
-  top: 67px;
-  width: 6px;
-  height: 27px;
-  background: #222;
-}
-
-.zleg1 {
-  left: 18px;
-  transform: rotate(25deg);
-}
-
-.zleg2 {
-  left: 24px;
-  transform: rotate(-25deg);
-}
-
-/* KAZIK */
-
-.spikes {
-  width: 90px;
-  height: 45px;
-  display: flex;
-  align-items: flex-end;
-}
-
-.spike {
-  width: 0;
-  height: 0;
-  border-left: 14px solid transparent;
-  border-right: 14px solid transparent;
-  border-bottom: 43px solid #e85d5d;
-  filter: drop-shadow(2px 2px 0 #222);
-}
-
-/* MERMİ KUTUSU */
-
-.ammo {
-  width: 42px;
-  height: 42px;
-  border: 4px solid #222;
-  border-radius: 8px;
-  background: #ffd43b;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 23px;
-}
-
-/* BOŞLUK */
-
-.gap {
-  position: absolute;
-  bottom: 0;
-  height: 35%;
-  background: #fffdf5;
-  border-left: 5px solid #222;
-  border-right: 5px solid #222;
-}
-
-/* MERMİ */
-
-.bullet {
-  position: absolute;
-  width: 15px;
-  height: 5px;
-  border-radius: 5px;
-  background: #222;
-  z-index: 80;
+canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
 }
 
 /* HUD */
 
-#hud {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  right: 10px;
-  z-index: 200;
-  display: flex;
-  justify-content: space-between;
-  gap: 5px;
-  font-size: 17px;
+#hud{
+  position:absolute;
+  top:10px;
+  left:10px;
+  right:10px;
+  z-index:20;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  pointer-events:none;
 }
 
-.hudBox {
-  background: white;
-  border: 3px solid #222;
-  border-radius: 12px;
-  padding: 5px 9px;
-}
-
-/* MESAJ */
-
-#message {
-  display: none;
-  position: absolute;
-  left: 50%;
-  top: 25%;
-  transform: translate(-50%, -50%);
-  z-index: 300;
-  padding: 12px 20px;
-  background: white;
-  border: 4px solid #222;
-  border-radius: 15px;
-  font-size: 27px;
-  font-weight: bold;
-  white-space: nowrap;
+.hudBox{
+  background:rgba(255,255,255,.9);
+  border:3px solid #222;
+  border-radius:12px;
+  padding:5px 10px;
+  font-size:17px;
+  box-shadow:2px 2px 0 #222;
 }
 
 /* BAŞLANGIÇ */
 
-#start {
-  position: absolute;
-  inset: 0;
-  z-index: 500;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: #fffdf5;
-  text-align: center;
+.screen{
+  position:absolute;
+  inset:0;
+  z-index:50;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  background:#fff8df;
+  text-align:center;
 }
 
-#start h1 {
-  margin: 0;
-  font-size: 72px;
-  transform: rotate(-3deg);
+#startScreen h1{
+  margin:0;
+  font-size:78px;
+  line-height:.9;
+  transform:rotate(-4deg);
+  text-shadow:3px 3px 0 #fff;
 }
 
-#start p {
-  font-size: 20px;
-  line-height: 1.5;
+#startScreen p{
+  font-size:19px;
+  line-height:1.5;
+  margin:18px 20px;
 }
 
-#startButton,
-#restartButton {
-  padding: 12px 30px;
-  font-family: inherit;
-  font-size: 24px;
-  font-weight: bold;
-  border: 5px solid #222;
-  border-radius: 15px;
-  background: #ffe66d;
-  box-shadow: 4px 4px 0 #222;
+.bigButton{
+  border:5px solid #222;
+  background:#ffe36b;
+  border-radius:16px;
+  padding:12px 30px;
+
+  font-family:inherit;
+  font-size:25px;
+  font-weight:bold;
+
+  box-shadow:5px 5px 0 #222;
 }
 
-#startButton:active,
-#restartButton:active {
-  transform: translate(3px, 3px);
-  box-shadow: 1px 1px 0 #222;
+.bigButton:active{
+  transform:translate(3px,3px);
+  box-shadow:2px 2px 0 #222;
 }
 
-/* OYUN SONU */
+/* GAME OVER */
 
-#gameover {
-  position: absolute;
-  inset: 0;
-  z-index: 600;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,253,245,0.96);
-  text-align: center;
+#gameOver{
+  display:none;
 }
 
-#gameover h2 {
-  margin: 5px;
-  font-size: 48px;
+#gameOver h2{
+  font-size:44px;
+  margin:5px;
 }
 
-.stat {
-  margin: 4px;
-  font-size: 21px;
+.result{
+  font-size:21px;
+  margin:4px;
 }
 
-#restartButton {
-  margin-top: 15px;
+/* MESAJ */
+
+#message{
+  position:absolute;
+  left:50%;
+  top:24%;
+
+  transform:translate(-50%,-50%);
+
+  z-index:30;
+
+  display:none;
+
+  padding:9px 18px;
+
+  background:#fff;
+  border:4px solid #222;
+  border-radius:14px;
+
+  font-size:27px;
+  font-weight:bold;
+
+  box-shadow:4px 4px 0 #222;
+  pointer-events:none;
 }
+
+/* PORTRAIT */
+
+#rotate{
+  display:none;
+  position:absolute;
+  inset:0;
+  z-index:100;
+
+  align-items:center;
+  justify-content:center;
+
+  background:#fff8df;
+  text-align:center;
+  padding:30px;
+}
+
+#rotate div{
+  font-size:25px;
+}
+
+@media(max-aspect-ratio:1/1){
+
+  #rotate{
+    display:flex;
+  }
+
+}
+
 </style>
 </head>
 
@@ -409,199 +195,2288 @@ html, body {
 
 <div id="game">
 
-  <div id="sky">
-    <div class="sun"></div>
-    <div class="hill hill1"></div>
-    <div class="hill hill2"></div>
-    <div class="hill hill3"></div>
+<canvas id="canvas"></canvas>
+
+<div id="hud">
+
+  <div class="hudBox">
+    📏 <span id="distance">0</span> m
   </div>
 
-  <div id="ground"></div>
-  <div id="road"></div>
-
-  <!-- HUD -->
-
-  <div id="hud">
-
-    <div class="hudBox">
-      📏 <span id="distance">0</span> m
-    </div>
-
-    <div class="hudBox">
-      ⏱️ <span id="time">0:00</span>
-    </div>
-
-    <div class="hudBox">
-      🔫 <span id="ammo">0</span>
-    </div>
-
+  <div class="hudBox">
+    ⏱️ <span id="time">0:00</span>
   </div>
 
-  <!-- MESAJ -->
-
-  <div id="message"></div>
-
-  <!-- OYUNCU -->
-
-  <div id="player">
-
-    <div class="head"></div>
-    <div class="body"></div>
-
-    <div class="arm arm1"></div>
-    <div class="arm arm2"></div>
-
-    <div class="leg leg1"></div>
-    <div class="leg leg2"></div>
-
-    <div class="gun"></div>
-
+  <div class="hudBox">
+    🔫 <span id="ammo">-</span>
   </div>
 
-  <!-- BAŞLANGIÇ -->
-
-  <div id="start">
-
-    <h1>KAÇ!</h1>
-
-    <p>
-      🏃 Koş.<br>
-      👆 Dokun ve zıpla.<br>
-      🧟 Zombilerden kaç.<br>
-      🔫 Ne kadar uzağa gidebilirsin?
-    </p>
-
-    <button id="startButton">BAŞLA</button>
-
+  <div class="hudBox">
+    🏆 <span id="best">0</span> m
   </div>
 
-  <!-- GAME OVER -->
+</div>
 
-  <div id="gameover">
+<div id="message"></div>
 
-    <h2>💀 YAKALANDIN!</h2>
 
-    <div class="stat">
-      📏 Mesafe:
-      <b id="finalDistance">0</b> m
-    </div>
+<!-- BAŞLANGIÇ -->
 
-    <div class="stat">
-      ⏱️ Süre:
-      <b id="finalTime">0:00</b>
-    </div>
+<div id="startScreen" class="screen">
 
-    <div class="stat">
-      🧟 Öldürülen:
-      <b id="kills">0</b>
-    </div>
+  <h1>KAÇ!</h1>
 
-    <div class="stat">
-      🏆 Rekor:
-      <b id="record">0</b> m
-    </div>
+  <p>
+    🏃 Koş.<br>
+    👆 Dokun ve zıpla.<br>
+    🧟 Zombiler geliyor.<br>
+    🔫 Silahı bul ve hayatta kal.
+  </p>
 
-    <button id="restartButton">
-      TEKRAR KOŞ
-    </button>
+  <button id="startButton" class="bigButton">
+    BAŞLA
+  </button>
 
+</div>
+
+
+<!-- OYUN SONU -->
+
+<div id="gameOver" class="screen">
+
+  <h2>💀 YAKALANDIN!</h2>
+
+  <div class="result">
+    📏 Mesafe:
+    <b id="finalDistance">0</b> m
   </div>
+
+  <div class="result">
+    ⏱️ Süre:
+    <b id="finalTime">0:00</b>
+  </div>
+
+  <div class="result">
+    🧟 Öldürülen:
+    <b id="finalKills">0</b>
+  </div>
+
+  <div class="result">
+    🏆 Rekor:
+    <b id="finalBest">0</b> m
+  </div>
+
+  <br>
+
+  <button id="restartButton" class="bigButton">
+    TEKRAR KOŞ
+  </button>
+
+</div>
+
+
+<div id="rotate">
+  <div>
+    📱↔️<br><br>
+    Oyunu yatay ekranda oyna!
+  </div>
+</div>
 
 </div>
 
 
 <script>
 
-/* =========================
-   OYUN DEĞİŞKENLERİ
-========================= */
+/* =====================================================
+   TEMEL
+===================================================== */
+
+const canvas =
+  document.getElementById("canvas");
+
+const ctx =
+  canvas.getContext("2d");
+
+let W = innerWidth;
+let H = innerHeight;
+
+function resize(){
+
+  W = innerWidth;
+  H = innerHeight;
+
+  canvas.width = W * devicePixelRatio;
+  canvas.height = H * devicePixelRatio;
+
+  canvas.style.width = W + "px";
+  canvas.style.height = H + "px";
+
+  ctx.setTransform(
+    devicePixelRatio,
+    0,
+    0,
+    devicePixelRatio,
+    0,
+    0
+  );
+}
+
+addEventListener("resize",resize);
+
+resize();
+
+
+/* =====================================================
+   OYUN DURUMU
+===================================================== */
 
 let running = false;
 
-let playerY = 0;
-let velocityY = 0;
-
-const gravity = 0.75;
-const jumpPower = 14;
-
-let speed = 4;
+let worldX = 0;
 
 let distance = 0;
+
 let elapsed = 0;
 
-let ammo = 0;
+let speed = 260;
+
+let jumpY = 0;
+
+let jumpVelocity = 0;
+
+let gravity = 1500;
+
 let kills = 0;
 
+let ammo = 0;
+
+let armed = false;
+
+let shootingTimer = 0;
+
+let animationTime = 0;
+
 let lastTime = 0;
-let spawnTimer = 0;
+
+let spawnWorldX = 0;
+
+let terrain = [];
 
 let objects = [];
 
-let best = Number(
-  localStorage.getItem("kac_rekor") || 0
-);
+let bullets = [];
 
-const player =
-  document.getElementById("player");
+let particles = [];
 
-const startScreen =
-  document.getElementById("start");
+let best =
+  Number(localStorage.getItem("kac_rekor") || 0);
 
-const startButton =
-  document.getElementById("startButton");
-
-const gameover =
-  document.getElementById("gameover");
-
-const restartButton =
-  document.getElementById("restartButton");
-
-const distanceEl =
-  document.getElementById("distance");
-
-const timeEl =
-  document.getElementById("time");
-
-const ammoEl =
-  document.getElementById("ammo");
-
-const message =
-  document.getElementById("message");
+document.getElementById("best").textContent =
+  best;
 
 
-/* =========================
-   BAŞLAT
-========================= */
+/* =====================================================
+   OYUNCU
+===================================================== */
 
-function startGame() {
+const player = {
 
-  if (running) return;
+  screenX:0,
 
-  startScreen.style.display = "none";
-  gameover.style.display = "none";
+  width:38,
 
-  running = true;
+  height:76,
 
-  playerY = 0;
-  velocityY = 0;
+  groundY:0
 
-  speed = 4;
-  distance = 0;
-  elapsed = 0;
-  ammo = 0;
-  kills = 0;
+};
 
-  objects.forEach(function(o) {
 
-    if (o.el) o.el.remove();
+/* =====================================================
+   RENKLER
+===================================================== */
+
+const INK = "#222";
+
+const SKY = "#bfe8ff";
+
+const GRASS = "#7fc96b";
+
+const GRASS2 = "#5cae58";
+
+const SOIL = "#9a6037";
+
+const SOIL2 = "#78452d";
+
+const WATER = "#54bfe8";
+
+
+/* =====================================================
+   YARDIMCI
+===================================================== */
+
+function rand(a,b){
+
+  return a + Math.random() * (b-a);
+
+}
+
+function chance(p){
+
+  return Math.random() < p;
+
+}
+
+function clamp(v,a,b){
+
+  return Math.max(a,Math.min(b,v));
+
+}
+
+
+/* =====================================================
+   MESAJ
+===================================================== */
+
+let messageTimer = null;
+
+function showMessage(text){
+
+  const el =
+    document.getElementById("message");
+
+  clearTimeout(messageTimer);
+
+  el.textContent = text;
+
+  el.style.display = "block";
+
+  messageTimer =
+    setTimeout(()=>{
+
+      el.style.display = "none";
+
+    },1300);
+
+}
+
+
+/* =====================================================
+   DÜNYA / ZEMİN
+===================================================== */
+
+/*
+  terrain noktaları:
+
+  {x,y}
+
+  y = zeminin üst noktası.
+
+  GAP olduğunda iki nokta arasında
+  zemin çizilmiyor.
+
+*/
+
+function generateTerrain(){
+
+  terrain = [];
+
+  let x = -500;
+
+  let y = H * .72;
+
+  terrain.push({x:x,y:y});
+
+  while(x < 10000){
+
+    let nextWidth =
+      rand(180,330);
+
+    let nextY =
+      y + rand(-65,65);
+
+    nextY =
+      clamp(nextY,H*.52,H*.75);
+
+    /*
+      Bazen yokuş
+    */
+
+    terrain.push({
+      x:x + nextWidth,
+      y:nextY
+    });
+
+    x += nextWidth;
+
+    y = nextY;
+
+    /*
+      Küçük düz devam
+    */
+
+    if(chance(.35)){
+
+      terrain.push({
+        x:x+rand(100,180),
+        y:y
+      });
+
+      x += rand(100,180);
+
+    }
+
+    /*
+      ÇUKUR
+    */
+
+    if(
+      x > 700 &&
+      chance(.22)
+    ){
+
+      let gap =
+        rand(100,190);
+
+      /*
+        Çukurun sonu
+      */
+
+      x += gap;
+
+      let landingY =
+        clamp(
+          y + rand(-35,35),
+          H*.55,
+          H*.74
+        );
+
+      terrain.push({
+        x:x,
+        y:landingY
+      });
+
+      y = landingY;
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   TERRAIN Y AL
+===================================================== */
+
+function getGroundY(wx){
+
+  for(let i=0;i<terrain.length-1;i++){
+
+    let a = terrain[i];
+
+    let b = terrain[i+1];
+
+    if(wx >= a.x && wx <= b.x){
+
+      let t =
+        (wx-a.x)/(b.x-a.x);
+
+      return a.y +
+        (b.y-a.y)*t;
+
+    }
+
+  }
+
+  return H*.7;
+
+}
+
+
+/*
+  Arada gerçekten boşluk var mı?
+*/
+
+function isGap(wx){
+
+  for(let i=0;i<terrain.length-1;i++){
+
+    let a=terrain[i];
+    let b=terrain[i+1];
+
+    if(
+      wx>a.x &&
+      wx<b.x
+    ){
+
+      /*
+        Çok uzun segment = çukur
+      */
+
+      return (
+        b.x-a.x > 450
+      );
+
+    }
+
+  }
+
+  return false;
+
+}
+
+
+/* =====================================================
+   NESNE
+===================================================== */
+
+function addObject(type,x,offset=0){
+
+  objects.push({
+
+    type:type,
+
+    x:x,
+
+    offset:offset,
+
+    dead:false,
+
+    bob:Math.random()*10
 
   });
 
+}
+
+
+/* =====================================================
+   NESNE ÜRET
+===================================================== */
+
+function generateObjects(){
+
   objects = [];
 
-  spawnTimer = 80;
+  /*
+    Başlangıçtan sonra
+  */
 
-  lastTime = performance.now();
+  let x = 800;
+
+  while(x < 10000){
+
+    /*
+      ZOMBİ
+    */
+
+    if(chance(.38)){
+
+      addObject(
+        "zombie",
+        x
+      );
+
+      x += rand(260,430);
+
+    }
+
+    /*
+      KAZIK
+    */
+
+    else if(chance(.30)){
+
+      addObject(
+        "spikes",
+        x
+      );
+
+      x += rand(300,470);
+
+    }
+
+    /*
+      MERMİ
+    */
+
+    else if(chance(.18)){
+
+      addObject(
+        "ammo",
+        x,
+        rand(-80,-35)
+      );
+
+      x += rand(330,500);
+
+    }
+
+    /*
+      KASA
+    */
+
+    else{
+
+      addObject(
+        "crate",
+        x
+      );
+
+      x += rand(280,440);
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   ÇUKUR KONTROLÜ
+===================================================== */
+
+function playerIsOverGap(){
+
+  /*
+    Oyuncunun ayaklarının dünya konumu
+  */
+
+  let wx =
+    worldX + player.screenX;
+
+  return isGap(wx);
+
+}
+
+
+/* =====================================================
+   ÇİZİM: ARKA PLAN
+===================================================== */
+
+function drawBackground(){
+
+  ctx.fillStyle=SKY;
+
+  ctx.fillRect(
+    0,
+    0,
+    W,
+    H
+  );
+
+
+  /*
+    Güneş
+  */
+
+  drawSun(
+    W*.84,
+    H*.17,
+    35
+  );
+
+
+  /*
+    Bulutlar
+  */
+
+  drawCloud(
+    W*.18,
+    H*.18,
+    1
+  );
+
+  drawCloud(
+    W*.55,
+    H*.12,
+    .8
+  );
+
+
+  /*
+    Uzak tepeler
+  */
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=4;
+
+  ctx.fillStyle="#9bd58a";
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,H*.55);
+
+  for(let x=0;x<=W;x+=50){
+
+    let y =
+      H*.55 -
+      Math.sin(x*.008)*35 -
+      Math.sin(x*.017)*18;
+
+    ctx.lineTo(x,y);
+
+  }
+
+  ctx.lineTo(W,H*.72);
+
+  ctx.lineTo(0,H*.72);
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  ctx.stroke();
+
+
+  /*
+    Ağaçlar
+  */
+
+  for(let x=-40;x<W+100;x+=180){
+
+    let sx =
+      x - (worldX*.12)%180;
+
+    drawTree(
+      sx,
+      H*.54
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   GÜNEŞ
+===================================================== */
+
+function drawSun(x,y,r){
+
+  ctx.strokeStyle="#222";
+
+  ctx.lineWidth=4;
+
+  ctx.fillStyle="#ffe36b";
+
+  ctx.beginPath();
+
+  ctx.arc(x,y,r,0,Math.PI*2);
+
+  ctx.fill();
+
+  ctx.stroke();
+
+  for(let i=0;i<8;i++){
+
+    let a=i*Math.PI/4;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      x+Math.cos(a)*(r+7),
+      y+Math.sin(a)*(r+7)
+    );
+
+    ctx.lineTo(
+      x+Math.cos(a)*(r+17),
+      y+Math.sin(a)*(r+17)
+    );
+
+    ctx.stroke();
+
+  }
+
+}
+
+
+/* =====================================================
+   BULUT
+===================================================== */
+
+function drawCloud(x,y,s){
+
+  ctx.fillStyle="#fff";
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=3;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    x,
+    y,
+    22*s,
+    Math.PI,
+    0
+  );
+
+  ctx.arc(
+    x+25*s,
+    y-8*s,
+    18*s,
+    Math.PI,
+    0
+  );
+
+  ctx.arc(
+    x+48*s,
+    y,
+    22*s,
+    Math.PI,
+    0
+  );
+
+  ctx.lineTo(
+    x+48*s,
+    y+15*s
+  );
+
+  ctx.lineTo(
+    x,
+    y+15*s
+  );
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  ctx.stroke();
+
+}
+
+
+/* =====================================================
+   AĞAÇ
+===================================================== */
+
+function drawTree(x,y){
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=4;
+
+  ctx.fillStyle="#65b85b";
+
+  ctx.beginPath();
+
+  ctx.arc(
+    x,
+    y-45,
+    30,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.stroke();
+
+  ctx.strokeStyle=SOIL2;
+
+  ctx.lineWidth=8;
+
+  ctx.beginPath();
+
+  ctx.moveTo(x,y-20);
+
+  ctx.lineTo(x,y+25);
+
+  ctx.stroke();
+
+}
+
+
+/* =====================================================
+   ZEMİN ÇİZ
+===================================================== */
+
+function drawTerrain(){
+
+  let startIndex=0;
+
+  /*
+    Üst yüzey
+  */
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=5;
+
+  /*
+    Her segmenti ayrı çiziyoruz.
+    Böylece uzun aralıklar çukur oluyor.
+  */
+
+  for(
+    let i=0;
+    i<terrain.length-1;
+    i++
+  ){
+
+    let a=terrain[i];
+
+    let b=terrain[i+1];
+
+    let ax=a.x-worldX;
+
+    let bx=b.x-worldX;
+
+    if(
+      bx < -100 ||
+      ax > W+100
+    ) continue;
+
+
+    /*
+      Gerçek ÇUKUR
+    */
+
+    if(b.x-a.x > 450){
+
+      drawGap(a,b);
+
+      continue;
+
+    }
+
+
+    /*
+      Toprak gövdesi
+    */
+
+    ctx.fillStyle=SOIL;
+
+    ctx.strokeStyle=INK;
+
+    ctx.lineWidth=5;
+
+    ctx.beginPath();
+
+    ctx.moveTo(ax,a.y);
+
+    ctx.lineTo(bx,b.y);
+
+    ctx.lineTo(bx,H);
+
+    ctx.lineTo(ax,H);
+
+    ctx.closePath();
+
+    ctx.fill();
+
+    ctx.stroke();
+
+
+    /*
+      Toprak içindeki taşlar
+    */
+
+    for(
+      let sx=ax+35;
+      sx<bx;
+      sx+=90
+    ){
+
+      let sy =
+        a.y +
+        (b.y-a.y)*
+        ((sx-ax)/(bx-ax));
+
+      drawStone(
+        sx,
+        sy+rand(40,110)
+      );
+
+    }
+
+
+    /*
+      Çimen
+    */
+
+    ctx.strokeStyle=GRASS2;
+
+    ctx.lineWidth=5;
+
+    for(
+      let gx=ax;
+      gx<bx;
+      gx+=18
+    ){
+
+      let gy =
+        a.y +
+        (b.y-a.y)*
+        ((gx-ax)/(bx-ax));
+
+      ctx.beginPath();
+
+      ctx.moveTo(gx,gy);
+
+      ctx.lineTo(
+        gx+3,
+        gy-9
+      );
+
+      ctx.stroke();
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   ÇUKUR
+===================================================== */
+
+function drawGap(a,b){
+
+  let ax=a.x-worldX;
+
+  let bx=b.x-worldX;
+
+  /*
+    Çukurun duvarları
+  */
+
+  ctx.fillStyle=SOIL;
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=5;
+
+  /*
+    Sol toprak duvarı
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    ax,
+    a.y
+  );
+
+  ctx.lineTo(
+    ax,
+    H
+  );
+
+  ctx.lineTo(
+    ax+55,
+    H
+  );
+
+  ctx.lineTo(
+    ax+35,
+    a.y+70
+  );
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  ctx.stroke();
+
+
+  /*
+    Sağ toprak duvarı
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    bx,
+    b.y
+  );
+
+  ctx.lineTo(
+    bx,
+    H
+  );
+
+  ctx.lineTo(
+    bx-55,
+    H
+  );
+
+  ctx.lineTo(
+    bx-35,
+    b.y+70
+  );
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  ctx.stroke();
+
+
+  /*
+    Çukurun içi
+  */
+
+  ctx.fillStyle=WATER;
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=4;
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    ax+35,
+    a.y+70
+  );
+
+  ctx.lineTo(
+    bx-35,
+    b.y+70
+  );
+
+  ctx.lineTo(
+    bx-55,
+    H
+  );
+
+  ctx.lineTo(
+    ax+55,
+    H
+  );
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  ctx.stroke();
+
+
+  /*
+    Su çizgileri
+  */
+
+  ctx.strokeStyle="#267fa3";
+
+  ctx.lineWidth=3;
+
+  for(
+    let y=a.y+100;
+    y<H;
+    y+=25
+  ){
+
+    ctx.beginPath();
+
+    ctx.moveTo(ax+65,y);
+
+    ctx.quadraticCurveTo(
+      (ax+bx)/2,
+      y-7,
+      bx-65,
+      y
+    );
+
+    ctx.stroke();
+
+  }
+
+}
+
+
+/* =====================================================
+   TAŞ
+===================================================== */
+
+function drawStone(x,y){
+
+  if(
+    x<0 ||
+    x>W ||
+    y>H
+  ) return;
+
+  ctx.fillStyle=SOIL2;
+
+  ctx.strokeStyle="#533";
+
+  ctx.lineWidth=2;
+
+  ctx.beginPath();
+
+  ctx.moveTo(x-8,y);
+
+  ctx.lineTo(x-4,y-7);
+
+  ctx.lineTo(x+7,y-5);
+
+  ctx.lineTo(x+10,y+3);
+
+  ctx.lineTo(x,y+8);
+
+  ctx.closePath();
+
+  ctx.fill();
+
+  ctx.stroke();
+
+}
+
+
+/* =====================================================
+   OYUNCU ÇİZ
+===================================================== */
+
+function drawPlayer(){
+
+  let x =
+    player.screenX;
+
+  let ground =
+    getGroundY(
+      worldX + player.screenX
+    );
+
+  let y =
+    ground -
+    75 -
+    jumpY;
+
+
+  /*
+    Koşu animasyonu
+  */
+
+  let runningFrame =
+    Math.sin(animationTime * 14);
+
+  let legA =
+    runningFrame * .65;
+
+  let legB =
+    -runningFrame * .65;
+
+  let armA =
+    -runningFrame * .5;
+
+  let armB =
+    runningFrame * .5;
+
+
+  /*
+    Zıplıyorsa koşma pozunu bırak
+  */
+
+  if(jumpY>5){
+
+    legA=.4;
+
+    legB=-.4;
+
+    armA=-.8;
+
+    armB=.8;
+
+  }
+
+
+  ctx.save();
+
+  ctx.translate(x,y);
+
+
+  /*
+    Hafif gövde sallanması
+  */
+
+  if(jumpY<=5){
+
+    ctx.rotate(
+      Math.sin(animationTime*14)*.035
+    );
+
+  }
+
+
+  ctx.strokeStyle=INK;
+
+  ctx.fillStyle="#ffe0bd";
+
+  ctx.lineWidth=5;
+
+  ctx.lineCap="round";
+
+  /*
+    Kafa
+  */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    17,
+    17,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.stroke();
+
+
+  /*
+    Saçlar
+  */
+
+  for(let i=-2;i<=2;i++){
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      i*6-2,
+      3
+    );
+
+    ctx.lineTo(
+      i*7-5,
+      -6-Math.abs(i)*2
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  /*
+    Gözler
+  */
+
+  ctx.fillStyle=INK;
+
+  ctx.beginPath();
+
+  ctx.arc(
+    -6,
+    16,
+    2.5,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.beginPath();
+
+  ctx.arc(
+    6,
+    16,
+    2.5,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+
+  /*
+    Gülümseme
+  */
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    19,
+    7,
+    0,
+    Math.PI
+  );
+
+  ctx.stroke();
+
+
+  /*
+    Boyun
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,33);
+
+  ctx.lineTo(0,38);
+
+  ctx.stroke();
+
+
+  /*
+    Gövde
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,38);
+
+  ctx.lineTo(0,65);
+
+  ctx.stroke();
+
+
+  /*
+    Kollar
+  */
+
+  ctx.save();
+
+  ctx.translate(0,42);
+
+  ctx.rotate(armA);
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,0);
+
+  ctx.lineTo(20,18);
+
+  ctx.stroke();
+
+  ctx.restore();
+
+
+  ctx.save();
+
+  ctx.translate(0,42);
+
+  ctx.rotate(armB);
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,0);
+
+  ctx.lineTo(-20,18);
+
+  ctx.stroke();
+
+  ctx.restore();
+
+
+  /*
+    Bacaklar
+  */
+
+  ctx.save();
+
+  ctx.translate(0,64);
+
+  ctx.rotate(legA);
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,0);
+
+  ctx.lineTo(4,29);
+
+  ctx.stroke();
+
+  ctx.restore();
+
+
+  ctx.save();
+
+  ctx.translate(0,64);
+
+  ctx.rotate(legB);
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,0);
+
+  ctx.lineTo(-4,29);
+
+  ctx.stroke();
+
+  ctx.restore();
+
+
+  /*
+    SİLAH
+  */
+
+  if(armed){
+
+    ctx.strokeStyle=INK;
+
+    ctx.lineWidth=6;
+
+    ctx.beginPath();
+
+    ctx.moveTo(4,43);
+
+    ctx.lineTo(34,36);
+
+    ctx.stroke();
+
+    ctx.lineWidth=4;
+
+    ctx.beginPath();
+
+    ctx.moveTo(28,37);
+
+    ctx.lineTo(37,37);
+
+    ctx.stroke();
+
+  }
+
+
+  ctx.restore();
+
+}
+
+
+/* =====================================================
+   ZOMBİ ÇİZ
+===================================================== */
+
+function drawZombie(o){
+
+  let x =
+    o.x-worldX;
+
+  if(x<-80 || x>W+80)
+    return;
+
+  let ground =
+    getGroundY(o.x);
+
+  let y =
+    ground-68;
+
+  let walk =
+    Math.sin(
+      animationTime*8+o.bob
+    );
+
+  ctx.save();
+
+  ctx.translate(x,y);
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=5;
+
+  ctx.lineCap="round";
+
+
+  /*
+    kafa
+  */
+
+  ctx.fillStyle="#a7d38b";
+
+  ctx.beginPath();
+
+  ctx.arc(
+    0,
+    16,
+    17,
+    0,
+    Math.PI*2
+  );
+
+  ctx.fill();
+
+  ctx.stroke();
+
+
+  /*
+    gözler
+  */
+
+  ctx.fillStyle=INK;
+
+  ctx.beginPath();
+
+  ctx.arc(-6,14,3,0,Math.PI*2);
+
+  ctx.fill();
+
+  ctx.beginPath();
+
+  ctx.arc(6,14,3,0,Math.PI*2);
+
+  ctx.fill();
+
+
+  /*
+    ağız
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(-8,24);
+
+  ctx.lineTo(8,24);
+
+  ctx.stroke();
+
+
+  /*
+    gövde
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,33);
+
+  ctx.lineTo(0,60);
+
+  ctx.stroke();
+
+
+  /*
+    kollar
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,38);
+
+  ctx.lineTo(
+    22,
+    32+walk*5
+  );
+
+  ctx.stroke();
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,38);
+
+  ctx.lineTo(
+    -22,
+    34-walk*5
+  );
+
+  ctx.stroke();
+
+
+  /*
+    bacaklar
+  */
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,59);
+
+  ctx.lineTo(
+    7+walk*8,
+    78
+  );
+
+  ctx.stroke();
+
+  ctx.beginPath();
+
+  ctx.moveTo(0,59);
+
+  ctx.lineTo(
+    -7-walk*8,
+    78
+  );
+
+  ctx.stroke();
+
+
+  ctx.restore();
+
+}
+
+
+/* =====================================================
+   KAZIK ÇİZ
+===================================================== */
+
+function drawSpikes(o){
+
+  let x =
+    o.x-worldX;
+
+  if(x<-100 || x>W+100)
+    return;
+
+  let ground =
+    getGroundY(o.x);
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=4;
+
+  /*
+    Tahta taban
+  */
+
+  ctx.fillStyle="#9c7045";
+
+  ctx.beginPath();
+
+  ctx.rect(
+    x-42,
+    ground-12,
+    84,
+    12
+  );
+
+  ctx.fill();
+
+  ctx.stroke();
+
+
+  /*
+    Kazıklar
+  */
+
+  for(let i=-2;i<=2;i++){
+
+    let sx=x+i*17;
+
+    ctx.fillStyle="#e65c55";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      sx-9,
+      ground-12
+    );
+
+    ctx.lineTo(
+      sx,
+      ground-55
+    );
+
+    ctx.lineTo(
+      sx+9,
+      ground-12
+    );
+
+    ctx.closePath();
+
+    ctx.fill();
+
+    ctx.stroke();
+
+  }
+
+}
+
+
+/* =====================================================
+   KASA
+===================================================== */
+
+function drawCrate(o){
+
+  let x=o.x-worldX;
+
+  if(x<-80 || x>W+80)
+    return;
+
+  let ground=getGroundY(o.x);
+
+  ctx.fillStyle="#bd8148";
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=4;
+
+  ctx.fillRect(
+    x-22,
+    ground-42,
+    44,
+    42
+  );
+
+  ctx.strokeRect(
+    x-22,
+    ground-42,
+    44,
+    42
+  );
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    x-20,
+    ground-40
+  );
+
+  ctx.lineTo(
+    x+20,
+    ground-4
+  );
+
+  ctx.moveTo(
+    x+20,
+    ground-40
+  );
+
+  ctx.lineTo(
+    x-20,
+    ground-4
+  );
+
+  ctx.stroke();
+
+}
+
+
+/* =====================================================
+   MERMİ KUTUSU
+===================================================== */
+
+function drawAmmo(o){
+
+  let x=o.x-worldX;
+
+  if(x<-80 || x>W+80)
+    return;
+
+  let ground=getGroundY(o.x);
+
+  let y =
+    ground + o.offset +
+    Math.sin(animationTime*5+o.bob)*5;
+
+  ctx.fillStyle="#ffe05c";
+
+  ctx.strokeStyle=INK;
+
+  ctx.lineWidth=4;
+
+  ctx.beginPath();
+
+  ctx.roundRect(
+    x-20,
+    y-20,
+    40,
+    40,
+    7
+  );
+
+  ctx.fill();
+
+  ctx.stroke();
+
+  ctx.fillStyle=INK;
+
+  ctx.font="bold 22px sans-serif";
+
+  ctx.textAlign="center";
+
+  ctx.textBaseline="middle";
+
+  ctx.fillText(
+    "🔫",
+    x,
+    y+1
+  );
+
+}
+
+
+/* =====================================================
+   OBJELERİ ÇİZ
+===================================================== */
+
+function drawObjects(){
+
+  for(const o of objects){
+
+    if(o.dead) continue;
+
+    if(o.type==="zombie")
+      drawZombie(o);
+
+    if(o.type==="spikes")
+      drawSpikes(o);
+
+    if(o.type==="crate")
+      drawCrate(o);
+
+    if(o.type==="ammo")
+      drawAmmo(o);
+
+  }
+
+}
+
+
+/* =====================================================
+   BULLETLAR
+===================================================== */
+
+function drawBullets(){
+
+  for(const b of bullets){
+
+    let x=b.x-worldX;
+
+    if(x<-20 || x>W+20)
+      continue;
+
+    ctx.fillStyle=INK;
+
+    ctx.beginPath();
+
+    ctx.roundRect(
+      x,
+      b.y,
+      15,
+      5,
+      3
+    );
+
+    ctx.fill();
+
+  }
+
+}
+
+
+/* =====================================================
+   PARÇACIK
+===================================================== */
+
+function spawnParticles(x,y,text){
+
+  for(let i=0;i<5;i++){
+
+    particles.push({
+
+      x:x,
+
+      y:y,
+
+      vx:rand(-60,60),
+
+      vy:rand(-120,-30),
+
+      life:.5,
+
+      text:text
+
+    });
+
+  }
+
+}
+
+
+function drawParticles(dt){
+
+  for(
+    let i=particles.length-1;
+    i>=0;
+    i--
+  ){
+
+    let p=particles[i];
+
+    p.x+=p.vx*dt;
+
+    p.y+=p.vy*dt;
+
+    p.vy+=300*dt;
+
+    p.life-=dt;
+
+    if(p.life<=0){
+
+      particles.splice(i,1);
+
+      continue;
+
+    }
+
+    ctx.globalAlpha=
+      clamp(p.life*2,0,1);
+
+    ctx.fillStyle=INK;
+
+    ctx.font="bold 18px cursive";
+
+    ctx.fillText(
+      p.text,
+      p.x-worldX,
+      p.y
+    );
+
+    ctx.globalAlpha=1;
+
+  }
+
+}
+
+
+/* =====================================================
+   OTOMATİK ATEŞ
+===================================================== */
+
+function autoShoot(dt){
+
+  if(!armed || ammo<=0)
+    return;
+
+  shootingTimer-=dt;
+
+  if(shootingTimer>0)
+    return;
+
+  let nearest=null;
+
+  let nearestDistance=Infinity;
+
+  for(const o of objects){
+
+    if(
+      o.type!=="zombie" ||
+      o.dead
+    ) continue;
+
+    let d =
+      o.x -
+      (worldX+player.screenX);
+
+    if(
+      d>20 &&
+      d<650 &&
+      d<nearestDistance
+    ){
+
+      nearest=o;
+
+      nearestDistance=d;
+
+    }
+
+  }
+
+  if(!nearest)
+    return;
+
+  ammo--;
+
+  shootingTimer=.38;
+
+  bullets.push({
+
+    x:
+      worldX+
+      player.screenX+
+      32,
+
+    y:
+      getGroundY(
+        worldX+
+        player.screenX
+      )-
+      75-
+      jumpY+
+      35,
+
+    target:nearest
+
+  });
+
+  /*
+    Silah geri tepmesi için
+    kısa animasyon
+  */
+
+  spawnParticles(
+    player.screenX+40,
+    getGroundY(
+      worldX+
+      player.screenX
+    )-40-jumpY,
+    "•"
+  );
+
+}
+
+
+/* =====================================================
+   BULLET UPDATE
+===================================================== */
+
+function updateBullets(dt){
+
+  for(
+    let i=bullets.length-1;
+    i>=0;
+    i--
+  ){
+
+    let b=bullets[i];
+
+    b.x += 900*dt;
+
+    if(
+      !b.target ||
+      b.target.dead
+    ){
+
+      bullets.splice(i,1);
+
+      continue;
+
+    }
+
+    if(
+      b.x >= b.target.x-10
+    ){
+
+      b.target.dead=true;
+
+      kills++;
+
+      spawnParticles(
+        b.target.x,
+        getGroundY(b.target.x)-50,
+        "+1"
+      );
+
+      bullets.splice(i,1);
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   ÇARPIŞMA
+===================================================== */
+
+function checkCollisions(){
+
+  let px =
+    worldX+
+    player.screenX;
+
+  let ground =
+    getGroundY(px);
+
+
+  /*
+    Zemin çukuru
+  */
+
+  if(
+    jumpY < 8 &&
+    isGap(px)
+  ){
+
+    gameOver();
+
+    return;
+
+  }
+
+
+  for(const o of objects){
+
+    if(o.dead) continue;
+
+    let dx =
+      Math.abs(o.x-px);
+
+    /*
+      ZOMBİ
+    */
+
+    if(o.type==="zombie"){
+
+      if(
+        dx<42 &&
+        jumpY<35
+      ){
+
+        gameOver();
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      KAZIK
+    */
+
+    if(o.type==="spikes"){
+
+      if(
+        dx<55 &&
+        jumpY<48
+      ){
+
+        gameOver();
+
+        return;
+
+      }
+
+    }
+
+
+    /*
+      KASA
+    */
+
+    if(o.type==="crate"){
+
+      if(
+        dx<42 &&
+        jumpY<38
+      ){
+
+        /*
+          Kasanın üstünden geçilebilir
+        */
+
+        if(jumpY<15){
+
+          gameOver();
+
+          return;
+
+        }
+
+      }
+
+    }
+
+
+    /*
+      MERMİ
+    */
+
+    if(o.type==="ammo"){
+
+      let oy =
+        getGroundY(o.x)+o.offset;
+
+      let py =
+        ground-jumpY-40;
+
+      if(
+        dx<45 &&
+        Math.abs(py-oy)<50
+      ){
+
+        ammo+=10;
+
+        armed=true;
+
+        o.dead=true;
+
+        showMessage("🔫 +10 MERMİ!");
+
+        spawnParticles(
+          o.x,
+          oy,
+          "+10"
+        );
+
+      }
+
+    }
+
+  }
+
+}
+
+
+/* =====================================================
+   TEMİZLE
+===================================================== */
+
+function cleanup(){
+
+  objects =
+    objects.filter(o=>{
+
+      if(o.dead)
+        return false;
+
+      return o.x >
+        worldX-300;
+
+    });
+
+
+  bullets =
+    bullets.filter(
+      b=>b.x<worldX+W+300
+    );
+
+}
+
+
+/* =====================================================
+   OYUNU BAŞLAT
+===================================================== */
+
+function resetGame(){
+
+  running=true;
+
+  worldX=0;
+
+  distance=0;
+
+  elapsed=0;
+
+  speed=260;
+
+  jumpY=0;
+
+  jumpVelocity=0;
+
+  kills=0;
+
+  ammo=0;
+
+  armed=false;
+
+  shootingTimer=0;
+
+  animationTime=0;
+
+  bullets=[];
+
+  particles=[];
+
+  generateTerrain();
+
+  generateObjects();
+
+  lastTime=performance.now();
+
+  document
+    .getElementById("startScreen")
+    .style.display="none";
+
+  document
+    .getElementById("gameOver")
+    .style.display="none";
 
   showMessage("KOŞ!");
 
@@ -610,171 +2485,205 @@ function startGame() {
 }
 
 
-/* =========================
-   BUTONLAR
-========================= */
+/* =====================================================
+   BAŞLAT BUTONU
+===================================================== */
+
+const startButton =
+  document.getElementById("startButton");
 
 startButton.addEventListener(
   "click",
-  startGame
-);
-
-startButton.addEventListener(
-  "touchend",
-  function(e) {
+  function(e){
 
     e.preventDefault();
-    startGame();
 
-  },
-  { passive: false }
-);
-
-restartButton.addEventListener(
-  "click",
-  function() {
-
-    location.reload();
+    resetGame();
 
   }
 );
 
+startButton.addEventListener(
+  "touchend",
+  function(e){
 
-/* =========================
+    e.preventDefault();
+
+    resetGame();
+
+  },
+  {passive:false}
+);
+
+
+/* =====================================================
    ZIPLAMA
-========================= */
+===================================================== */
 
-function jump() {
+function jump(){
 
-  if (!running) return;
+  if(!running)
+    return;
 
-  if (playerY <= 1) {
+  if(jumpY<=2){
 
-    velocityY = jumpPower;
+    jumpVelocity=650;
 
   }
 
 }
 
 
-/* iPHONE DOKUNMA */
+canvas.addEventListener(
+  "pointerdown",
+  function(e){
 
-document.addEventListener(
-  "touchstart",
-  function(e) {
-
-    if (!running) return;
+    if(!running)
+      return;
 
     e.preventDefault();
 
     jump();
 
   },
-  { passive: false }
+  {passive:false}
 );
 
 
-/* BİLGİSAYAR TESTİ */
+/* =====================================================
+   ANA DÖNGÜ
+===================================================== */
 
-document.addEventListener(
-  "mousedown",
-  function() {
+function loop(now){
 
-    jump();
-
-  }
-);
-
-
-/* =========================
-   ANA OYUN DÖNGÜSÜ
-========================= */
-
-function loop(now) {
-
-  if (!running) return;
+  if(!running)
+    return;
 
   let dt =
     Math.min(
-      (now - lastTime) / 16.67,
-      2
+      (now-lastTime)/1000,
+      .035
     );
 
-  lastTime = now;
+  lastTime=now;
 
-  /* ZAMAN */
+  elapsed+=dt;
 
-  elapsed += dt / 60;
-
-  /* GİDEREK HIZLAN */
-
-  speed += 0.002 * dt;
-
-  /* ZIPLAMA FİZİĞİ */
-
-  playerY += velocityY * dt;
-
-  velocityY -= gravity * dt;
-
-  if (playerY < 0) {
-
-    playerY = 0;
-    velocityY = 0;
-
-  }
-
-  player.style.bottom =
-    "calc(23% + " +
-    playerY +
-    "px)";
+  animationTime+=dt;
 
 
-  /* MESAFE */
+  /*
+    SÜREKLİ HIZLANMA
+
+    İlk başta 260 px/s
+    sonra giderek daha hızlı
+  */
+
+  speed +=
+    7*dt +
+    distance*.0007*dt;
+
+  speed =
+    Math.min(
+      speed,
+      650
+    );
+
+
+  /*
+    Dünya hareketi
+  */
+
+  worldX += speed*dt;
+
+
+  /*
+    Mesafe
+  */
 
   distance +=
-    speed * dt * 0.45;
-
-  distanceEl.textContent =
-    Math.floor(distance);
+    speed*dt*.20;
 
 
-  /* SÜRE */
+  /*
+    Zıplama
+  */
 
-  let minutes =
-    Math.floor(elapsed / 60);
+  if(jumpY>0 || jumpVelocity>0){
 
-  let seconds =
-    Math.floor(elapsed % 60)
-      .toString()
-      .padStart(2, "0");
+    jumpY +=
+      jumpVelocity*dt;
 
-  timeEl.textContent =
-    minutes + ":" + seconds;
+    jumpVelocity -=
+      gravity*dt;
 
+    if(jumpY<=0){
 
-  ammoEl.textContent = ammo;
+      jumpY=0;
 
+      jumpVelocity=0;
 
-  /* NESNE ÇIKAR */
-
-  spawnTimer -= dt;
-
-  if (spawnTimer <= 0) {
-
-    spawnObject();
-
-    spawnTimer =
-      Math.max(
-        45,
-        85 - speed * 6
-      );
+    }
 
   }
 
 
-  /* NESNELER */
+  /*
+    Otomatik ateş
+  */
 
-  updateObjects(dt);
+  autoShoot(dt);
+
+  updateBullets(dt);
+
+  checkCollisions();
+
+  cleanup();
+
+
+  /*
+    HUD
+  */
+
+  document
+    .getElementById("distance")
+    .textContent =
+    Math.floor(distance);
+
+  let mins =
+    Math.floor(elapsed/60);
+
+  let secs =
+    Math.floor(elapsed%60)
+      .toString()
+      .padStart(2,"0");
+
+  document
+    .getElementById("time")
+    .textContent =
+    mins+":"+secs;
+
+  document
+    .getElementById("ammo")
+    .textContent =
+    armed ? ammo : "-";
+
+
+  /*
+    ÇİZ
+  */
+
+  drawBackground();
+
+  drawTerrain();
+
+  drawObjects();
+
+  drawBullets();
+
+  drawPlayer();
+
+  drawParticles(dt);
 
 
   requestAnimationFrame(loop);
@@ -782,462 +2691,25 @@ function loop(now) {
 }
 
 
-/* =========================
-   NESNE SEÇ
-========================= */
-
-function spawnObject() {
-
-  let r = Math.random();
-
-  if (r < 0.40) {
-
-    spawnZombie();
-
-  }
-  else if (r < 0.62) {
-
-    spawnSpikes();
-
-  }
-  else if (r < 0.76) {
-
-    spawnAmmo();
-
-  }
-  else if (r < 0.90) {
-
-    spawnGap();
-
-  }
-  else {
-
-    spawnZombie();
-
-  }
-
-}
-
-
-/* =========================
-   ZOMBİ
-========================= */
-
-function spawnZombie() {
-
-  const z =
-    document.createElement("div");
-
-  z.className =
-    "object zombie";
-
-  z.style.left =
-    window.innerWidth + 60 + "px";
-
-  z.innerHTML = `
-    <div class="zhead"></div>
-    <div class="zbody"></div>
-    <div class="zleg zleg1"></div>
-    <div class="zleg zleg2"></div>
-  `;
-
-  document
-    .getElementById("game")
-    .appendChild(z);
-
-  objects.push({
-
-    el: z,
-
-    x: window.innerWidth + 60,
-
-    type: "zombie",
-
-    dead: false
-
-  });
-
-}
-
-
-/* =========================
-   KAZIK
-========================= */
-
-function spawnSpikes() {
-
-  const s =
-    document.createElement("div");
-
-  s.className =
-    "object spikes";
-
-  s.style.left =
-    window.innerWidth + 60 + "px";
-
-  s.innerHTML = `
-    <div class="spike"></div>
-    <div class="spike"></div>
-    <div class="spike"></div>
-  `;
-
-  document
-    .getElementById("game")
-    .appendChild(s);
-
-  objects.push({
-
-    el: s,
-
-    x: window.innerWidth + 60,
-
-    type: "spike"
-
-  });
-
-}
-
-
-/* =========================
-   MERMİ
-========================= */
-
-function spawnAmmo() {
-
-  const a =
-    document.createElement("div");
-
-  a.className =
-    "object ammo";
-
-  a.textContent = "🔫";
-
-  a.style.left =
-    window.innerWidth + 60 + "px";
-
-  document
-    .getElementById("game")
-    .appendChild(a);
-
-  objects.push({
-
-    el: a,
-
-    x: window.innerWidth + 60,
-
-    type: "ammo"
-
-  });
-
-}
-
-
-/* =========================
-   BOŞLUK
-========================= */
-
-function spawnGap() {
-
-  const g =
-    document.createElement("div");
-
-  g.className = "gap";
-
-  g.style.left =
-    window.innerWidth + 60 + "px";
-
-  g.style.width =
-    (80 + Math.random() * 60) + "px";
-
-  document
-    .getElementById("game")
-    .appendChild(g);
-
-  objects.push({
-
-    el: g,
-
-    x: window.innerWidth + 60,
-
-    type: "gap"
-
-  });
-
-}
-
-
-/* =========================
-   NESNELERİ HAREKET ETTİR
-========================= */
-
-function updateObjects(dt) {
-
-  for (
-    let i = objects.length - 1;
-    i >= 0;
-    i--
-  ) {
-
-    const o = objects[i];
-
-    o.x -= speed * dt;
-
-    o.el.style.left =
-      o.x + "px";
-
-
-    /* OTOMATİK ATEŞ */
-
-    if (
-      o.type === "zombie" &&
-      ammo > 0 &&
-      !o.dead &&
-      player.classList.contains("armed")
-    ) {
-
-      if (
-        o.x <
-        window.innerWidth * 0.78 &&
-        o.x >
-        window.innerWidth * 0.18
-      ) {
-
-        shoot(o);
-
-      }
-
-    }
-
-
-    /* ÇARPIŞMA */
-
-    const rect =
-      o.el.getBoundingClientRect();
-
-    const p =
-      player.getBoundingClientRect();
-
-
-    if (
-      rect.left < p.right - 8 &&
-      rect.right > p.left + 8 &&
-      rect.top < p.bottom - 8 &&
-      rect.bottom > p.top + 8
-    ) {
-
-
-      /* MERMİ */
-
-      if (o.type === "ammo") {
-
-        ammo += 10;
-
-        player.classList.add("armed");
-
-        showMessage("🔫 +10 MERMİ");
-
-        removeObject(i);
-
-        continue;
-
-      }
-
-
-      /* ZOMBİ */
-
-      if (o.type === "zombie") {
-
-        if (playerY > 45) {
-
-          continue;
-
-        }
-
-        gameOver();
-
-        return;
-
-      }
-
-
-      /* KAZIK */
-
-      if (o.type === "spike") {
-
-        if (playerY < 48) {
-
-          gameOver();
-
-          return;
-
-        }
-
-      }
-
-
-      /* BOŞLUK */
-
-      if (o.type === "gap") {
-
-        if (playerY < 30) {
-
-          gameOver();
-
-          return;
-
-        }
-
-      }
-
-    }
-
-
-    /* EKRANDAN ÇIKTI */
-
-    if (o.x < -150) {
-
-      removeObject(i);
-
-    }
-
-  }
-
-}
-
-
-/* =========================
-   ATEŞ
-========================= */
-
-function shoot(zombie) {
-
-  if (zombie.dead) return;
-
-  if (ammo <= 0) return;
-
-  zombie.dead = true;
-
-  ammo--;
-
-
-  const bullet =
-    document.createElement("div");
-
-  bullet.className =
-    "bullet";
-
-  let bulletX =
-    window.innerWidth * 0.15 + 38;
-
-  bullet.style.left =
-    bulletX + "px";
-
-  bullet.style.bottom =
-    "calc(23% + " +
-    (playerY + 38) +
-    "px)";
-
-  document
-    .getElementById("game")
-    .appendChild(bullet);
-
-
-  let targetX =
-    zombie.x;
-
-
-  const interval =
-    setInterval(function() {
-
-      bulletX += 16;
-
-      bullet.style.left =
-        bulletX + "px";
-
-
-      if (bulletX >= targetX) {
-
-        clearInterval(interval);
-
-        bullet.remove();
-
-        zombie.el.remove();
-
-        kills++;
-
-        let index =
-          objects.indexOf(zombie);
-
-        if (index !== -1) {
-
-          objects.splice(index, 1);
-
-        }
-
-      }
-
-    }, 16);
-
-}
-
-
-/* =========================
-   NESNE SİL
-========================= */
-
-function removeObject(i) {
-
-  if (!objects[i]) return;
-
-  objects[i].el.remove();
-
-  objects.splice(i, 1);
-
-}
-
-
-/* =========================
-   MESAJ
-========================= */
-
-let messageTimer = null;
-
-function showMessage(text) {
-
-  clearTimeout(messageTimer);
-
-  message.textContent = text;
-
-  message.style.display = "block";
-
-  messageTimer =
-    setTimeout(function() {
-
-      message.style.display = "none";
-
-    }, 1300);
-
-}
-
-
-/* =========================
+/* =====================================================
    OYUN BİTTİ
-========================= */
+===================================================== */
 
-function gameOver() {
+function gameOver(){
 
-  if (!running) return;
+  if(!running)
+    return;
 
-  running = false;
+  running=false;
 
 
-  let final =
+  let finalDistance =
     Math.floor(distance);
 
 
-  if (final > best) {
+  if(finalDistance>best){
 
-    best = final;
+    best=finalDistance;
 
     localStorage.setItem(
       "kac_rekor",
@@ -1249,36 +2721,94 @@ function gameOver() {
 
   document
     .getElementById("finalDistance")
-    .textContent = final;
+    .textContent =
+    finalDistance;
+
+
+  let mins =
+    Math.floor(elapsed/60);
+
+  let secs =
+    Math.floor(elapsed%60)
+      .toString()
+      .padStart(2,"0");
 
 
   document
     .getElementById("finalTime")
     .textContent =
-    timeEl.textContent;
+    mins+":"+secs;
 
 
   document
-    .getElementById("kills")
-    .textContent = kills;
+    .getElementById("finalKills")
+    .textContent =
+    kills;
 
 
   document
-    .getElementById("record")
-    .textContent = best;
+    .getElementById("finalBest")
+    .textContent =
+    best;
 
 
-  gameover.style.display =
+  document
+    .getElementById("best")
+    .textContent =
+    best;
+
+
+  document
+    .getElementById("gameOver")
+    .style.display =
     "flex";
 
 }
 
 
-/* =========================
-   HAZIR
-========================= */
+/* =====================================================
+   TEKRAR
+===================================================== */
 
-console.log("KAÇ! hazır.");
+document
+  .getElementById("restartButton")
+  .addEventListener(
+    "click",
+    resetGame
+  );
+
+document
+  .getElementById("restartButton")
+  .addEventListener(
+    "touchend",
+    function(e){
+
+      e.preventDefault();
+
+      resetGame();
+
+    },
+    {passive:false}
+  );
+
+
+/* =====================================================
+   İLK EKRAN ÇİZİMİ
+===================================================== */
+
+generateTerrain();
+
+drawBackground();
+
+drawTerrain();
+
+/*
+  Başlangıç karakteri
+*/
+
+player.screenX=W*.20;
+
+drawPlayer();
 
 </script>
 
