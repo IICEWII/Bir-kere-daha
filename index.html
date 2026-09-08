@@ -1,151 +1,140 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>BİR KERE DAHA 😈</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+
+html,body{
+margin:0;
+height:100%;
+overflow:hidden;
+background:#0b0d12;
+color:#fff;
+font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif
 }
 
-html, body {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #0b0d12;
-  color: white;
-  font-family: Arial, sans-serif;
+body{touch-action:none}
+
+#app{
+height:100%;
+display:flex;
+flex-direction:column
 }
 
-body {
-  touch-action: none;
+header{
+height:72px;
+flex:none;
+padding:10px 16px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#10131a;
+border-bottom:1px solid #292e39
 }
 
-#app {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.title{
+font-weight:900;
+letter-spacing:2px;
+font-size:17px
 }
 
-header {
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 16px;
-  background: #10131a;
-  border-bottom: 1px solid #292e39;
+.stats{
+text-align:right;
+font-size:12px;
+color:#aeb5c2;
+line-height:1.5
 }
 
-.title {
-  font-size: 17px;
-  font-weight: 900;
-  letter-spacing: 2px;
+.stats b{color:#fff}
+
+#area{
+position:relative;
+flex:1;
+min-height:0;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:10px
 }
 
-.stats {
-  text-align: right;
-  font-size: 11px;
-  line-height: 1.5;
-  color: #aeb5c2;
+canvas{
+display:block;
+width:min(100%,420px);
+height:min(100%,720px);
+background:#151923;
+border:1px solid #2b3140;
+border-radius:18px;
+touch-action:none
 }
 
-.stats b {
-  color: white;
+#msg{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+width:85%;
+text-align:center;
+opacity:0;
+pointer-events:none
 }
 
-#gameArea {
-  position: relative;
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 10px;
+#msg.show{opacity:1}
+
+.big{
+font-size:30px;
+font-weight:900;
+text-shadow:0 4px 18px #000
 }
 
-canvas {
-  width: min(100%, 420px);
-  height: min(100%, 720px);
-  aspect-ratio: 420 / 720;
-  background: #151923;
-  border: 1px solid #2b3140;
-  border-radius: 18px;
-  box-shadow: 0 18px 50px #0008;
-  touch-action: none;
+.small{
+margin-top:8px;
+color:#c5cad4;
+font-size:14px
 }
 
-#message {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 85%;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .15s;
+#panel{
+position:absolute;
+inset:0;
+background:#0b0d12ee;
+display:none;
+align-items:center;
+justify-content:center;
+padding:20px
 }
 
-#message.show {
-  opacity: 1;
+.card{
+width:min(92%,390px);
+background:#151923;
+border:1px solid #343b4b;
+border-radius:24px;
+padding:28px;
+text-align:center;
+box-shadow:0 24px 80px #000b
 }
 
-#message .big {
-  font-size: 30px;
-  font-weight: 1000;
-  text-shadow: 0 4px 18px black;
+.card h1{
+margin:0 0 10px;
+font-size:30px
 }
 
-#message .small {
-  margin-top: 8px;
-  color: #c5cad4;
-  font-size: 14px;
+.card p{
+color:#b8beca;
+line-height:1.5
 }
 
-#panel {
-  position: absolute;
-  inset: 0;
-  background: #0b0d12ee;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.card {
-  width: min(92%, 390px);
-  background: #151923;
-  border: 1px solid #343b4b;
-  border-radius: 24px;
-  padding: 28px;
-  text-align: center;
-  box-shadow: 0 24px 80px #000b;
-}
-
-.card h1 {
-  margin: 0 0 10px;
-  font-size: 30px;
-}
-
-.card p {
-  color: #b8beca;
-  line-height: 1.5;
-}
-
-button {
-  border: 0;
-  border-radius: 14px;
-  background: white;
-  color: #0b0d12;
-  padding: 14px 22px;
-  font-size: 16px;
-  font-weight: 900;
-  margin-top: 12px;
+button{
+border:0;
+border-radius:14px;
+background:#fff;
+color:#0b0d12;
+padding:14px 22px;
+font-size:16px;
+font-weight:900;
+margin-top:12px
 }
 </style>
 </head>
@@ -155,40 +144,52 @@ button {
 <div id="app">
 
 <header>
-  <div class="title">BİR KERE DAHA 😈</div>
 
-  <div class="stats">
-    <div id="level">BÖLÜM 1 / 12</div>
-    <div>
-      ÖLÜM <b id="deaths">0</b>
-      ·
-      SÜRE <b id="time">00:00</b>
-    </div>
-  </div>
+<div class="title">
+BİR KERE DAHA 😈
+</div>
+
+<div class="stats">
+
+<div id="levelText">
+BÖLÜM 1 / 12
+</div>
+
+<div>
+ÖLÜM <b id="deathText">0</b>
+·
+SÜRE <b id="timeText">00:00</b>
+</div>
+
+</div>
+
 </header>
 
-<div id="gameArea">
+<div id="area">
 
 <canvas id="game" width="420" height="720"></canvas>
 
-<div id="message">
-  <div class="big" id="messageBig"></div>
-  <div class="small" id="messageSmall"></div>
+<div id="msg">
+
+<div class="big" id="msgBig"></div>
+
+<div class="small" id="msgSmall"></div>
+
 </div>
 
 <div id="panel">
 
-  <div class="card">
+<div class="card">
 
-    <h1 id="panelTitle">BİTTİ.</h1>
+<h1 id="panelTitle"></h1>
 
-    <p id="panelText"></p>
+<p id="panelText"></p>
 
-    <button id="panelButton">
-      BİR KERE DAHA 😈
-    </button>
+<button id="panelButton">
+BİR KERE DAHA 😈
+</button>
 
-  </div>
+</div>
 
 </div>
 
@@ -198,153 +199,190 @@ button {
 
 <script>
 
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+(function(){
+
+"use strict";
+
+const canvas =
+document.getElementById("game");
+
+const ctx =
+canvas.getContext("2d");
+
+const levelText =
+document.getElementById("levelText");
+
+const deathText =
+document.getElementById("deathText");
+
+const timeText =
+document.getElementById("timeText");
+
+const msg =
+document.getElementById("msg");
+
+const msgBig =
+document.getElementById("msgBig");
+
+const msgSmall =
+document.getElementById("msgSmall");
+
+const panel =
+document.getElementById("panel");
+
+const panelTitle =
+document.getElementById("panelTitle");
+
+const panelText =
+document.getElementById("panelText");
+
+const panelButton =
+document.getElementById("panelButton");
 
 const W = 420;
 const H = 720;
 
 const ball = {
-  x: 55,
-  y: 665,
-  r: 15
+x:55,
+y:665,
+r:15
 };
 
 let level = 0;
 let deaths = 0;
-let hardMode = false;
-let gameFinished = false;
+let hard = false;
 let dragging = false;
+let transitioning = false;
 
-let gameStart = performance.now();
-let levelStart = performance.now();
+let startTime = 0;
+let levelTime = 0;
+let msgTimer = 0;
 
 const levels = [
 
 {
-  target:[350,80,42],
-  walls:[
-    [90,570,240,18],
-    [40,420,170,18]
-  ],
-  text:"Kolay. Şimdilik."
+t:[350,80,42],
+w:[
+[90,570,240,18],
+[40,420,170,18]
+],
+hint:"Kolay. Şimdilik."
 },
 
 {
-  target:[350,105,42],
-  walls:[
-    [90,560,250,18],
-    [70,430,18,150]
-  ],
-  text:"Hedefe git."
+t:[350,105,42],
+w:[
+[90,560,250,18],
+[70,430,18,150]
+],
+hint:"Hedefe git."
 },
 
 {
-  target:[330,160,42],
-  walls:[
-    [80,560,260,18],
-    [300,300,18,280],
-    [55,280,190,18]
-  ],
-  text:"Duvarlar burada."
+t:[330,160,42],
+w:[
+[80,560,260,18],
+[300,300,18,280],
+[55,280,190,18]
+],
+hint:"Duvarlar burada."
 },
 
 {
-  target:[335,90,42],
-  walls:[
-    [70,590,280,18],
-    [60,430,18,160],
-    [250,430,18,160]
-  ],
-  invisible:[
-    [180,510,120,18]
-  ],
-  text:"Bazı şeyleri göremeyebilirsin."
+t:[335,90,42],
+w:[
+[70,590,280,18],
+[60,430,18,160],
+[250,430,18,160]
+],
+iw:[
+[180,510,120,18]
+],
+hint:"Bazı şeyleri göremeyebilirsin."
 },
 
 {
-  target:[80,120,42],
-  fake:[330,100,42],
-  walls:[
-    [110,570,250,18],
-    [110,390,18,180],
-    [290,250,18,320]
-  ],
-  text:"Yeşil gördüğün her şey hedef değil."
+t:[80,120,42],
+fake:[330,100,42],
+w:[
+[110,570,250,18],
+[110,390,18,180],
+[290,250,18,320]
+],
+hint:"Yeşil gördüğün her şey hedef değil."
 },
 
 {
-  target:[350,610,42],
-  walls:[
-    [80,520,260,18],
-    [80,300,18,220],
-    [320,170,18,350]
-  ],
-  moving:true,
-  text:"Ezberleme. Değişiyor."
+t:[350,610,42],
+w:[
+[80,520,260,18],
+[80,300,18,220],
+[320,170,18,350]
+],
+moving:true,
+hint:"Ezberleme. Değişiyor."
 },
 
 {
-  target:[70,90,42],
-  walls:[],
-  fakeWall:true,
-  text:"BU BÖLÜMDE DUVAR YOK."
+t:[70,90,42],
+w:[],
+trick:true,
+hint:"BU BÖLÜMDE DUVAR YOK."
 },
 
 {
-  target:[350,100,42],
-  walls:[
-    [80,560,260,18],
-    [80,380,18,180],
-    [300,200,18,360]
-  ],
-  freezeTarget:true,
-  text:"Topu bırakırsan hedef de durur."
+t:[350,100,42],
+w:[
+[80,560,260,18],
+[80,380,18,180],
+[300,200,18,360]
+],
+movingTarget:true,
+hint:"Topu bırakırsan hedef de durur."
 },
 
 {
-  target:[340,90,42],
-  walls:[
-    [70,590,280,18],
-    [70,390,18,200],
-    [270,390,18,200]
-  ],
-  hiddenTarget:true,
-  text:"Beni bul."
+t:[340,90,42],
+w:[
+[70,590,280,18],
+[70,390,18,200],
+[270,390,18,200]
+],
+hidden:true,
+hint:"Beni bul."
 },
 
 {
-  target:[350,100,42],
-  walls:[
-    [70,590,280,18],
-    [70,420,150,18],
-    [280,260,18,330]
-  ],
-  fakeFinish:true,
-  text:"BÖLÜM TAMAMLANDI ✓"
+t:[350,100,42],
+w:[
+[70,590,280,18],
+[70,420,150,18],
+[280,260,18,330]
+],
+fakeFinish:true,
+hint:"BÖLÜM TAMAMLANDI ✓"
 },
 
 {
-  target:[350,630,42],
-  walls:[
-    [70,500,280,18],
-    [70,300,18,200],
-    [300,180,18,320]
-  ],
-  moving:true,
-  text:"Son bir tane."
+t:[350,630,42],
+w:[
+[70,500,280,18],
+[70,300,18,200],
+[300,180,18,320]
+],
+moving:true,
+hint:"Son bir tane."
 },
 
 {
-  target:[350,80,42],
-  walls:[
-    [70,600,280,18],
-    [70,430,18,170],
-    [300,250,18,350],
-    [160,250,140,18]
-  ],
-  final:true,
-  text:"Bunu gerçekten bitirebilecek misin?"
+t:[350,80,42],
+w:[
+[70,600,280,18],
+[70,430,18,170],
+[300,250,18,350],
+[160,250,140,18]
+],
+hint:"Bunu gerçekten bitirebilecek misin?"
 }
 
 ];
@@ -352,834 +390,885 @@ const levels = [
 const hardLevels = [
 
 {
-  target:[350,70,34],
-  walls:[
-    [65,600,290,18],
-    [65,450,18,150],
-    [285,450,18,150]
-  ],
-  text:"Zor mod. Şimdi ciddiyiz."
+t:[350,70,34],
+w:[
+[65,600,290,18],
+[65,450,18,150],
+[285,450,18,150]
+],
+hint:"Zor mod. Şimdi ciddiyiz."
 },
 
 {
-  target:[60,110,34],
-  walls:[
-    [90,600,240,16],
-    [90,400,16,200],
-    [300,240,16,360],
-    [140,240,160,16]
-  ],
-  text:"Daha küçük."
+t:[60,110,34],
+w:[
+[90,600,240,16],
+[90,400,16,200],
+[300,240,16,360],
+[140,240,160,16]
+],
+hint:"Daha küçük."
 },
 
 {
-  target:[350,120,34],
-  walls:[
-    [70,580,280,16],
-    [70,380,16,200],
-    [220,380,16,200],
-    [220,220,130,16]
-  ],
-  moving:true,
-  text:"Daha hızlı."
+t:[350,120,34],
+w:[
+[70,580,280,16],
+[70,380,16,200],
+[220,380,16,200],
+[220,220,130,16]
+],
+moving:true,
+hint:"Daha hızlı."
 },
 
 {
-  target:[60,90,34],
-  walls:[
-    [70,600,280,16],
-    [70,440,16,160],
-    [300,300,16,300],
-    [120,300,180,16]
-  ],
-  invisible:[
-    [170,520,100,16]
-  ],
-  text:"Bir şey eksik."
+t:[60,90,34],
+w:[
+[70,600,280,16],
+[70,440,16,160],
+[300,300,16,300],
+[120,300,180,16]
+],
+iw:[
+[170,520,100,16]
+],
+hint:"Bir şey eksik."
 },
 
 {
-  target:[350,650,34],
-  walls:[
-    [80,520,260,16],
-    [80,300,16,220],
-    [300,180,16,340]
-  ],
-  text:"Güvenme."
+t:[350,650,34],
+w:[
+[80,520,260,16],
+[80,300,16,220],
+[300,180,16,340]
+],
+hint:"Güvenme."
 },
 
 {
-  target:[350,90,34],
-  walls:[
-    [60,610,300,16],
-    [60,440,16,170],
-    [250,440,16,170],
-    [120,250,130,16]
-  ],
-  final:true,
-  text:"Bitti sanıyorsun."
+t:[350,90,34],
+w:[
+[60,610,300,16],
+[60,440,16,170],
+[250,440,16,170],
+[120,250,130,16]
+],
+hint:"Bitti sanıyorsun."
 }
 
 ];
 
-function getLevel(){
+function data(){
 
-  if(hardMode){
-    return hardLevels[level - 12];
-  }
+if(hard){
 
-  return levels[level];
-}
-
-function resetBall(){
-
-  ball.x = 55;
-  ball.y = H - 55;
-
-  dragging = false;
-}
-
-function showMessage(big, small, duration){
-
-  messageBig.textContent = big;
-  messageSmall.textContent = small;
-
-  message.classList.add("show");
-
-  clearTimeout(showMessage.timer);
-
-  showMessage.timer = setTimeout(function(){
-
-    message.classList.remove("show");
-
-  }, duration || 700);
+return hardLevels[level-12];
 
 }
 
-function formatTime(ms){
+return levels[level];
 
-  let seconds = Math.floor(ms / 1000);
-
-  let minutes = Math.floor(seconds / 60);
-
-  seconds %= 60;
-
-  return String(minutes).padStart(2,"0")
-       + ":"
-       + String(seconds).padStart(2,"0");
 }
 
-function circleRect(cx,cy,r,rx,ry,rw,rh){
+function reset(){
 
-  const x = Math.max(rx,Math.min(cx,rx+rw));
+ball.x=55;
+ball.y=665;
+dragging=false;
 
-  const y = Math.max(ry,Math.min(cy,ry+rh));
-
-  return (
-    (cx-x)*(cx-x) +
-    (cy-y)*(cy-y)
-  ) < r*r;
 }
 
-function movingWall(w,index){
+function say(big,small,duration){
 
-  if(!getLevel().moving){
-    return w;
-  }
+msgBig.textContent=big;
 
-  const movement =
-    Math.sin(performance.now()/600 + index) * 45;
+msgSmall.textContent=small || "";
 
-  return [
-    w[0],
-    w[1] + movement,
-    w[2],
-    w[3]
-  ];
+msg.classList.add("show");
+
+clearTimeout(msgTimer);
+
+msgTimer=setTimeout(function(){
+
+msg.classList.remove("show");
+
+},duration || 700);
+
 }
 
-function getTarget(){
+function fmt(ms){
 
-  const data = getLevel();
+let seconds=
+Math.floor(ms/1000);
 
-  if(
-    data.hiddenTarget &&
-    performance.now() - levelStart < 900
-  ){
-    return null;
-  }
+let minutes=
+Math.floor(seconds/60);
 
-  let t = data.target;
+seconds%=60;
 
-  if(data.freezeTarget && dragging){
+return String(minutes).padStart(2,"0")
++
+":"
++
+String(seconds).padStart(2,"0");
 
-    t = [
-      t[0] + Math.sin(performance.now()/350)*28,
-      t[1] + Math.cos(performance.now()/500)*18,
-      t[2]
-    ];
+}
 
-  }
+function wall(w,index){
 
-  return t;
+if(!data().moving){
+
+return w;
+
+}
+
+return [
+
+w[0],
+
+w[1]+
+Math.sin(performance.now()/650+index)*45,
+
+w[2],
+
+w[3]
+
+];
+
+}
+
+function target(){
+
+const d=data();
+
+if(
+d.hidden &&
+performance.now()-levelTime<900
+){
+
+return null;
+
+}
+
+if(!d.movingTarget){
+
+return d.t;
+
+}
+
+return [
+
+d.t[0]+
+Math.sin(performance.now()/350)*28,
+
+d.t[1]+
+Math.cos(performance.now()/500)*18,
+
+d.t[2]
+
+];
+
+}
+
+function hitRect(cx,cy,r,w){
+
+const x=
+Math.max(
+w[0],
+Math.min(
+cx,
+w[0]+w[2]
+)
+);
+
+const y=
+Math.max(
+w[1],
+Math.min(
+cy,
+w[1]+w[3]
+)
+);
+
+return (
+
+(cx-x)*(cx-x)
++
+(cy-y)*(cy-y)
+
+)<r*r;
+
 }
 
 function collision(){
 
-  const data = getLevel();
+const d=data();
 
-  for(let i=0;i<data.walls.length;i++){
+for(
+let i=0;
+i<d.w.length;
+i++
+){
 
-    const wall =
-      movingWall(data.walls[i],i);
+if(
+hitRect(
+ball.x,
+ball.y,
+ball.r,
+wall(d.w[i],i)
+)
+){
 
-    if(
-      circleRect(
-        ball.x,
-        ball.y,
-        ball.r,
-        wall[0],
-        wall[1],
-        wall[2],
-        wall[3]
-      )
-    ){
+return true;
 
-      return true;
-    }
-  }
-
-  if(data.invisible){
-
-    for(const wall of data.invisible){
-
-      if(
-        circleRect(
-          ball.x,
-          ball.y,
-          ball.r,
-          wall[0],
-          wall[1],
-          wall[2],
-          wall[3]
-        )
-      ){
-
-        return true;
-      }
-    }
-  }
-
-  return false;
 }
 
-function lose(){
-
-  deaths++;
-
-  deathsElement.textContent = deaths;
-
-  showMessage(
-    "HAYIR. 😈",
-    getLevel().text || "DUVAR ORADAYDI.",
-    650
-  );
-
-  resetBall();
 }
 
-function completeLevel(){
+if(d.iw){
 
-  if(gameFinished){
-    return;
-  }
+for(
+const w of d.iw
+){
 
-  gameFinished = true;
+if(
+hitRect(
+ball.x,
+ball.y,
+ball.r,
+w
+)
+){
 
-  const data = getLevel();
+return true;
 
-  if(data.fakeFinish){
-
-    showMessage(
-      "BÖLÜM TAMAMLANDI ✓",
-      "...ama biraz erken sevindin.",
-      900
-    );
-
-    setTimeout(function(){
-
-      gameFinished = false;
-
-      level++;
-
-      levelStart = performance.now();
-
-      resetBall();
-
-      updateLevel();
-
-    },950);
-
-    return;
-  }
-
-  if(
-    level <
-    (hardMode ? 17 : 11)
-  ){
-
-    showMessage(
-      "GEÇTİN. 😏",
-      "Bir sonraki daha kötü.",
-      700
-    );
-
-    setTimeout(function(){
-
-      gameFinished = false;
-
-      level++;
-
-      levelStart = performance.now();
-
-      resetBall();
-
-      updateLevel();
-
-    },750);
-
-  }else{
-
-    finishGame();
-
-  }
 }
 
-function finishGame(){
-
-  const total =
-    formatTime(performance.now()-gameStart);
-
-  panel.style.display = "flex";
-
-  panelTitle.textContent =
-    hardMode
-    ? "ZOR MOD BİTTİ."
-    : "BİTTİ.";
-
-  panelText.innerHTML =
-    (hardMode
-      ? "Saygı duydum. 😈"
-      : "Fena değildi.")
-    +
-    "<br><br>"
-    +
-    "<b>" + deaths + " ölüm</b>"
-    +
-    "<br>"
-    +
-    "<b>" + total + "</b>";
-
-  panelButton.textContent =
-    hardMode
-    ? "BAŞTAN OYNA"
-    : "BİR KERE DAHA 😈";
 }
 
-function updateLevel(){
-
-  if(hardMode){
-
-    levelElement.textContent =
-      "ZOR MOD · " +
-      (level - 11) +
-      " / 6";
-
-  }else{
-
-    levelElement.textContent =
-      "BÖLÜM " +
-      (level + 1) +
-      " / 12";
-  }
 }
 
-function startNormal(){
+return false;
 
-  panel.style.display = "none";
-
-  hardMode = false;
-
-  level = 0;
-
-  deaths = 0;
-
-  gameFinished = false;
-
-  deathsElement.textContent = "0";
-
-  gameStart = performance.now();
-
-  levelStart = gameStart;
-
-  resetBall();
-
-  updateLevel();
 }
 
-function startHard(){
+function die(){
 
-  panel.style.display = "none";
+if(transitioning){
 
-  hardMode = true;
+return;
 
-  level = 12;
-
-  deaths = 0;
-
-  gameFinished = false;
-
-  deathsElement.textContent = "0";
-
-  gameStart = performance.now();
-
-  levelStart = gameStart;
-
-  resetBall();
-
-  updateLevel();
 }
 
-function getPointer(event){
+deaths++;
 
-  const rect =
-    canvas.getBoundingClientRect();
+deathText.textContent=deaths;
 
-  return {
+reset();
 
-    x:
-      (event.clientX - rect.left)
-      * W / rect.width,
-
-    y:
-      (event.clientY - rect.top)
-      * H / rect.height
-
-  };
-}
-
-canvas.addEventListener(
-  "pointerdown",
-  function(event){
-
-    const p = getPointer(event);
-
-    const distance =
-      Math.hypot(
-        p.x-ball.x,
-        p.y-ball.y
-      );
-
-    if(distance < 35){
-
-      dragging = true;
-
-      canvas.setPointerCapture(
-        event.pointerId
-      );
-    }
-
-  }
+say(
+"HAYIR. 😈",
+data().hint,
+650
 );
 
-canvas.addEventListener(
-  "pointermove",
-  function(event){
+}
 
-    if(!dragging || gameFinished){
-      return;
-    }
+function next(){
 
-    const p = getPointer(event);
+transitioning=true;
 
-    ball.x =
-      Math.max(
-        ball.r,
-        Math.min(
-          W-ball.r,
-          p.x
-        )
-      );
+const d=data();
 
-    ball.y =
-      Math.max(
-        ball.r,
-        Math.min(
-          H-ball.r,
-          p.y
-        )
-      );
+if(d.fakeFinish){
 
-    if(collision()){
-
-      lose();
-
-      return;
-    }
-
-    const target = getTarget();
-
-    if(!target){
-      return;
-    }
-
-    const distance =
-      Math.hypot(
-        ball.x-target[0],
-        ball.y-target[1]
-      );
-
-    if(
-      distance <
-      ball.r + target[2]*0.52
-    ){
-
-      if(getLevel().fakeWall){
-
-        showMessage(
-          "DUVAR YOKTU DEMİŞTİK. 😇",
-          "Ama şimdi var.",
-          700
-        );
-
-        lose();
-
-        return;
-      }
-
-      if(getLevel().fake){
-
-        const fakeDistance =
-          Math.hypot(
-            ball.x-getLevel().fake[0],
-            ball.y-getLevel().fake[1]
-          );
-
-        if(fakeDistance <
-           ball.r + getLevel().fake[2]*0.52){
-
-          lose();
-
-          return;
-        }
-      }
-
-      completeLevel();
-    }
-
-  }
+say(
+"BÖLÜM TAMAMLANDI ✓",
+"...ama biraz erken sevindin.",
+1000
 );
 
-canvas.addEventListener(
-  "pointerup",
-  function(){
+setTimeout(function(){
 
-    dragging = false;
+level++;
 
-  }
+reset();
+
+levelTime=
+performance.now();
+
+transitioning=false;
+
+update();
+
+},1050);
+
+return;
+
+}
+
+if(
+level <
+(hard ? 17 : 11)
+){
+
+say(
+"GEÇTİN. 😏",
+"Bir sonraki daha kötü.",
+700
 );
 
-canvas.addEventListener(
-  "pointercancel",
-  function(){
+setTimeout(function(){
 
-    dragging = false;
+level++;
 
-  }
-);
+reset();
 
-panelButton.onclick = function(){
+levelTime=
+performance.now();
 
-  if(!hardMode){
+transitioning=false;
 
-    startHard();
+update();
 
-  }else{
+},750);
 
-    startNormal();
+}else{
 
-  }
+finish();
+
+}
+
+}
+
+function finish(){
+
+panel.style.display="flex";
+
+panelTitle.textContent=
+hard
+?
+"ZOR MOD BİTTİ."
+:
+"BİTTİ.";
+
+panelText.innerHTML=
+(hard
+?
+"Saygı duydum. 😈"
+:
+"Fena değildi.")
++
+"<br><br>"
++
+"<b>"+deaths+" ölüm</b>"
++
+"<br>"
++
+"<b>"+
+fmt(
+performance.now()-startTime
+)
++
+"</b>";
+
+panelButton.textContent=
+hard
+?
+"BAŞTAN OYNA"
+:
+"BİR KERE DAHA 😈";
+
+}
+
+function update(){
+
+if(hard){
+
+levelText.textContent=
+"ZOR MOD · "
++
+(level-11)
++
+" / 6";
+
+}else{
+
+levelText.textContent=
+"BÖLÜM "
++
+(level+1)
++
+" / 12";
+
+}
+
+}
+
+function normalStart(){
+
+panel.style.display="none";
+
+hard=false;
+
+level=0;
+
+deaths=0;
+
+transitioning=false;
+
+deathText.textContent="0";
+
+startTime=
+performance.now();
+
+levelTime=
+startTime;
+
+reset();
+
+update();
+
+}
+
+function hardStart(){
+
+panel.style.display="none";
+
+hard=true;
+
+level=12;
+
+deaths=0;
+
+transitioning=false;
+
+deathText.textContent="0";
+
+startTime=
+performance.now();
+
+levelTime=
+startTime;
+
+reset();
+
+update();
+
+}
+
+function pos(e){
+
+const r=
+canvas.getBoundingClientRect();
+
+return {
+
+x:
+(e.clientX-r.left)
+*
+W/
+r.width,
+
+y:
+(e.clientY-r.top)
+*
+H/
+r.height
 
 };
 
-function draw(){
-
-  ctx.clearRect(
-    0,
-    0,
-    W,
-    H
-  );
-
-  ctx.fillStyle = "#151923";
-
-  ctx.fillRect(
-    0,
-    0,
-    W,
-    H
-  );
-
-  /*
-   GRID
-  */
-
-  ctx.strokeStyle = "#1d2230";
-
-  ctx.lineWidth = 1;
-
-  for(let x=0;x<W;x+=30){
-
-    ctx.beginPath();
-
-    ctx.moveTo(x,0);
-
-    ctx.lineTo(x,H);
-
-    ctx.stroke();
-  }
-
-  for(let y=0;y<H;y+=30){
-
-    ctx.beginPath();
-
-    ctx.moveTo(0,y);
-
-    ctx.lineTo(W,y);
-
-    ctx.stroke();
-  }
-
-  const data = getLevel();
-
-  /*
-   TARGET
-  */
-
-  const target = getTarget();
-
-  if(target){
-
-    ctx.beginPath();
-
-    ctx.arc(
-      target[0],
-      target[1],
-      target[2],
-      0,
-      Math.PI*2
-    );
-
-    ctx.fillStyle = "#35d07f";
-
-    ctx.fill();
-
-    ctx.beginPath();
-
-    ctx.arc(
-      target[0],
-      target[1],
-      target[2]*0.48,
-      0,
-      Math.PI*2
-    );
-
-    ctx.fillStyle = "#9affc5";
-
-    ctx.fill();
-  }
-
-  /*
-   FAKE TARGET
-  */
-
-  if(data.fake){
-
-    ctx.beginPath();
-
-    ctx.arc(
-      data.fake[0],
-      data.fake[1],
-      data.fake[2],
-      0,
-      Math.PI*2
-    );
-
-    ctx.fillStyle = "#35d07f";
-
-    ctx.fill();
-  }
-
-  /*
-   WALLS
-  */
-
-  for(
-    let i=0;
-    i<data.walls.length;
-    i++
-  ){
-
-    const wall =
-      movingWall(
-        data.walls[i],
-        i
-      );
-
-    ctx.fillStyle = "#d7dbe3";
-
-    ctx.fillRect(
-      wall[0],
-      wall[1],
-      wall[2],
-      wall[3]
-    );
-  }
-
-  /*
-   INVISIBLE WALLS
-  */
-
-  if(data.invisible){
-
-    ctx.fillStyle = "#232936";
-
-    for(
-      const wall of data.invisible
-    ){
-
-      ctx.fillRect(
-        wall[0],
-        wall[1],
-        wall[2],
-        wall[3]
-      );
-    }
-  }
-
-  /*
-   FAKE WALL
-  */
-
-  if(
-    data.fakeWall &&
-    dragging
-  ){
-
-    ctx.fillStyle = "#d7dbe3";
-
-    ctx.fillRect(
-      150,
-      280,
-      18,
-      300
-    );
-  }
-
-  /*
-   BALL
-  */
-
-  ctx.beginPath();
-
-  ctx.arc(
-    ball.x,
-    ball.y,
-    ball.r,
-    0,
-    Math.PI*2
-  );
-
-  ctx.fillStyle = "#050608";
-
-  ctx.fill();
-
-  ctx.beginPath();
-
-  ctx.arc(
-    ball.x-5,
-    ball.y-5,
-    4,
-    0,
-    Math.PI*2
-  );
-
-  ctx.fillStyle = "#4d5360";
-
-  ctx.fill();
-
-  /*
-   TEXT
-  */
-
-  ctx.fillStyle = "#7e8798";
-
-  ctx.font =
-    "700 12px Arial";
-
-  ctx.textAlign = "center";
-
-  ctx.fillText(
-    data.text || "YEŞİL ALANA ULAŞ",
-    W/2,
-    H-16
-  );
-
-  /*
-   TIME
-  */
-
-  timeElement.textContent =
-    formatTime(
-      performance.now()-gameStart
-    );
-
-  requestAnimationFrame(draw);
 }
 
-const deathsElement =
-  document.getElementById("deaths");
+canvas.addEventListener(
+"pointerdown",
+function(e){
 
-const timeElement =
-  document.getElementById("time");
+if(transitioning){
 
-const levelElement =
-  document.getElementById("level");
+return;
 
-const message =
-  document.getElementById("message");
+}
 
-const messageBig =
-  document.getElementById("messageBig");
+const p=pos(e);
 
-const messageSmall =
-  document.getElementById("messageSmall");
+if(
+Math.hypot(
+p.x-ball.x,
+p.y-ball.y
+)
+<
+38
+){
 
-const panel =
-  document.getElementById("panel");
+dragging=true;
 
-const panelTitle =
-  document.getElementById("panelTitle");
+try{
 
-const panelText =
-  document.getElementById("panelText");
+canvas.setPointerCapture(
+e.pointerId
+);
 
-const panelButton =
-  document.getElementById("panelButton");
+}catch(_){}
 
-startNormal();
+e.preventDefault();
+
+}
+
+});
+
+canvas.addEventListener(
+"pointermove",
+function(e){
+
+if(
+!dragging ||
+transitioning
+){
+
+return;
+
+}
+
+e.preventDefault();
+
+const p=pos(e);
+
+ball.x=
+Math.max(
+ball.r,
+Math.min(
+W-ball.r,
+p.x
+)
+);
+
+ball.y=
+Math.max(
+ball.r,
+Math.min(
+H-ball.r,
+p.y
+)
+);
+
+const d=data();
+
+if(collision()){
+
+die();
+
+return;
+
+}
+
+const t=target();
+
+if(!t){
+
+return;
+
+}
+
+if(
+Math.hypot(
+ball.x-t[0],
+ball.y-t[1]
+)
+<
+ball.r+t[2]*0.52
+){
+
+if(d.trick){
+
+die();
+
+return;
+
+}
+
+if(d.fake){
+
+const f=d.fake;
+
+if(
+Math.hypot(
+ball.x-f[0],
+ball.y-f[1]
+)
+<
+ball.r+f[2]*0.52
+){
+
+die();
+
+return;
+
+}
+
+}
+
+next();
+
+}
+
+});
+
+canvas.addEventListener(
+"pointerup",
+function(){
+
+dragging=false;
+
+});
+
+canvas.addEventListener(
+"pointercancel",
+function(){
+
+dragging=false;
+
+});
+
+panelButton.addEventListener(
+"click",
+function(){
+
+if(hard){
+
+normalStart();
+
+}else{
+
+hardStart();
+
+}
+
+});
+
+function draw(){
+
+ctx.clearRect(
+0,
+0,
+W,
+H
+);
+
+ctx.fillStyle="#151923";
+
+ctx.fillRect(
+0,
+0,
+W,
+H
+);
+
+ctx.strokeStyle="#1d2230";
+
+ctx.lineWidth=1;
+
+for(
+let x=0;
+x<W;
+x+=30
+){
+
+ctx.beginPath();
+
+ctx.moveTo(x,0);
+
+ctx.lineTo(x,H);
+
+ctx.stroke();
+
+}
+
+for(
+let y=0;
+y<H;
+y+=30
+){
+
+ctx.beginPath();
+
+ctx.moveTo(0,y);
+
+ctx.lineTo(W,y);
+
+ctx.stroke();
+
+}
+
+const d=data();
+
+const t=target();
+
+if(t){
+
+ctx.beginPath();
+
+ctx.arc(
+t[0],
+t[1],
+t[2],
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#35d07f";
+
+ctx.fill();
+
+ctx.beginPath();
+
+ctx.arc(
+t[0],
+t[1],
+t[2]*0.48,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#9affc5";
+
+ctx.fill();
+
+}
+
+if(d.fake){
+
+ctx.beginPath();
+
+ctx.arc(
+d.fake[0],
+d.fake[1],
+d.fake[2],
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#35d07f";
+
+ctx.fill();
+
+}
+
+for(
+let i=0;
+i<d.w.length;
+i++
+){
+
+const w=
+wall(
+d.w[i],
+i
+);
+
+ctx.fillStyle="#d7dbe3";
+
+ctx.fillRect(
+w[0],
+w[1],
+w[2],
+w[3]
+);
+
+}
+
+if(d.iw){
+
+ctx.fillStyle="#232936";
+
+for(
+const w of d.iw
+){
+
+ctx.fillRect(
+w[0],
+w[1],
+w[2],
+w[3]
+);
+
+}
+
+}
+
+if(
+d.trick &&
+dragging
+){
+
+ctx.fillStyle="#d7dbe3";
+
+ctx.fillRect(
+150,
+280,
+18,
+300
+);
+
+}
+
+ctx.beginPath();
+
+ctx.arc(
+ball.x,
+ball.y,
+ball.r,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#050608";
+
+ctx.fill();
+
+ctx.beginPath();
+
+ctx.arc(
+ball.x-5,
+ball.y-5,
+4,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#4d5360";
+
+ctx.fill();
+
+ctx.fillStyle="#7e8798";
+
+ctx.font=
+"700 12px Arial";
+
+ctx.textAlign="center";
+
+ctx.fillText(
+d.hint ||
+"YEŞİL ALANA ULAŞ",
+W/2,
+H-16
+);
+
+timeText.textContent=
+fmt(
+performance.now()-startTime
+);
+
+requestAnimationFrame(draw);
+
+}
+
+normalStart();
 
 draw();
+
+})();
 
 </script>
 
