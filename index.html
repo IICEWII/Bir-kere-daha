@@ -4,265 +4,106 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>BİR KERE DAHA 😈</title>
-
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-
-html,body{
-margin:0;
-height:100%;
-overflow:hidden;
-background:#0b0d12;
-color:#fff;
-font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif
-}
-
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0b0d12;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 body{touch-action:none}
-
-#app{
-height:100%;
-display:flex;
-flex-direction:column
-}
-
-header{
-height:72px;
-flex:none;
-padding:10px 16px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-background:#10131a;
-border-bottom:1px solid #292e39
-}
-
-.title{
-font-weight:900;
-letter-spacing:2px;
-font-size:17px
-}
-
-.stats{
-text-align:right;
-font-size:12px;
-color:#aeb5c2;
-line-height:1.5
-}
-
+#app{width:100%;height:100%;display:flex;flex-direction:column}
+header{height:72px;flex:none;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;background:#10131a;border-bottom:1px solid #292e39}
+.title{font-size:17px;font-weight:900;letter-spacing:2px}
+.stats{text-align:right;font-size:12px;line-height:1.5;color:#aeb5c2}
 .stats b{color:#fff}
-
-#area{
-position:relative;
-flex:1;
-min-height:0;
-display:flex;
-align-items:center;
-justify-content:center;
-padding:10px
-}
-
-canvas{
-display:block;
-width:min(100%,420px);
-height:min(100%,720px);
-background:#151923;
-border:1px solid #2b3140;
-border-radius:18px;
-touch-action:none
-}
-
-#msg{
-position:absolute;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-width:85%;
-text-align:center;
-opacity:0;
-pointer-events:none
-}
-
-#msg.show{opacity:1}
-
-.big{
-font-size:30px;
-font-weight:900;
-text-shadow:0 4px 18px #000
-}
-
-.small{
-margin-top:8px;
-color:#c5cad4;
-font-size:14px
-}
-
-#panel{
-position:absolute;
-inset:0;
-background:#0b0d12ee;
-display:none;
-align-items:center;
-justify-content:center;
-padding:20px
-}
-
-.card{
-width:min(92%,390px);
-background:#151923;
-border:1px solid #343b4b;
-border-radius:24px;
-padding:28px;
-text-align:center;
-box-shadow:0 24px 80px #000b
-}
-
-.card h1{
-margin:0 0 10px;
-font-size:30px
-}
-
-.card p{
-color:#b8beca;
-line-height:1.5
-}
-
-button{
-border:0;
-border-radius:14px;
-background:#fff;
-color:#0b0d12;
-padding:14px 22px;
-font-size:16px;
-font-weight:900;
-margin-top:12px
-}
+#area{position:relative;flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:10px}
+canvas{display:block;width:min(100%,420px);height:min(100%,720px);background:#151923;border:1px solid #2b3140;border-radius:18px;touch-action:none}
+#message{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:85%;text-align:center;opacity:0;pointer-events:none;transition:opacity .15s}
+#message.show{opacity:1}
+#message .big{font-size:30px;font-weight:900;text-shadow:0 4px 18px #000}
+#message .small{margin-top:8px;color:#c5cad4;font-size:14px}
+#panel{position:absolute;inset:0;background:#0b0d12ee;display:none;align-items:center;justify-content:center;padding:20px}
+.card{width:min(92%,390px);background:#151923;border:1px solid #343b4b;border-radius:24px;padding:28px;text-align:center;box-shadow:0 24px 80px #000b}
+.card h1{margin:0 0 10px;font-size:30px}
+.card p{color:#b8beca;line-height:1.5}
+button{border:0;border-radius:14px;background:#fff;color:#0b0d12;padding:14px 22px;font-size:16px;font-weight:900;margin-top:12px}
+button:active{transform:scale(.97)}
 </style>
 </head>
 
 <body>
-
 <div id="app">
 
 <header>
-
-<div class="title">
-BİR KERE DAHA 😈
-</div>
-
+<div class="title">BİR KERE DAHA 😈</div>
 <div class="stats">
-
-<div id="levelText">
-BÖLÜM 1 / 12
+<div id="levelText">BÖLÜM 1 / 12</div>
+<div>ÖLÜM <b id="deathText">0</b> · SÜRE <b id="timeText">00:00</b></div>
 </div>
-
-<div>
-ÖLÜM <b id="deathText">0</b>
-·
-SÜRE <b id="timeText">00:00</b>
-</div>
-
-</div>
-
 </header>
 
 <div id="area">
-
 <canvas id="game" width="420" height="720"></canvas>
 
-<div id="msg">
-
-<div class="big" id="msgBig"></div>
-
-<div class="small" id="msgSmall"></div>
-
+<div id="message">
+<div class="big" id="messageBig"></div>
+<div class="small" id="messageSmall"></div>
 </div>
 
 <div id="panel">
-
 <div class="card">
-
 <h1 id="panelTitle"></h1>
-
 <p id="panelText"></p>
-
-<button id="panelButton">
-BİR KERE DAHA 😈
-</button>
-
+<button id="panelButton">BİR KERE DAHA 😈</button>
+</div>
 </div>
 
 </div>
-
-</div>
-
 </div>
 
 <script>
-
 (function(){
-
 "use strict";
 
-const canvas =
-document.getElementById("game");
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
 
-const ctx =
-canvas.getContext("2d");
+const levelText=document.getElementById("levelText");
+const deathText=document.getElementById("deathText");
+const timeText=document.getElementById("timeText");
 
-const levelText =
-document.getElementById("levelText");
+const message=document.getElementById("message");
+const messageBig=document.getElementById("messageBig");
+const messageSmall=document.getElementById("messageSmall");
 
-const deathText =
-document.getElementById("deathText");
+const panel=document.getElementById("panel");
+const panelTitle=document.getElementById("panelTitle");
+const panelText=document.getElementById("panelText");
+const panelButton=document.getElementById("panelButton");
 
-const timeText =
-document.getElementById("timeText");
+const W=420;
+const H=720;
 
-const msg =
-document.getElementById("msg");
-
-const msgBig =
-document.getElementById("msgBig");
-
-const msgSmall =
-document.getElementById("msgSmall");
-
-const panel =
-document.getElementById("panel");
-
-const panelTitle =
-document.getElementById("panelTitle");
-
-const panelText =
-document.getElementById("panelText");
-
-const panelButton =
-document.getElementById("panelButton");
-
-const W = 420;
-const H = 720;
-
-const ball = {
+const ball={
 x:55,
 y:665,
 r:15
 };
 
-let level = 0;
-let deaths = 0;
-let hard = false;
-let dragging = false;
-let transitioning = false;
+let level=0;
+let deaths=0;
+let hard=false;
+let dragging=false;
+let transition=false;
 
-let startTime = 0;
-let levelTime = 0;
-let msgTimer = 0;
+let startTime=0;
+let levelStart=0;
+let messageTimer=0;
 
-const levels = [
+let trickWallActive=false;
+
+const levels=[
 
 {
-t:[350,80,42],
-w:[
+target:[350,80,42],
+walls:[
 [90,570,240,18],
 [40,420,170,18]
 ],
@@ -270,8 +111,8 @@ hint:"Kolay. Şimdilik."
 },
 
 {
-t:[350,105,42],
-w:[
+target:[350,105,42],
+walls:[
 [90,560,250,18],
 [70,430,18,150]
 ],
@@ -279,8 +120,8 @@ hint:"Hedefe git."
 },
 
 {
-t:[330,160,42],
-w:[
+target:[330,160,42],
+walls:[
 [80,560,260,18],
 [300,300,18,280],
 [55,280,190,18]
@@ -289,22 +130,22 @@ hint:"Duvarlar burada."
 },
 
 {
-t:[335,90,42],
-w:[
+target:[335,90,42],
+walls:[
 [70,590,280,18],
 [60,430,18,160],
 [250,430,18,160]
 ],
-iw:[
+invisible:[
 [180,510,120,18]
 ],
 hint:"Bazı şeyleri göremeyebilirsin."
 },
 
 {
-t:[80,120,42],
+target:[80,120,42],
 fake:[330,100,42],
-w:[
+walls:[
 [110,570,250,18],
 [110,390,18,180],
 [290,250,18,320]
@@ -313,8 +154,8 @@ hint:"Yeşil gördüğün her şey hedef değil."
 },
 
 {
-t:[350,610,42],
-w:[
+target:[350,610,42],
+walls:[
 [80,520,260,18],
 [80,300,18,220],
 [320,170,18,350]
@@ -323,16 +164,19 @@ moving:true,
 hint:"Ezberleme. Değişiyor."
 },
 
+/* 7. BÖLÜM - DÜZELTİLDİ */
+
 {
-t:[70,90,42],
-w:[],
+target:[70,90,42],
+walls:[],
 trick:true,
+trickWall:[80,280,18,300],
 hint:"BU BÖLÜMDE DUVAR YOK."
 },
 
 {
-t:[350,100,42],
-w:[
+target:[350,100,42],
+walls:[
 [80,560,260,18],
 [80,380,18,180],
 [300,200,18,360]
@@ -342,8 +186,8 @@ hint:"Topu bırakırsan hedef de durur."
 },
 
 {
-t:[340,90,42],
-w:[
+target:[340,90,42],
+walls:[
 [70,590,280,18],
 [70,390,18,200],
 [270,390,18,200]
@@ -353,8 +197,8 @@ hint:"Beni bul."
 },
 
 {
-t:[350,100,42],
-w:[
+target:[350,100,42],
+walls:[
 [70,590,280,18],
 [70,420,150,18],
 [280,260,18,330]
@@ -364,8 +208,8 @@ hint:"BÖLÜM TAMAMLANDI ✓"
 },
 
 {
-t:[350,630,42],
-w:[
+target:[350,630,42],
+walls:[
 [70,500,280,18],
 [70,300,18,200],
 [300,180,18,320]
@@ -375,23 +219,24 @@ hint:"Son bir tane."
 },
 
 {
-t:[350,80,42],
-w:[
+target:[350,80,42],
+walls:[
 [70,600,280,18],
 [70,430,18,170],
 [300,250,18,350],
 [160,250,140,18]
 ],
+final:true,
 hint:"Bunu gerçekten bitirebilecek misin?"
 }
 
 ];
 
-const hardLevels = [
+const hardLevels=[
 
 {
-t:[350,70,34],
-w:[
+target:[350,70,34],
+walls:[
 [65,600,290,18],
 [65,450,18,150],
 [285,450,18,150]
@@ -400,8 +245,8 @@ hint:"Zor mod. Şimdi ciddiyiz."
 },
 
 {
-t:[60,110,34],
-w:[
+target:[60,110,34],
+walls:[
 [90,600,240,16],
 [90,400,16,200],
 [300,240,16,360],
@@ -411,8 +256,8 @@ hint:"Daha küçük."
 },
 
 {
-t:[350,120,34],
-w:[
+target:[350,120,34],
+walls:[
 [70,580,280,16],
 [70,380,16,200],
 [220,380,16,200],
@@ -423,22 +268,22 @@ hint:"Daha hızlı."
 },
 
 {
-t:[60,90,34],
-w:[
+target:[60,90,34],
+walls:[
 [70,600,280,16],
 [70,440,16,160],
 [300,300,16,300],
 [120,300,180,16]
 ],
-iw:[
+invisible:[
 [170,520,100,16]
 ],
 hint:"Bir şey eksik."
 },
 
 {
-t:[350,650,34],
-w:[
+target:[350,650,34],
+walls:[
 [80,520,260,16],
 [80,300,16,220],
 [300,180,16,340]
@@ -447,63 +292,59 @@ hint:"Güvenme."
 },
 
 {
-t:[350,90,34],
-w:[
+target:[350,90,34],
+walls:[
 [60,610,300,16],
 [60,440,16,170],
 [250,440,16,170],
 [120,250,130,16]
 ],
+final:true,
 hint:"Bitti sanıyorsun."
 }
 
 ];
 
-function data(){
+function current(){
 
 if(hard){
-
 return hardLevels[level-12];
-
 }
 
 return levels[level];
 
 }
 
-function reset(){
+function resetBall(){
 
 ball.x=55;
 ball.y=665;
 dragging=false;
+trickWallActive=false;
 
 }
 
-function say(big,small,duration){
+function showMessage(big,small,duration){
 
-msgBig.textContent=big;
+messageBig.textContent=big;
+messageSmall.textContent=small||"";
 
-msgSmall.textContent=small || "";
+message.classList.add("show");
 
-msg.classList.add("show");
+clearTimeout(messageTimer);
 
-clearTimeout(msgTimer);
+messageTimer=setTimeout(function(){
 
-msgTimer=setTimeout(function(){
+message.classList.remove("show");
 
-msg.classList.remove("show");
-
-},duration || 700);
+},duration||700);
 
 }
 
-function fmt(ms){
+function formatTime(ms){
 
-let seconds=
-Math.floor(ms/1000);
-
-let minutes=
-Math.floor(seconds/60);
+let seconds=Math.floor(ms/1000);
+let minutes=Math.floor(seconds/60);
 
 seconds%=60;
 
@@ -515,36 +356,30 @@ String(seconds).padStart(2,"0");
 
 }
 
-function wall(w,index){
+function movingWall(w,index){
 
-if(!data().moving){
+const d=current();
 
+if(!d.moving){
 return w;
-
 }
 
 return [
-
 w[0],
-
-w[1]+
-Math.sin(performance.now()/650+index)*45,
-
+w[1]+Math.sin(performance.now()/650+index)*45,
 w[2],
-
 w[3]
-
 ];
 
 }
 
-function target(){
+function getTarget(){
 
-const d=data();
+const d=current();
 
 if(
 d.hidden &&
-performance.now()-levelTime<900
+performance.now()-levelStart<900
 ){
 
 return null;
@@ -553,70 +388,53 @@ return null;
 
 if(!d.movingTarget){
 
-return d.t;
+return d.target;
 
 }
 
 return [
-
-d.t[0]+
-Math.sin(performance.now()/350)*28,
-
-d.t[1]+
-Math.cos(performance.now()/500)*18,
-
-d.t[2]
-
+d.target[0]+Math.sin(performance.now()/350)*28,
+d.target[1]+Math.cos(performance.now()/500)*18,
+d.target[2]
 ];
 
 }
 
-function hitRect(cx,cy,r,w){
+function circleHitsRect(cx,cy,r,w){
 
-const x=
-Math.max(
+const x=Math.max(
 w[0],
-Math.min(
-cx,
-w[0]+w[2]
-)
+Math.min(cx,w[0]+w[2])
 );
 
-const y=
-Math.max(
+const y=Math.max(
 w[1],
-Math.min(
-cy,
-w[1]+w[3]
-)
+Math.min(cy,w[1]+w[3])
 );
 
 return (
-
-(cx-x)*(cx-x)
-+
+(cx-x)*(cx-x)+
 (cy-y)*(cy-y)
-
 )<r*r;
 
 }
 
-function collision(){
+function collides(){
 
-const d=data();
+const d=current();
 
 for(
 let i=0;
-i<d.w.length;
+i<d.walls.length;
 i++
 ){
 
 if(
-hitRect(
+circleHitsRect(
 ball.x,
 ball.y,
 ball.r,
-wall(d.w[i],i)
+movingWall(d.walls[i],i)
 )
 ){
 
@@ -626,14 +444,12 @@ return true;
 
 }
 
-if(d.iw){
+if(d.invisible){
 
-for(
-const w of d.iw
-){
+for(const w of d.invisible){
 
 if(
-hitRect(
+circleHitsRect(
 ball.x,
 ball.y,
 ball.r,
@@ -649,41 +465,58 @@ return true;
 
 }
 
+if(
+d.trick &&
+trickWallActive &&
+circleHitsRect(
+ball.x,
+ball.y,
+ball.r,
+d.trickWall
+)
+){
+
+return true;
+
+}
+
 return false;
 
 }
 
-function die(){
+function die(reason){
 
-if(transitioning){
-
+if(transition){
 return;
-
 }
 
 deaths++;
 
 deathText.textContent=deaths;
 
-reset();
+resetBall();
 
-say(
+showMessage(
 "HAYIR. 😈",
-data().hint,
+reason||current().hint,
 650
 );
 
 }
 
-function next(){
+function finishLevel(){
 
-transitioning=true;
+if(transition){
+return;
+}
 
-const d=data();
+transition=true;
+
+const d=current();
 
 if(d.fakeFinish){
 
-say(
+showMessage(
 "BÖLÜM TAMAMLANDI ✓",
 "...ama biraz erken sevindin.",
 1000
@@ -693,14 +526,13 @@ setTimeout(function(){
 
 level++;
 
-reset();
+levelStart=performance.now();
 
-levelTime=
-performance.now();
+resetBall();
 
-transitioning=false;
+transition=false;
 
-update();
+updateLevelText();
 
 },1050);
 
@@ -708,12 +540,9 @@ return;
 
 }
 
-if(
-level <
-(hard ? 17 : 11)
-){
+if(level<(hard?17:11)){
 
-say(
+showMessage(
 "GEÇTİN. 😏",
 "Bir sonraki daha kötü.",
 700
@@ -723,26 +552,25 @@ setTimeout(function(){
 
 level++;
 
-reset();
+levelStart=performance.now();
 
-levelTime=
-performance.now();
+resetBall();
 
-transitioning=false;
+transition=false;
 
-update();
+updateLevelText();
 
 },750);
 
 }else{
 
-finish();
+finishGame();
 
 }
 
 }
 
-function finish(){
+function finishGame(){
 
 panel.style.display="flex";
 
@@ -760,14 +588,13 @@ panelText.innerHTML=
 :
 "Fena değildi.")
 +
-"<br><br>"
+"<br><br><b>"
 +
-"<b>"+deaths+" ölüm</b>"
+deaths
 +
-"<br>"
+" ölüm</b><br><b>"
 +
-"<b>"+
-fmt(
+formatTime(
 performance.now()-startTime
 )
 +
@@ -782,100 +609,73 @@ hard
 
 }
 
-function update(){
+function updateLevelText(){
 
 if(hard){
 
 levelText.textContent=
-"ZOR MOD · "
-+
-(level-11)
-+
+"ZOR MOD · "+
+(level-11)+
 " / 6";
 
 }else{
 
 levelText.textContent=
-"BÖLÜM "
-+
-(level+1)
-+
+"BÖLÜM "+
+(level+1)+
 " / 12";
 
 }
 
 }
 
-function normalStart(){
+function startNormal(){
 
 panel.style.display="none";
 
 hard=false;
-
 level=0;
-
 deaths=0;
-
-transitioning=false;
+transition=false;
 
 deathText.textContent="0";
 
-startTime=
-performance.now();
+startTime=performance.now();
+levelStart=startTime;
 
-levelTime=
-startTime;
-
-reset();
-
-update();
+resetBall();
+updateLevelText();
 
 }
 
-function hardStart(){
+function startHard(){
 
 panel.style.display="none";
 
 hard=true;
-
 level=12;
-
 deaths=0;
-
-transitioning=false;
+transition=false;
 
 deathText.textContent="0";
 
-startTime=
-performance.now();
+startTime=performance.now();
+levelStart=startTime;
 
-levelTime=
-startTime;
-
-reset();
-
-update();
+resetBall();
+updateLevelText();
 
 }
 
-function pos(e){
+function pointerPosition(e){
 
-const r=
-canvas.getBoundingClientRect();
+const rect=canvas.getBoundingClientRect();
 
 return {
 
-x:
-(e.clientX-r.left)
-*
-W/
-r.width,
+x:(e.clientX-rect.left)*W/rect.width,
 
-y:
-(e.clientY-r.top)
-*
-H/
-r.height
+y:(e.clientY-rect.top)*H/rect.height
 
 };
 
@@ -885,21 +685,17 @@ canvas.addEventListener(
 "pointerdown",
 function(e){
 
-if(transitioning){
-
+if(transition){
 return;
-
 }
 
-const p=pos(e);
+const p=pointerPosition(e);
 
 if(
 Math.hypot(
 p.x-ball.x,
 p.y-ball.y
-)
-<
-38
+)<38
 ){
 
 dragging=true;
@@ -911,6 +707,21 @@ e.pointerId
 );
 
 }catch(_){}
+
+if(
+current().trick &&
+!trickWallActive
+){
+
+trickWallActive=true;
+
+showMessage(
+"...HA. 😈",
+"Duvar gerçekten yoktu, değil mi?",
+700
+);
+
+}
 
 e.preventDefault();
 
@@ -924,7 +735,7 @@ function(e){
 
 if(
 !dragging ||
-transitioning
+transition
 ){
 
 return;
@@ -933,10 +744,9 @@ return;
 
 e.preventDefault();
 
-const p=pos(e);
+const p=pointerPosition(e);
 
-ball.x=
-Math.max(
+ball.x=Math.max(
 ball.r,
 Math.min(
 W-ball.r,
@@ -944,8 +754,7 @@ p.x
 )
 );
 
-ball.y=
-Math.max(
+ball.y=Math.max(
 ball.r,
 Math.min(
 H-ball.r,
@@ -953,9 +762,7 @@ p.y
 )
 );
 
-const d=data();
-
-if(collision()){
+if(collides()){
 
 die();
 
@@ -963,12 +770,12 @@ return;
 
 }
 
-const t=target();
+const d=current();
+
+const t=getTarget();
 
 if(!t){
-
 return;
-
 }
 
 if(
@@ -979,9 +786,6 @@ ball.y-t[1]
 <
 ball.r+t[2]*0.52
 ){
-
-
-}
 
 if(d.fake){
 
@@ -996,7 +800,7 @@ ball.y-f[1]
 ball.r+f[2]*0.52
 ){
 
-die();
+die("Güzel denemeydi. 😈");
 
 return;
 
@@ -1004,7 +808,7 @@ return;
 
 }
 
-next();
+finishLevel();
 
 }
 
@@ -1032,11 +836,11 @@ function(){
 
 if(hard){
 
-normalStart();
+startNormal();
 
 }else{
 
-hardStart();
+startHard();
 
 }
 
@@ -1061,7 +865,6 @@ H
 );
 
 ctx.strokeStyle="#1d2230";
-
 ctx.lineWidth=1;
 
 for(
@@ -1071,11 +874,8 @@ x+=30
 ){
 
 ctx.beginPath();
-
 ctx.moveTo(x,0);
-
 ctx.lineTo(x,H);
-
 ctx.stroke();
 
 }
@@ -1087,18 +887,15 @@ y+=30
 ){
 
 ctx.beginPath();
-
 ctx.moveTo(0,y);
-
 ctx.lineTo(W,y);
-
 ctx.stroke();
 
 }
 
-const d=data();
+const d=current();
 
-const t=target();
+const t=getTarget();
 
 if(t){
 
@@ -1152,13 +949,12 @@ ctx.fill();
 
 for(
 let i=0;
-i<d.w.length;
+i<d.walls.length;
 i++
 ){
 
-const w=
-wall(
-d.w[i],
+const w=movingWall(
+d.walls[i],
 i
 );
 
@@ -1173,12 +969,12 @@ w[3]
 
 }
 
-if(d.iw){
+if(d.invisible){
 
 ctx.fillStyle="#232936";
 
 for(
-const w of d.iw
+const w of d.invisible
 ){
 
 ctx.fillRect(
@@ -1192,18 +988,25 @@ w[3]
 
 }
 
+/*
+7. BÖLÜMÜN GİZLİ DUVARI
+Topa dokunulduktan sonra ortaya çıkar.
+Hedefe ulaşmayı engellemiyor;
+oyuncunun etrafından dolaşması gerekiyor.
+*/
+
 if(
 d.trick &&
-dragging
+trickWallActive
 ){
 
 ctx.fillStyle="#d7dbe3";
 
 ctx.fillRect(
-150,
-280,
-18,
-300
+d.trickWall[0],
+d.trickWall[1],
+d.trickWall[2],
+d.trickWall[3]
 );
 
 }
@@ -1238,20 +1041,18 @@ ctx.fill();
 
 ctx.fillStyle="#7e8798";
 
-ctx.font=
-"700 12px Arial";
+ctx.font="700 12px Arial";
 
 ctx.textAlign="center";
 
 ctx.fillText(
-d.hint ||
-"YEŞİL ALANA ULAŞ",
+d.hint||"YEŞİL ALANA ULAŞ",
 W/2,
 H-16
 );
 
 timeText.textContent=
-fmt(
+formatTime(
 performance.now()-startTime
 );
 
@@ -1259,12 +1060,11 @@ requestAnimationFrame(draw);
 
 }
 
-normalStart();
+startNormal();
 
 draw();
 
 })();
-
 </script>
 
 </body>
