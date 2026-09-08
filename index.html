@@ -2,393 +2,405 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>KAÇ!</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-  user-select:none;
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#fffdf5;
-  font-family:Comic Sans MS, Chalkboard, cursive;
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #fffdf5;
+  font-family: "Comic Sans MS", "Chalkboard SE", cursive;
+  touch-action: none;
 }
 
-body{
-  touch-action:none;
-}
-
-#game{
-  position:relative;
-  width:100vw;
-  height:100vh;
-  overflow:hidden;
-  background:#fffdf5;
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #fffdf5;
 }
 
 /* GÖKYÜZÜ */
 
-#sky{
-  position:absolute;
-  inset:0 0 35%;
-  background:#dff4ff;
+#sky {
+  position: absolute;
+  inset: 0 0 35% 0;
+  background: #dff4ff;
 }
 
-.sun{
-  position:absolute;
-  width:75px;
-  height:75px;
-  border:4px solid #222;
-  border-radius:50%;
-  background:#ffe66d;
-  top:8%;
-  right:8%;
+.sun {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  right: 8%;
+  top: 8%;
+  border: 4px solid #222;
+  border-radius: 50%;
+  background: #ffe66d;
 }
 
 /* UZAK TEPELER */
 
-.hill{
-  position:absolute;
-  bottom:34%;
-  width:240px;
-  height:120px;
-  border:5px solid #222;
-  border-radius:50% 50% 0 0;
-  background:#9bd18b;
+.hill {
+  position: absolute;
+  bottom: 0;
+  border: 5px solid #222;
+  border-bottom: 0;
+  border-radius: 50% 50% 0 0;
+  background: #9bd18b;
 }
 
-.hill1{left:2%}
-.hill2{left:35%;height:150px}
-.hill3{left:70%;height:100px}
+.hill1 {
+  left: 0;
+  width: 230px;
+  height: 110px;
+}
+
+.hill2 {
+  left: 35%;
+  width: 280px;
+  height: 145px;
+}
+
+.hill3 {
+  left: 70%;
+  width: 240px;
+  height: 95px;
+}
 
 /* ZEMİN */
 
-#ground{
-  position:absolute;
-  left:0;
-  right:0;
-  bottom:0;
-  height:35%;
-  background:#b7df91;
-  border-top:6px solid #222;
+#ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 35%;
+  background: #b7df91;
+  border-top: 6px solid #222;
 }
 
-#road{
-  position:absolute;
-  left:0;
-  bottom:0;
-  width:100%;
-  height:23%;
-  background:#ead8ad;
-  border-top:5px dashed #555;
+#road {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 23%;
+  background: #ead8ad;
+  border-top: 5px dashed #555;
 }
 
 /* OYUNCU */
 
-#player{
-  position:absolute;
-  left:15%;
-  bottom:23%;
-  width:42px;
-  height:75px;
-  z-index:20;
-  transition:transform .08s linear;
+#player {
+  position: absolute;
+  left: 15%;
+  bottom: 23%;
+  width: 48px;
+  height: 80px;
+  z-index: 50;
 }
 
-.head{
-  position:absolute;
-  width:34px;
-  height:34px;
-  left:4px;
-  top:0;
-  border:4px solid #222;
-  border-radius:50%;
-  background:#ffe0bd;
+.head {
+  position: absolute;
+  left: 6px;
+  top: 0;
+  width: 34px;
+  height: 34px;
+  border: 4px solid #222;
+  border-radius: 50%;
+  background: #ffe0bd;
 }
 
-.body{
-  position:absolute;
-  width:5px;
-  height:34px;
-  left:19px;
-  top:32px;
-  background:#222;
+.body {
+  position: absolute;
+  left: 20px;
+  top: 31px;
+  width: 5px;
+  height: 36px;
+  background: #222;
 }
 
-.arm{
-  position:absolute;
-  width:5px;
-  height:27px;
-  top:37px;
-  background:#222;
-  transform-origin:top;
+.arm {
+  position: absolute;
+  left: 20px;
+  top: 36px;
+  width: 5px;
+  height: 28px;
+  background: #222;
+  transform-origin: top;
 }
 
-.arm1{
-  left:18px;
-  transform:rotate(55deg);
+.arm1 {
+  transform: rotate(50deg);
 }
 
-.arm2{
-  left:20px;
-  transform:rotate(-55deg);
+.arm2 {
+  transform: rotate(-50deg);
 }
 
-.leg{
-  position:absolute;
-  width:5px;
-  height:31px;
-  top:61px;
-  background:#222;
-  transform-origin:top;
+.leg {
+  position: absolute;
+  left: 20px;
+  top: 64px;
+  width: 5px;
+  height: 30px;
+  background: #222;
+  transform-origin: top;
 }
 
-.leg1{
-  left:18px;
-  transform:rotate(28deg);
+.leg1 {
+  transform: rotate(28deg);
 }
 
-.leg2{
-  left:20px;
-  transform:rotate(-28deg);
+.leg2 {
+  transform: rotate(-28deg);
 }
 
 /* SİLAH */
 
-.gun{
-  display:none;
-  position:absolute;
-  width:32px;
-  height:8px;
-  background:#555;
-  border:3px solid #222;
-  left:25px;
-  top:40px;
-  transform:rotate(-15deg);
+.gun {
+  display: none;
+  position: absolute;
+  left: 25px;
+  top: 40px;
+  width: 30px;
+  height: 8px;
+  background: #555;
+  border: 3px solid #222;
+  transform: rotate(-15deg);
 }
 
-.armed .gun{
-  display:block;
+.armed .gun {
+  display: block;
 }
 
 /* NESNELER */
 
-.object{
-  position:absolute;
-  bottom:23%;
-  z-index:10;
+.object {
+  position: absolute;
+  bottom: 23%;
+  z-index: 30;
 }
 
 /* ZOMBİ */
 
-.zombie{
-  width:45px;
-  height:70px;
+.zombie {
+  width: 48px;
+  height: 78px;
 }
 
-.zombie .zhead{
-  position:absolute;
-  width:36px;
-  height:36px;
-  border:4px solid #222;
-  border-radius:50%;
-  background:#a8d08d;
-  left:4px;
+.zhead {
+  position: absolute;
+  left: 5px;
+  top: 0;
+  width: 37px;
+  height: 37px;
+  border: 4px solid #222;
+  border-radius: 50%;
+  background: #a8d08d;
 }
 
-.zombie .zbody{
-  position:absolute;
-  width:7px;
-  height:35px;
-  background:#222;
-  left:18px;
-  top:33px;
+.zbody {
+  position: absolute;
+  left: 20px;
+  top: 34px;
+  width: 7px;
+  height: 38px;
+  background: #222;
 }
 
-.zombie .zleg{
-  position:absolute;
-  width:6px;
-  height:28px;
-  background:#222;
-  top:60px;
+.zleg {
+  position: absolute;
+  top: 67px;
+  width: 6px;
+  height: 27px;
+  background: #222;
 }
 
-.zombie .zleg1{
-  left:17px;
-  transform:rotate(25deg);
+.zleg1 {
+  left: 18px;
+  transform: rotate(25deg);
 }
 
-.zombie .zleg2{
-  left:22px;
-  transform:rotate(-25deg);
+.zleg2 {
+  left: 24px;
+  transform: rotate(-25deg);
 }
 
 /* KAZIK */
 
-.spikes{
-  width:90px;
-  height:45px;
-  display:flex;
-  align-items:flex-end;
+.spikes {
+  width: 90px;
+  height: 45px;
+  display: flex;
+  align-items: flex-end;
 }
 
-.spike{
-  width:0;
-  height:0;
-  border-left:13px solid transparent;
-  border-right:13px solid transparent;
-  border-bottom:42px solid #e85d5d;
-  filter:drop-shadow(2px 2px 0 #222);
+.spike {
+  width: 0;
+  height: 0;
+  border-left: 14px solid transparent;
+  border-right: 14px solid transparent;
+  border-bottom: 43px solid #e85d5d;
+  filter: drop-shadow(2px 2px 0 #222);
 }
 
-/* MERMİ */
+/* MERMİ KUTUSU */
 
-.ammo{
-  width:38px;
-  height:38px;
-  border:4px solid #222;
-  background:#ffd43b;
-  border-radius:8px;
-  font-size:24px;
-  text-align:center;
-  line-height:30px;
+.ammo {
+  width: 42px;
+  height: 42px;
+  border: 4px solid #222;
+  border-radius: 8px;
+  background: #ffd43b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 23px;
 }
 
 /* BOŞLUK */
 
-.gap{
-  position:absolute;
-  bottom:0;
-  height:35%;
-  background:#fffdf5;
-  border-left:5px solid #222;
-  border-right:5px solid #222;
+.gap {
+  position: absolute;
+  bottom: 0;
+  height: 35%;
+  background: #fffdf5;
+  border-left: 5px solid #222;
+  border-right: 5px solid #222;
 }
 
 /* MERMİ */
 
-.bullet{
-  position:absolute;
-  width:14px;
-  height:5px;
-  background:#222;
-  border-radius:5px;
-  z-index:30;
+.bullet {
+  position: absolute;
+  width: 15px;
+  height: 5px;
+  border-radius: 5px;
+  background: #222;
+  z-index: 80;
 }
 
 /* HUD */
 
-#hud{
-  position:absolute;
-  top:10px;
-  left:12px;
-  right:12px;
-  z-index:100;
-  display:flex;
-  justify-content:space-between;
-  font-size:18px;
-  color:#222;
-  text-shadow:1px 1px white;
+#hud {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 200;
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  font-size: 17px;
 }
 
-.box{
-  background:#fff;
-  border:3px solid #222;
-  border-radius:12px;
-  padding:5px 10px;
+.hudBox {
+  background: white;
+  border: 3px solid #222;
+  border-radius: 12px;
+  padding: 5px 9px;
 }
 
 /* MESAJ */
 
-#message{
-  position:absolute;
-  left:50%;
-  top:25%;
-  transform:translate(-50%,-50%);
-  z-index:200;
-  font-size:32px;
-  font-weight:bold;
-  color:#222;
-  background:white;
-  border:4px solid #222;
-  padding:12px 22px;
-  border-radius:15px;
-  display:none;
-  text-align:center;
+#message {
+  display: none;
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+  z-index: 300;
+  padding: 12px 20px;
+  background: white;
+  border: 4px solid #222;
+  border-radius: 15px;
+  font-size: 27px;
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 /* BAŞLANGIÇ */
 
-#start{
-  position:absolute;
-  inset:0;
-  z-index:500;
-  background:#fffdf5;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+#start {
+  position: absolute;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fffdf5;
+  text-align: center;
 }
 
-#start h1{
-  font-size:70px;
-  margin:0;
-  transform:rotate(-3deg);
+#start h1 {
+  margin: 0;
+  font-size: 72px;
+  transform: rotate(-3deg);
 }
 
-#start p{
-  font-size:20px;
-  max-width:500px;
-  padding:0 20px;
+#start p {
+  font-size: 20px;
+  line-height: 1.5;
 }
 
-button{
-  font-family:inherit;
-  font-size:24px;
-  background:#ffe66d;
-  border:5px solid #222;
-  border-radius:15px;
-  padding:12px 30px;
-  box-shadow:4px 4px 0 #222;
+#startButton,
+#restartButton {
+  padding: 12px 30px;
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: bold;
+  border: 5px solid #222;
+  border-radius: 15px;
+  background: #ffe66d;
+  box-shadow: 4px 4px 0 #222;
 }
 
-button:active{
-  transform:translate(3px,3px);
-  box-shadow:1px 1px 0 #222;
+#startButton:active,
+#restartButton:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 #222;
 }
 
-/* GAME OVER */
+/* OYUN SONU */
 
-#gameover{
-  position:absolute;
-  inset:0;
-  z-index:600;
-  background:rgba(255,253,245,.96);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
-  text-align:center;
+#gameover {
+  position: absolute;
+  inset: 0;
+  z-index: 600;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,253,245,0.96);
+  text-align: center;
 }
 
-#gameover h2{
-  font-size:50px;
-  margin:5px;
+#gameover h2 {
+  margin: 5px;
+  font-size: 48px;
 }
 
-.stat{
-  font-size:22px;
-  margin:4px;
+.stat {
+  margin: 4px;
+  font-size: 21px;
+}
+
+#restartButton {
+  margin-top: 15px;
 }
 </style>
 </head>
@@ -407,217 +419,398 @@ button:active{
   <div id="ground"></div>
   <div id="road"></div>
 
+  <!-- HUD -->
+
   <div id="hud">
-    <div class="box">📏 <span id="distance">0</span> m</div>
-    <div class="box">⏱️ <span id="time">0:00</span></div>
-    <div class="box">🔫 <span id="ammo">0</span></div>
+
+    <div class="hudBox">
+      📏 <span id="distance">0</span> m
+    </div>
+
+    <div class="hudBox">
+      ⏱️ <span id="time">0:00</span>
+    </div>
+
+    <div class="hudBox">
+      🔫 <span id="ammo">0</span>
+    </div>
+
   </div>
 
+  <!-- MESAJ -->
+
   <div id="message"></div>
+
+  <!-- OYUNCU -->
 
   <div id="player">
 
     <div class="head"></div>
     <div class="body"></div>
+
     <div class="arm arm1"></div>
     <div class="arm arm2"></div>
+
     <div class="leg leg1"></div>
     <div class="leg leg2"></div>
+
     <div class="gun"></div>
 
   </div>
 
+  <!-- BAŞLANGIÇ -->
+
   <div id="start">
+
     <h1>KAÇ!</h1>
+
     <p>
-      Koş. Zıpla. Kaç.<br>
-      Ne kadar uzağa gidebilirsin?
+      🏃 Koş.<br>
+      👆 Dokun ve zıpla.<br>
+      🧟 Zombilerden kaç.<br>
+      🔫 Ne kadar uzağa gidebilirsin?
     </p>
 
-    <button onclick="startGame()">BAŞLA</button>
+    <button id="startButton">BAŞLA</button>
+
   </div>
+
+  <!-- GAME OVER -->
 
   <div id="gameover">
 
     <h2>💀 YAKALANDIN!</h2>
 
     <div class="stat">
-      📏 Mesafe: <b id="finalDistance">0</b> m
+      📏 Mesafe:
+      <b id="finalDistance">0</b> m
     </div>
 
     <div class="stat">
-      ⏱️ Süre: <b id="finalTime">0:00</b>
+      ⏱️ Süre:
+      <b id="finalTime">0:00</b>
     </div>
 
     <div class="stat">
-      🧟 Zombi: <b id="kills">0</b>
+      🧟 Öldürülen:
+      <b id="kills">0</b>
     </div>
 
     <div class="stat">
-      🏆 Rekor: <b id="record">0</b> m
+      🏆 Rekor:
+      <b id="record">0</b> m
     </div>
 
-    <br>
-
-    <button onclick="location.reload()">TEKRAR KOŞ</button>
+    <button id="restartButton">
+      TEKRAR KOŞ
+    </button>
 
   </div>
 
 </div>
 
+
 <script>
 
-let running=false;
+/* =========================
+   OYUN DEĞİŞKENLERİ
+========================= */
 
-let playerY=0;
-let velocityY=0;
-let gravity=.75;
+let running = false;
 
-let speed=4;
-let distance=0;
-let elapsed=0;
-let ammo=0;
-let kills=0;
+let playerY = 0;
+let velocityY = 0;
 
-let lastTime=0;
-let spawnTimer=0;
+const gravity = 0.75;
+const jumpPower = 14;
 
-let objects=[];
+let speed = 4;
 
-let best=parseInt(localStorage.getItem("kac_rekor")||"0");
+let distance = 0;
+let elapsed = 0;
 
-const player=document.getElementById("player");
-const distanceEl=document.getElementById("distance");
-const timeEl=document.getElementById("time");
-const ammoEl=document.getElementById("ammo");
-const message=document.getElementById("message");
+let ammo = 0;
+let kills = 0;
+
+let lastTime = 0;
+let spawnTimer = 0;
+
+let objects = [];
+
+let best = Number(
+  localStorage.getItem("kac_rekor") || 0
+);
+
+const player =
+  document.getElementById("player");
+
+const startScreen =
+  document.getElementById("start");
+
+const startButton =
+  document.getElementById("startButton");
+
+const gameover =
+  document.getElementById("gameover");
+
+const restartButton =
+  document.getElementById("restartButton");
+
+const distanceEl =
+  document.getElementById("distance");
+
+const timeEl =
+  document.getElementById("time");
+
+const ammoEl =
+  document.getElementById("ammo");
+
+const message =
+  document.getElementById("message");
 
 
-function startGame(){
+/* =========================
+   BAŞLAT
+========================= */
 
-  document.getElementById("start").style.display="none";
+function startGame() {
 
-  running=true;
+  if (running) return;
 
-  lastTime=performance.now();
+  startScreen.style.display = "none";
+  gameover.style.display = "none";
 
-  requestAnimationFrame(loop);
+  running = true;
+
+  playerY = 0;
+  velocityY = 0;
+
+  speed = 4;
+  distance = 0;
+  elapsed = 0;
+  ammo = 0;
+  kills = 0;
+
+  objects.forEach(function(o) {
+
+    if (o.el) o.el.remove();
+
+  });
+
+  objects = [];
+
+  spawnTimer = 80;
+
+  lastTime = performance.now();
 
   showMessage("KOŞ!");
 
-  setTimeout(()=>{
-    showMessage("🧟 ZOMBİLER GELİYOR...");
-  },3000);
+  requestAnimationFrame(loop);
 
 }
 
 
-/* ZIPLAMA */
+/* =========================
+   BUTONLAR
+========================= */
 
-function jump(){
+startButton.addEventListener(
+  "click",
+  startGame
+);
 
-  if(!running) return;
+startButton.addEventListener(
+  "touchend",
+  function(e) {
 
-  if(playerY<=1){
+    e.preventDefault();
+    startGame();
 
-    velocityY=14;
+  },
+  { passive: false }
+);
+
+restartButton.addEventListener(
+  "click",
+  function() {
+
+    location.reload();
+
+  }
+);
+
+
+/* =========================
+   ZIPLAMA
+========================= */
+
+function jump() {
+
+  if (!running) return;
+
+  if (playerY <= 1) {
+
+    velocityY = jumpPower;
 
   }
 
 }
 
-document.addEventListener("touchstart",function(e){
 
-  e.preventDefault();
-  jump();
+/* iPHONE DOKUNMA */
 
-},{passive:false});
+document.addEventListener(
+  "touchstart",
+  function(e) {
 
-document.addEventListener("mousedown",jump);
+    if (!running) return;
+
+    e.preventDefault();
+
+    jump();
+
+  },
+  { passive: false }
+);
 
 
-/* ANA DÖNGÜ */
+/* BİLGİSAYAR TESTİ */
 
-function loop(now){
+document.addEventListener(
+  "mousedown",
+  function() {
 
-  if(!running)return;
+    jump();
 
-  let dt=Math.min((now-lastTime)/16.67,2);
+  }
+);
 
-  lastTime=now;
 
-  elapsed+=dt/60;
+/* =========================
+   ANA OYUN DÖNGÜSÜ
+========================= */
 
-  speed+=0.0015*dt;
+function loop(now) {
 
-  playerY+=velocityY*dt;
+  if (!running) return;
 
-  velocityY-=gravity*dt;
+  let dt =
+    Math.min(
+      (now - lastTime) / 16.67,
+      2
+    );
 
-  if(playerY<0){
+  lastTime = now;
 
-    playerY=0;
-    velocityY=0;
+  /* ZAMAN */
+
+  elapsed += dt / 60;
+
+  /* GİDEREK HIZLAN */
+
+  speed += 0.002 * dt;
+
+  /* ZIPLAMA FİZİĞİ */
+
+  playerY += velocityY * dt;
+
+  velocityY -= gravity * dt;
+
+  if (playerY < 0) {
+
+    playerY = 0;
+    velocityY = 0;
 
   }
 
-  player.style.bottom=`calc(23% + ${playerY}px)`;
+  player.style.bottom =
+    "calc(23% + " +
+    playerY +
+    "px)";
 
-  distance+=speed*dt*.45;
 
-  distanceEl.textContent=Math.floor(distance);
+  /* MESAFE */
 
-  let mins=Math.floor(elapsed/60);
-  let secs=Math.floor(elapsed%60)
-    .toString().padStart(2,"0");
+  distance +=
+    speed * dt * 0.45;
 
-  timeEl.textContent=mins+":"+secs;
+  distanceEl.textContent =
+    Math.floor(distance);
 
-  ammoEl.textContent=ammo;
 
-  spawnTimer-=dt;
+  /* SÜRE */
 
-  if(spawnTimer<=0){
+  let minutes =
+    Math.floor(elapsed / 60);
+
+  let seconds =
+    Math.floor(elapsed % 60)
+      .toString()
+      .padStart(2, "0");
+
+  timeEl.textContent =
+    minutes + ":" + seconds;
+
+
+  ammoEl.textContent = ammo;
+
+
+  /* NESNE ÇIKAR */
+
+  spawnTimer -= dt;
+
+  if (spawnTimer <= 0) {
 
     spawnObject();
 
-    spawnTimer=Math.max(
-      65-speed*5,
-      35
-    );
+    spawnTimer =
+      Math.max(
+        45,
+        85 - speed * 6
+      );
 
   }
 
+
+  /* NESNELER */
+
   updateObjects(dt);
+
 
   requestAnimationFrame(loop);
 
 }
 
 
-/* NESNE OLUŞTUR */
+/* =========================
+   NESNE SEÇ
+========================= */
 
-function spawnObject(){
+function spawnObject() {
 
-  let r=Math.random();
+  let r = Math.random();
 
-  if(r<.40){
+  if (r < 0.40) {
 
     spawnZombie();
 
-  }else if(r<.62){
+  }
+  else if (r < 0.62) {
 
     spawnSpikes();
 
-  }else if(r<.76){
+  }
+  else if (r < 0.76) {
 
     spawnAmmo();
 
-  }else if(r<.88){
+  }
+  else if (r < 0.90) {
 
     spawnGap();
 
-  }else{
+  }
+  else {
 
     spawnZombie();
 
@@ -626,124 +819,188 @@ function spawnObject(){
 }
 
 
-/* ZOMBİ */
+/* =========================
+   ZOMBİ
+========================= */
 
-function spawnZombie(){
+function spawnZombie() {
 
-  const z=document.createElement("div");
+  const z =
+    document.createElement("div");
 
-  z.className="object zombie";
+  z.className =
+    "object zombie";
 
-  z.style.left="105%";
+  z.style.left =
+    window.innerWidth + 60 + "px";
 
-  z.innerHTML=`
+  z.innerHTML = `
     <div class="zhead"></div>
     <div class="zbody"></div>
     <div class="zleg zleg1"></div>
     <div class="zleg zleg2"></div>
   `;
 
-  document.getElementById("game").appendChild(z);
+  document
+    .getElementById("game")
+    .appendChild(z);
 
   objects.push({
-    el:z,
-    x:window.innerWidth+50,
-    type:"zombie"
+
+    el: z,
+
+    x: window.innerWidth + 60,
+
+    type: "zombie",
+
+    dead: false
+
   });
 
 }
 
 
-/* KAZIK */
+/* =========================
+   KAZIK
+========================= */
 
-function spawnSpikes(){
+function spawnSpikes() {
 
-  const s=document.createElement("div");
+  const s =
+    document.createElement("div");
 
-  s.className="object spikes";
+  s.className =
+    "object spikes";
 
-  s.style.left="105%";
+  s.style.left =
+    window.innerWidth + 60 + "px";
 
-  s.innerHTML=`
+  s.innerHTML = `
     <div class="spike"></div>
     <div class="spike"></div>
     <div class="spike"></div>
   `;
 
-  document.getElementById("game").appendChild(s);
+  document
+    .getElementById("game")
+    .appendChild(s);
 
   objects.push({
-    el:s,
-    x:window.innerWidth+50,
-    type:"spike"
+
+    el: s,
+
+    x: window.innerWidth + 60,
+
+    type: "spike"
+
   });
 
 }
 
 
-/* MERMİ */
+/* =========================
+   MERMİ
+========================= */
 
-function spawnAmmo(){
+function spawnAmmo() {
 
-  const a=document.createElement("div");
+  const a =
+    document.createElement("div");
 
-  a.className="object ammo";
+  a.className =
+    "object ammo";
 
-  a.textContent="🔫";
+  a.textContent = "🔫";
 
-  a.style.left="105%";
+  a.style.left =
+    window.innerWidth + 60 + "px";
 
-  document.getElementById("game").appendChild(a);
+  document
+    .getElementById("game")
+    .appendChild(a);
 
   objects.push({
-    el:a,
-    x:window.innerWidth+50,
-    type:"ammo"
+
+    el: a,
+
+    x: window.innerWidth + 60,
+
+    type: "ammo"
+
   });
 
 }
 
 
-/* BOŞLUK */
+/* =========================
+   BOŞLUK
+========================= */
 
-function spawnGap(){
+function spawnGap() {
 
-  const g=document.createElement("div");
+  const g =
+    document.createElement("div");
 
-  g.className="gap";
+  g.className = "gap";
 
-  g.style.left="105%";
-  g.style.width=(90+Math.random()*50)+"px";
+  g.style.left =
+    window.innerWidth + 60 + "px";
 
-  document.getElementById("game").appendChild(g);
+  g.style.width =
+    (80 + Math.random() * 60) + "px";
+
+  document
+    .getElementById("game")
+    .appendChild(g);
 
   objects.push({
-    el:g,
-    x:window.innerWidth+50,
-    type:"gap"
+
+    el: g,
+
+    x: window.innerWidth + 60,
+
+    type: "gap"
+
   });
 
 }
 
 
-/* NESNELERİ HAREKET ETTİR */
+/* =========================
+   NESNELERİ HAREKET ETTİR
+========================= */
 
-function updateObjects(dt){
+function updateObjects(dt) {
 
-  for(let i=objects.length-1;i>=0;i--){
+  for (
+    let i = objects.length - 1;
+    i >= 0;
+    i--
+  ) {
 
-    let o=objects[i];
+    const o = objects[i];
 
-    o.x-=speed*dt;
+    o.x -= speed * dt;
 
-    o.el.style.left=o.x+"px";
+    o.el.style.left =
+      o.x + "px";
 
-    /* ZOMBİYE OTOMATİK ATEŞ */
 
-    if(o.type==="zombie" && ammo>0){
+    /* OTOMATİK ATEŞ */
 
-      if(o.x<window.innerWidth*.75 &&
-         o.x>window.innerWidth*.15){
+    if (
+      o.type === "zombie" &&
+      ammo > 0 &&
+      !o.dead &&
+      player.classList.contains("armed")
+    ) {
+
+      if (
+        o.x <
+        window.innerWidth * 0.78 &&
+        o.x >
+        window.innerWidth * 0.18
+      ) {
 
         shoot(o);
 
@@ -751,24 +1008,33 @@ function updateObjects(dt){
 
     }
 
+
     /* ÇARPIŞMA */
 
-    let rect=o.el.getBoundingClientRect();
+    const rect =
+      o.el.getBoundingClientRect();
 
-    let p=player.getBoundingClientRect();
+    const p =
+      player.getBoundingClientRect();
 
-    if(
-      rect.left<p.right-8 &&
-      rect.right>p.left+8 &&
-      rect.top<p.bottom-8 &&
-      rect.bottom>p.top+8
-    ){
 
-      if(o.type==="ammo"){
+    if (
+      rect.left < p.right - 8 &&
+      rect.right > p.left + 8 &&
+      rect.top < p.bottom - 8 &&
+      rect.bottom > p.top + 8
+    ) {
 
-        ammo+=8;
 
-        showMessage("🔫 +8 MERMİ");
+      /* MERMİ */
+
+      if (o.type === "ammo") {
+
+        ammo += 10;
+
+        player.classList.add("armed");
+
+        showMessage("🔫 +10 MERMİ");
 
         removeObject(i);
 
@@ -776,9 +1042,12 @@ function updateObjects(dt){
 
       }
 
-      if(o.type==="zombie"){
 
-        if(playerY>45){
+      /* ZOMBİ */
+
+      if (o.type === "zombie") {
+
+        if (playerY > 45) {
 
           continue;
 
@@ -790,9 +1059,27 @@ function updateObjects(dt){
 
       }
 
-      if(o.type==="spike"){
 
-        if(playerY<45){
+      /* KAZIK */
+
+      if (o.type === "spike") {
+
+        if (playerY < 48) {
+
+          gameOver();
+
+          return;
+
+        }
+
+      }
+
+
+      /* BOŞLUK */
+
+      if (o.type === "gap") {
+
+        if (playerY < 30) {
 
           gameOver();
 
@@ -804,9 +1091,10 @@ function updateObjects(dt){
 
     }
 
+
     /* EKRANDAN ÇIKTI */
 
-    if(o.x<-150){
+    if (o.x < -150) {
 
       removeObject(i);
 
@@ -817,98 +1105,139 @@ function updateObjects(dt){
 }
 
 
-/* ATEŞ */
+/* =========================
+   ATEŞ
+========================= */
 
-function shoot(zombie){
+function shoot(zombie) {
 
-  if(zombie.dead)return;
+  if (zombie.dead) return;
 
-  zombie.dead=true;
+  if (ammo <= 0) return;
+
+  zombie.dead = true;
 
   ammo--;
 
-  const bullet=document.createElement("div");
 
-  bullet.className="bullet";
+  const bullet =
+    document.createElement("div");
 
-  bullet.style.left=
-    (window.innerWidth*.15+35)+"px";
+  bullet.className =
+    "bullet";
 
-  bullet.style.bottom=
-    (23+playerY/10)+"%";
+  let bulletX =
+    window.innerWidth * 0.15 + 38;
 
-  document.getElementById("game").appendChild(bullet);
+  bullet.style.left =
+    bulletX + "px";
 
-  let bx=window.innerWidth*.15+35;
+  bullet.style.bottom =
+    "calc(23% + " +
+    (playerY + 38) +
+    "px)";
 
-  let target=zombie.x;
+  document
+    .getElementById("game")
+    .appendChild(bullet);
 
-  let start=bx;
 
-  let interval=setInterval(()=>{
+  let targetX =
+    zombie.x;
 
-    bx+=14;
 
-    bullet.style.left=bx+"px";
+  const interval =
+    setInterval(function() {
 
-    if(bx>=target){
+      bulletX += 16;
 
-      clearInterval(interval);
+      bullet.style.left =
+        bulletX + "px";
 
-      bullet.remove();
 
-      zombie.el.remove();
+      if (bulletX >= targetX) {
 
-      kills++;
+        clearInterval(interval);
 
-      let index=objects.indexOf(zombie);
+        bullet.remove();
 
-      if(index!==-1)objects.splice(index,1);
+        zombie.el.remove();
 
-    }
+        kills++;
 
-  },16);
+        let index =
+          objects.indexOf(zombie);
+
+        if (index !== -1) {
+
+          objects.splice(index, 1);
+
+        }
+
+      }
+
+    }, 16);
 
 }
 
 
-/* NESNE SİL */
+/* =========================
+   NESNE SİL
+========================= */
 
-function removeObject(i){
+function removeObject(i) {
+
+  if (!objects[i]) return;
 
   objects[i].el.remove();
 
-  objects.splice(i,1);
+  objects.splice(i, 1);
 
 }
 
 
-/* MESAJ */
+/* =========================
+   MESAJ
+========================= */
 
-function showMessage(text){
+let messageTimer = null;
 
-  message.textContent=text;
+function showMessage(text) {
 
-  message.style.display="block";
+  clearTimeout(messageTimer);
 
-  setTimeout(()=>{
+  message.textContent = text;
 
-    message.style.display="none";
+  message.style.display = "block";
 
-  },1400);
+  messageTimer =
+    setTimeout(function() {
+
+      message.style.display = "none";
+
+    }, 1300);
 
 }
 
 
-/* OYUN BİTTİ */
+/* =========================
+   OYUN BİTTİ
+========================= */
 
-function gameOver(){
+function gameOver() {
 
-  running=false;
+  if (!running) return;
 
-  if(distance>best){
+  running = false;
 
-    best=Math.floor(distance);
+
+  let final =
+    Math.floor(distance);
+
+
+  if (final > best) {
+
+    best = final;
 
     localStorage.setItem(
       "kac_rekor",
@@ -917,22 +1246,39 @@ function gameOver(){
 
   }
 
-  document.getElementById("finalDistance")
-    .textContent=Math.floor(distance);
 
-  document.getElementById("finalTime")
-    .textContent=timeEl.textContent;
+  document
+    .getElementById("finalDistance")
+    .textContent = final;
 
-  document.getElementById("kills")
-    .textContent=kills;
 
-  document.getElementById("record")
-    .textContent=best;
+  document
+    .getElementById("finalTime")
+    .textContent =
+    timeEl.textContent;
 
-  document.getElementById("gameover")
-    .style.display="flex";
+
+  document
+    .getElementById("kills")
+    .textContent = kills;
+
+
+  document
+    .getElementById("record")
+    .textContent = best;
+
+
+  gameover.style.display =
+    "flex";
 
 }
+
+
+/* =========================
+   HAZIR
+========================= */
+
+console.log("KAÇ! hazır.");
 
 </script>
 
