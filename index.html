@@ -8,36 +8,37 @@
 
 <style>
 
-* {
-    box-sizing: border-box;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
+*{
+    box-sizing:border-box;
+    user-select:none;
+    -webkit-user-select:none;
+    -webkit-tap-highlight-color:transparent;
 }
 
-html, body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #120b08;
-    font-family: Georgia, serif;
+html,body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#120b08;
+    font-family:Georgia,serif;
+    color:#f5dfad;
 }
 
-body {
-    color: #f5dfad;
+button{
+    font-family:Georgia,serif;
 }
 
-.game {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+.game{
+    position:relative;
+    width:100%;
+    height:100vh;
+    overflow:hidden;
 
     background:
         linear-gradient(
-            rgba(20, 8, 4, .15),
-            rgba(20, 8, 4, .72)
+            rgba(20,8,4,.12),
+            rgba(20,8,4,.70)
         ),
         url("0510AF5B-D9F9-407E-8F54-6A32B9EDFF43.png")
         center center / cover no-repeat;
@@ -45,358 +46,622 @@ body {
 
 /* KARARTMA */
 
-.game::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
+.game::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:40;
 
     background:
         radial-gradient(
             circle at center,
-            transparent 30%,
-            rgba(0, 0, 0, .72) 100%
+            transparent 28%,
+            rgba(0,0,0,.72) 100%
         );
 }
 
 /* ÜST BAR */
 
-.topbar {
-    position: absolute;
-    z-index: 5;
+.topbar{
+    position:absolute;
+    z-index:60;
 
-    top: 14px;
-    left: 14px;
-    right: 14px;
+    top:12px;
+    left:12px;
+    right:12px;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 
-    padding: 10px 15px;
+    padding:9px 13px;
 
     background:
         linear-gradient(
-            rgba(35, 21, 15, .96),
-            rgba(20, 12, 9, .96)
+            #382116,
+            #1b0e09
         );
 
-    border: 1px solid #9b7040;
-    border-radius: 9px;
+    border:1px solid #9b7040;
+    border-radius:9px;
 
     box-shadow:
-        0 5px 20px rgba(0,0,0,.55),
-        inset 0 1px rgba(255,220,150,.18);
+        0 5px 20px rgba(0,0,0,.6),
+        inset 0 1px rgba(255,220,150,.2);
 }
 
-.logo {
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 2px;
-
-    color: #e8c178;
-
-    text-shadow: 2px 2px #000;
+.logo{
+    font-size:17px;
+    font-weight:bold;
+    letter-spacing:2px;
+    color:#e8c178;
+    text-shadow:2px 2px #000;
 }
 
-.stats {
-    display: flex;
-    gap: 14px;
-    font-size: 13px;
+.stats{
+    display:flex;
+    gap:11px;
+    font-size:13px;
 }
 
-.stat {
-    display: flex;
-    align-items: center;
-    gap: 4px;
+.stat{
+    display:flex;
+    gap:3px;
+    align-items:center;
 }
 
 /* RAKİP */
 
-.enemy {
-    position: absolute;
-    z-index: 4;
+.enemy{
+    position:absolute;
+    z-index:45;
 
-    top: 17%;
-    left: 50%;
+    top:16%;
+    left:50%;
 
-    transform: translateX(-50%);
+    transform:translateX(-50%);
 
-    text-align: center;
-
-    width: 90%;
+    width:90%;
+    text-align:center;
 }
 
-.enemy-name {
-    font-size: 31px;
-    font-weight: bold;
-    letter-spacing: 3px;
+.enemy-name{
+    font-size:30px;
+    font-weight:bold;
+    letter-spacing:3px;
 
     text-shadow:
-        3px 3px 0 #1a0905,
-        0 0 15px rgba(0,0,0,.8);
+        3px 3px #1a0905,
+        0 0 15px #000;
 }
 
-.enemy-title {
-    margin-top: 5px;
-
-    font-size: 14px;
-
-    color: #d9bb83;
+.enemy-title{
+    margin-top:4px;
+    font-size:14px;
+    color:#d9bb83;
 }
 
-/* CAN */
+.health{
+    width:190px;
+    height:8px;
 
-.health {
-    width: 190px;
-    height: 8px;
+    margin:11px auto;
 
-    margin: 12px auto;
+    background:#1b0d08;
 
-    background: #1b0d08;
+    border:1px solid #6e4126;
+    border-radius:8px;
 
-    border: 1px solid #6e4126;
-    border-radius: 8px;
-
-    overflow: hidden;
+    overflow:hidden;
 }
 
-.health-fill {
-    height: 100%;
-    width: 100%;
+.health-fill{
+    height:100%;
+    width:100%;
+    background:#a9281e;
 
-    background: #a9281e;
-
-    transition: .3s;
+    transition:.3s;
 }
 
 /* DURUM */
 
-.status {
-    position: absolute;
-    z-index: 6;
+.status{
+    position:absolute;
+    z-index:55;
 
-    top: 38%;
-    left: 50%;
+    top:37%;
+    left:50%;
 
-    transform: translateX(-50%);
+    transform:translateX(-50%);
 
-    text-align: center;
-
-    width: 100%;
+    width:100%;
+    text-align:center;
 }
 
-.message {
-    font-size: 34px;
-    font-weight: bold;
-
-    letter-spacing: 3px;
+.message{
+    font-size:34px;
+    font-weight:bold;
+    letter-spacing:3px;
 
     text-shadow:
-        3px 3px 0 #1a0905,
-        0 0 20px rgba(0,0,0,.8);
+        3px 3px #1a0905,
+        0 0 20px #000;
 }
 
-.submessage {
-    margin-top: 8px;
-
-    font-size: 14px;
-
-    color: #e5cc9b;
+.submessage{
+    margin-top:7px;
+    font-size:14px;
+    color:#e5cc9b;
 }
 
 /* OYUNCU */
 
-.player {
-    position: absolute;
-    z-index: 4;
+.player{
+    position:absolute;
+    z-index:45;
 
-    bottom: 3%;
-    left: 50%;
+    bottom:4%;
+    left:50%;
 
-    transform: translateX(-50%);
+    transform:translateX(-50%);
 
-    width: 100%;
-    text-align: center;
+    width:100%;
+    text-align:center;
 }
 
-.player-label {
-    font-size: 13px;
-    letter-spacing: 3px;
+.player-label{
+    font-size:13px;
+    letter-spacing:3px;
+    color:#c9a66d;
 
-    color: #c9a66d;
+    text-shadow:2px 2px #000;
 }
 
-/* TABANCA */
+/* KILIFTAKİ SİLAH */
 
-.gun-holster {
-    position: relative;
+.gun-holster{
+    position:relative;
 
-    width: 170px;
-    height: 100px;
+    width:170px;
+    height:92px;
 
-    margin: 0 auto 5px;
-
-    opacity: .95;
+    margin:0 auto 3px;
 }
 
-.gun {
-    position: absolute;
+.gun{
+    position:absolute;
 
-    width: 115px;
-    height: 25px;
+    width:104px;
+    height:22px;
 
-    right: 5px;
-    bottom: 25px;
+    right:5px;
+    bottom:22px;
 
     background:
         linear-gradient(
-            #3b3935,
-            #141312
+            #57534b,
+            #171513
         );
 
-    border: 3px solid #0b0908;
+    border:3px solid #0b0908;
+    border-radius:4px;
 
-    border-radius: 4px;
-
-    transform: rotate(-12deg);
+    transform:rotate(-12deg);
 
     box-shadow:
         0 6px 12px rgba(0,0,0,.7);
 }
 
-.gun::after {
-    content: "";
+.gun::after{
+    content:"";
 
-    position: absolute;
+    position:absolute;
 
-    width: 25px;
-    height: 42px;
+    width:24px;
+    height:39px;
 
-    right: 65px;
-    top: 18px;
+    right:58px;
+    top:17px;
 
     background:
         linear-gradient(
             90deg,
-            #6e4226,
+            #75482a,
             #2b170d
         );
 
-    border: 2px solid #140b07;
+    border:2px solid #140b07;
 
-    transform: rotate(28deg);
+    transform:rotate(28deg);
+}
+
+/* ANİMASYONLU SİLAH */
+
+.draw-gun{
+
+    position:absolute;
+
+    z-index:52;
+
+    width:92px;
+    height:19px;
+
+    left:50%;
+    top:43%;
+
+    opacity:0;
+
+    transform:
+        translate(-5px,28px)
+        rotate(-70deg);
+
+    transform-origin:78% 50%;
+
+    background:
+        linear-gradient(
+            #68635a,
+            #161514
+        );
+
+    border:3px solid #080706;
+    border-radius:4px;
+
+    box-shadow:
+        0 5px 12px rgba(0,0,0,.7);
+
+    pointer-events:none;
+}
+
+.draw-gun::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:22px;
+    height:36px;
+
+    right:50px;
+    top:15px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #75482a,
+            #2a160c
+        );
+
+    border:2px solid #120a06;
+
+    transform:rotate(28deg);
+}
+
+/* RAKİP SİLAHI */
+
+.enemy-gun{
+    top:42%;
+    margin-left:28px;
+}
+
+/* OYUNCU SİLAHI */
+
+.player-gun{
+    top:auto;
+    bottom:15%;
+    left:50%;
+    margin-left:-2px;
+}
+
+/* RAKİP ÇEKİYOR */
+
+.enemy-gun.drawing{
+
+    opacity:1;
+
+    animation:
+        enemyDraw
+        .24s
+        cubic-bezier(.2,.9,.3,1)
+        forwards;
+}
+
+@keyframes enemyDraw{
+
+    0%{
+        transform:
+            translate(-8px,28px)
+            rotate(-70deg);
+    }
+
+    65%{
+        transform:
+            translate(8px,0)
+            rotate(-25deg);
+    }
+
+    100%{
+        transform:
+            translate(12px,-2px)
+            rotate(-12deg);
+    }
+}
+
+/* OYUNCU ÇEKİYOR */
+
+.player-gun.drawing{
+
+    opacity:1;
+
+    animation:
+        playerDraw
+        .20s
+        cubic-bezier(.2,.9,.3,1)
+        forwards;
+}
+
+@keyframes playerDraw{
+
+    0%{
+        transform:
+            translate(-8px,35px)
+            rotate(-72deg);
+    }
+
+    65%{
+        transform:
+            translate(4px,5px)
+            rotate(-25deg);
+    }
+
+    100%{
+        transform:
+            translate(10px,0)
+            rotate(-12deg);
+    }
+}
+
+/* GERİ TEPME */
+
+.draw-gun.fired{
+    opacity:1;
+    animation:
+        recoil
+        .15s
+        ease-out
+        forwards;
+}
+
+@keyframes recoil{
+
+    0%{
+        transform:
+            translate(10px,0)
+            rotate(-12deg);
+    }
+
+    45%{
+        transform:
+            translate(-6px,2px)
+            rotate(-18deg);
+    }
+
+    100%{
+        transform:
+            translate(10px,0)
+            rotate(-12deg);
+    }
+}
+
+/* NAMLU ALEVİ */
+
+.muzzle{
+
+    position:absolute;
+
+    z-index:70;
+
+    width:52px;
+    height:52px;
+
+    border-radius:50%;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    background:
+        radial-gradient(
+            circle,
+            #fff 0 8%,
+            #ffd45b 16%,
+            #ff7a19 35%,
+            #c51e08 55%,
+            transparent 70%
+        );
+
+    filter:
+        drop-shadow(
+            0 0 14px #ffb52e
+        );
+}
+
+.enemy-muzzle{
+    left:calc(50% + 92px);
+    top:40.5%;
+}
+
+.player-muzzle{
+    left:calc(50% + 70px);
+    bottom:17.2%;
+}
+
+.muzzle.flash{
+
+    animation:
+        flash
+        .13s
+        ease-out
+        forwards;
+}
+
+@keyframes flash{
+
+    0%{
+        opacity:0;
+        transform:scale(.25);
+    }
+
+    25%{
+        opacity:1;
+        transform:scale(1.25);
+    }
+
+    100%{
+        opacity:0;
+        transform:scale(.35);
+    }
 }
 
 /* ÇEK BUTONU */
 
-.fire-area {
-    position: absolute;
-    z-index: 10;
+.fire-area{
 
-    bottom: 15%;
-    left: 50%;
+    position:absolute;
 
-    transform: translateX(-50%);
+    z-index:80;
 
-    text-align: center;
+    bottom:12%;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    text-align:center;
 }
 
-.fire-button {
+.fire-button{
 
-    width: 145px;
-    height: 145px;
+    width:140px;
+    height:140px;
 
-    border-radius: 50%;
+    border-radius:50%;
 
-    border: 7px solid #21110b;
+    border:7px solid #21110b;
 
     background:
         radial-gradient(
             circle at 35% 30%,
-            #eac77c,
-            #a96c2d 52%,
+            #f0d28c,
+            #ad702e 52%,
             #482012
         );
 
-    color: #28130b;
+    color:#28130b;
 
-    font-family: Georgia, serif;
-
-    font-size: 26px;
-    font-weight: bold;
+    font-size:26px;
+    font-weight:bold;
 
     box-shadow:
         0 8px 0 #160b07,
         0 15px 35px rgba(0,0,0,.65),
         inset 0 2px rgba(255,240,180,.5);
 
-    transition: .08s;
+    transition:.08s;
 }
 
-.fire-button:active {
-    transform: translateY(7px);
+.fire-button:active{
+
+    transform:translateY(7px);
 
     box-shadow:
         0 2px 0 #160b07;
 }
 
-.fire-button.ready {
+.fire-button.ready{
 
     animation:
-        readyPulse .35s infinite alternate;
-
+        readyPulse
+        .35s
+        infinite alternate;
 }
 
-@keyframes readyPulse {
+@keyframes readyPulse{
 
-    from {
-        transform: scale(1);
+    from{
+
+        transform:scale(1);
 
         box-shadow:
             0 8px 0 #160b07,
             0 0 15px #d9a642;
     }
 
-    to {
-        transform: scale(1.07);
+    to{
+
+        transform:scale(1.07);
 
         box-shadow:
             0 8px 0 #160b07,
             0 0 45px #ffcf64;
     }
-
 }
 
-/* EKRAN */
+/* RAKİP VURULMA */
 
-.overlay {
+.enemy.hit{
 
-    position: absolute;
-    z-index: 50;
+    animation:
+        enemyHit
+        .22s
+        ease-in-out;
+}
 
-    inset: 0;
+@keyframes enemyHit{
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    25%{
+        transform:
+            translateX(-50%)
+            translateX(-9px);
+    }
 
-    padding: 25px;
+    75%{
+        transform:
+            translateX(-50%)
+            translateX(7px);
+    }
+}
+
+/* EKRANLAR */
+
+.overlay{
+
+    position:absolute;
+
+    z-index:100;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:25px;
 
     background:
         rgba(13,7,4,.78);
 
-    backdrop-filter: blur(4px);
+    backdrop-filter:blur(4px);
 }
 
-.panel {
+.panel{
 
-    width: 100%;
-    max-width: 420px;
+    width:100%;
+    max-width:420px;
 
-    padding: 32px 24px;
+    padding:30px 23px;
 
-    text-align: center;
+    text-align:center;
 
     background:
         linear-gradient(
@@ -405,121 +670,101 @@ body {
             #1b100b
         );
 
-    border: 2px solid #9c713e;
+    border:2px solid #9c713e;
 
-    border-radius: 12px;
+    border-radius:12px;
 
     box-shadow:
-        0 25px 70px rgba(0,0,0,.8),
-        inset 0 1px rgba(255,230,170,.15);
+        0 25px 70px rgba(0,0,0,.8);
 }
 
-.panel h1 {
+.panel h1{
 
-    margin: 0;
+    margin:0;
 
-    font-size: 42px;
+    font-size:42px;
 
-    letter-spacing: 3px;
+    letter-spacing:3px;
 
-    color: #e8c178;
+    color:#e8c178;
 
     text-shadow:
         3px 3px #160906;
 }
 
-.panel p {
+.panel p{
 
-    color: #d8c29a;
+    color:#d8c29a;
 
-    line-height: 1.6;
+    line-height:1.55;
 }
 
-.start-button {
+.start-button{
 
-    margin-top: 15px;
+    margin-top:14px;
 
-    padding: 16px 30px;
+    padding:16px 28px;
 
-    border: 2px solid #b9894c;
+    border:2px solid #b9894c;
 
-    border-radius: 7px;
+    border-radius:7px;
 
-    background: #9c602a;
+    background:#9c602a;
 
-    color: #fff0c9;
+    color:#fff0c9;
 
-    font-family: Georgia, serif;
+    font-weight:bold;
 
-    font-weight: bold;
-    font-size: 17px;
+    font-size:17px;
 
     box-shadow:
         0 5px 0 #3b1b0e;
 }
 
-.start-button:active {
-    transform: translateY(5px);
-    box-shadow: none;
+.start-button:active{
+
+    transform:translateY(5px);
+
+    box-shadow:none;
 }
 
-.hidden {
-    display: none !important;
-}
-
-/* BLÖF */
-
-.bluff {
-
-    animation:
-        handMove .35s ease-in-out;
-
-}
-
-@keyframes handMove {
-
-    0% {
-        transform: translateX(-50%);
-    }
-
-    50% {
-        transform:
-            translateX(-50%)
-            translateY(-8px);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
-
+.hidden{
+    display:none !important;
 }
 
 /* MOBİL */
 
-@media(max-height:700px) {
+@media(max-height:700px){
 
-    .enemy {
-        top: 13%;
+    .enemy{
+        top:13%;
     }
 
-    .status {
-        top: 34%;
+    .status{
+        top:33%;
     }
 
-    .fire-area {
-        bottom: 9%;
+    .fire-area{
+        bottom:8%;
     }
 
-    .fire-button {
-        width: 115px;
-        height: 115px;
-        font-size: 21px;
+    .fire-button{
+        width:115px;
+        height:115px;
+        font-size:21px;
     }
 
-    .enemy-name {
-        font-size: 25px;
+    .enemy-name{
+        font-size:25px;
     }
 
+    .player{
+        bottom:1%;
+    }
+
+    .player-gun{
+        bottom:12%;
+    }
 }
 
 </style>
@@ -529,172 +774,26 @@ body {
 
 <div class="game">
 
-    <!-- ÜST BAR -->
+<!-- ÜST BAR -->
 
-    <div class="topbar">
+<div class="topbar">
 
-        <div class="logo">
-            SON KURŞUN
-        </div>
-
-        <div class="stats">
-
-            <div class="stat">
-                ⭐ <span id="fame">0</span>
-            </div>
-
-            <div class="stat">
-                💰 <span id="money">0</span>
-            </div>
-
-            <div class="stat">
-                🔥 <span id="streak">0</span>
-            </div>
-
-        </div>
-
+    <div class="logo">
+        SON KURŞUN
     </div>
 
+    <div class="stats">
 
-    <!-- RAKİP -->
-
-    <div class="enemy" id="enemy">
-
-        <div class="enemy-name" id="enemyName">
-            BILLY KANE
+        <div class="stat">
+            ⭐ <span id="fame">0</span>
         </div>
 
-        <div class="enemy-title" id="enemyTitle">
-            Kasabanın en hızlısı
+        <div class="stat">
+            💰 <span id="money">0</span>
         </div>
 
-        <div class="health">
-
-            <div
-                class="health-fill"
-                id="health">
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- DURUM -->
-
-    <div class="status">
-
-        <div
-            class="message"
-            id="message">
-
-            HAZIR OL...
-
-        </div>
-
-        <div
-            class="submessage"
-            id="submessage">
-
-            Rakibini izle.
-
-        </div>
-
-    </div>
-
-
-    <!-- OYUNCU -->
-
-    <div class="player">
-
-        <div class="gun-holster">
-
-            <div class="gun"></div>
-
-        </div>
-
-        <div class="player-label">
-            SEN
-        </div>
-
-    </div>
-
-
-    <!-- ATEŞ -->
-
-    <div class="fire-area">
-
-        <button
-            class="fire-button"
-            id="fireButton">
-
-            ÇEK!
-
-        </button>
-
-    </div>
-
-
-    <!-- BAŞLANGIÇ -->
-
-    <div
-        class="overlay"
-        id="startScreen">
-
-        <div class="panel">
-
-            <h1>🤠</h1>
-
-            <h1>
-                SON KURŞUN
-            </h1>
-
-            <p>
-                Kasabanın en hızlı silahşoru
-                olduğunu kanıtla.
-            </p>
-
-            <p>
-                Rakibinin hareketlerine dikkat et.
-                <br>
-                <b>ATEŞ!</b> anını bekle.
-            </p>
-
-            <button
-                class="start-button"
-                id="startButton">
-
-                DÜELLOYA BAŞLA
-
-            </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- SONUÇ -->
-
-    <div
-        class="overlay hidden"
-        id="resultScreen">
-
-        <div class="panel">
-
-            <h1 id="resultTitle">
-                💀
-            </h1>
-
-            <p id="resultText"></p>
-
-            <button
-                class="start-button"
-                id="againButton">
-
-                TEKRAR DÜELLO
-
-            </button>
-
+        <div class="stat">
+            🔥 <span id="streak">0</span>
         </div>
 
     </div>
@@ -702,18 +801,186 @@ body {
 </div>
 
 
-<script>
+<!-- RAKİP -->
 
-/* ==============================
-   OYUN DEĞİŞKENLERİ
-============================== */
+<div class="enemy" id="enemy">
+
+    <div class="enemy-name" id="enemyName">
+        BILLY KANE
+    </div>
+
+    <div class="enemy-title" id="enemyTitle">
+        Kasabanın en hızlısı
+    </div>
+
+    <div class="health">
+
+        <div
+            class="health-fill"
+            id="health">
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- DURUM -->
+
+<div class="status">
+
+    <div
+        class="message"
+        id="message">
+
+        HAZIR OL...
+
+    </div>
+
+    <div
+        class="submessage"
+        id="submessage">
+
+        Rakibini izle.
+
+    </div>
+
+</div>
+
+
+<!-- RAKİP ANİMASYONLU SİLAH -->
+
+<div
+    class="draw-gun enemy-gun"
+    id="enemyGun">
+</div>
+
+<div
+    class="muzzle enemy-muzzle"
+    id="enemyMuzzle">
+</div>
+
+
+<!-- OYUNCU -->
+
+<div class="player">
+
+    <div class="gun-holster">
+
+        <div class="gun"></div>
+
+    </div>
+
+    <div class="player-label">
+        SEN
+    </div>
+
+</div>
+
+
+<!-- OYUNCU ANİMASYONLU SİLAH -->
+
+<div
+    class="draw-gun player-gun"
+    id="playerGun">
+</div>
+
+<div
+    class="muzzle player-muzzle"
+    id="playerMuzzle">
+</div>
+
+
+<!-- ÇEK -->
+
+<div class="fire-area">
+
+    <button
+        class="fire-button"
+        id="fireButton">
+
+        ÇEK!
+
+    </button>
+
+</div>
+
+
+<!-- BAŞLANGIÇ -->
+
+<div
+    class="overlay"
+    id="startScreen">
+
+    <div class="panel">
+
+        <h1>🤠</h1>
+
+        <h1>
+            SON KURŞUN
+        </h1>
+
+        <p>
+            Kasabanın en hızlı silahşoru
+            olduğunu kanıtla.
+        </p>
+
+        <p>
+            Rakibinin hareketlerini izle.
+            <br>
+            <b>ATEŞ!</b> anını bekle.
+        </p>
+
+        <button
+            class="start-button"
+            id="startButton">
+
+            DÜELLOYA BAŞLA
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- SONUÇ -->
+
+<div
+    class="overlay hidden"
+    id="resultScreen">
+
+    <div class="panel">
+
+        <h1 id="resultTitle">
+            💀
+        </h1>
+
+        <p id="resultText"></p>
+
+        <button
+            class="start-button"
+            id="againButton">
+
+            TEKRAR DÜELLO
+
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script>
 
 let playing = false;
 let canShoot = false;
 
 let timer = null;
+let enemyTimer = null;
 
-let score = 0;
 let money = 0;
 let fame = 0;
 let streak = 0;
@@ -721,131 +988,414 @@ let streak = 0;
 let currentEnemy = 0;
 
 
-/* ==============================
-   RAKİPLER
-============================== */
+/* RAKİPLER */
 
 const enemies = [
 
     {
-        name: "BILLY KANE",
-        title: "Kasabanın en hızlısı",
-        reaction: 720,
-        bluff: 0.12
+        name:"BILLY KANE",
+        title:"Kasabanın en hızlısı",
+        reaction:720,
+        reward:20
     },
 
     {
-        name: "JACK DALTON",
-        title: "Sinsi kumarbaz",
-        reaction: 610,
-        bluff: 0.20
+        name:"JACK DALTON",
+        title:"Sinsi kumarbaz",
+        reaction:610,
+        reward:30
     },
 
     {
-        name: "MAD DOG",
-        title: "Ne zaman ateş edeceği belli değil",
-        reaction: 520,
-        bluff: 0.28
+        name:"MAD DOG",
+        title:"Ne zaman ateş edeceği belli değil",
+        reaction:520,
+        reward:45
     },
 
     {
-        name: "BLACK JACK",
-        title: "Üç kasabanın aranan adamı",
-        reaction: 440,
-        bluff: 0.35
+        name:"BLACK JACK",
+        title:"Üç kasabanın aranan adamı",
+        reaction:440,
+        reward:65
     },
 
     {
-        name: "EL DIABLO",
-        title: "Efsane silahşor",
-        reaction: 360,
-        bluff: 0.42
+        name:"EL DIABLO",
+        title:"Efsane silahşor",
+        reaction:370,
+        reward:100
     }
 
 ];
 
 
-/* ==============================
-   ELEMENTLER
-============================== */
-
-const message =
-    document.getElementById("message");
-
-const submessage =
-    document.getElementById("submessage");
-
-const fireButton =
-    document.getElementById("fireButton");
-
-const enemy =
-    document.getElementById("enemy");
-
-const enemyName =
-    document.getElementById("enemyName");
-
-const enemyTitle =
-    document.getElementById("enemyTitle");
-
-const health =
-    document.getElementById("health");
-
-const fameText =
-    document.getElementById("fame");
-
-const moneyText =
-    document.getElementById("money");
-
-const streakText =
-    document.getElementById("streak");
-
-const startScreen =
-    document.getElementById("startScreen");
-
-const resultScreen =
-    document.getElementById("resultScreen");
-
-const resultTitle =
-    document.getElementById("resultTitle");
-
-const resultText =
-    document.getElementById("resultText");
-
-const startButton =
-    document.getElementById("startButton");
-
-const againButton =
-    document.getElementById("againButton");
+const $ = id =>
+    document.getElementById(id);
 
 
-/* ==============================
-   BAŞLAT
-============================== */
+/* SES */
 
-startButton.onclick = () => {
+function sound(
+    frequency,
+    duration=.07,
+    type="square",
+    volume=.035
+){
 
-    startScreen.classList.add("hidden");
+    try{
 
-    playing = true;
+        const audio =
+            new(
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
 
-    startDuel();
+        const oscillator =
+            audio.createOscillator();
 
-};
+        const gain =
+            audio.createGain();
+
+        oscillator.type = type;
+
+        oscillator.frequency.value =
+            frequency;
+
+        gain.gain.value =
+            volume;
+
+        oscillator.connect(gain);
+
+        gain.connect(audio.destination);
+
+        oscillator.start();
+
+        oscillator.stop(
+            audio.currentTime + duration
+        );
+
+    }catch(e){}
+
+}
 
 
-/* ==============================
-   YENİ DÜELLO
-============================== */
+/* YAZI */
 
-function startDuel() {
+function setText(
+    message,
+    sub=""
+){
+
+    $("message").textContent =
+        message;
+
+    $("submessage").textContent =
+        sub;
+}
+
+
+/* SİLAHLARI SIFIRLA */
+
+function resetGuns(){
+
+    [
+        "enemyGun",
+        "playerGun",
+        "enemyMuzzle",
+        "playerMuzzle"
+    ].forEach(id => {
+
+        $(id).classList.remove(
+            "drawing",
+            "fired",
+            "flash"
+        );
+
+    });
+
+}
+
+
+/* ALEV */
+
+function muzzleFlash(id){
+
+    const element =
+        $(id);
+
+    element.classList.remove(
+        "flash"
+    );
+
+    void element.offsetWidth;
+
+    element.classList.add(
+        "flash"
+    );
+
+}
+
+
+/* OYUNCU SİLAH ÇEKİYOR */
+
+function drawPlayer(){
+
+    const gun =
+        $("playerGun");
+
+    gun.classList.remove(
+        "drawing",
+        "fired"
+    );
+
+    void gun.offsetWidth;
+
+    gun.classList.add(
+        "drawing"
+    );
+
+    setTimeout(()=>{
+
+        gun.classList.add(
+            "fired"
+        );
+
+        muzzleFlash(
+            "playerMuzzle"
+        );
+
+        sound(
+            105,
+            .11,
+            "sawtooth",
+            .06
+        );
+
+    },150);
+
+}
+
+
+/* RAKİP SİLAH ÇEKİYOR */
+
+function drawEnemy(){
+
+    const gun =
+        $("enemyGun");
+
+    gun.classList.remove(
+        "drawing",
+        "fired"
+    );
+
+    void gun.offsetWidth;
+
+    gun.classList.add(
+        "drawing"
+    );
+
+    setTimeout(()=>{
+
+        gun.classList.add(
+            "fired"
+        );
+
+        muzzleFlash(
+            "enemyMuzzle"
+        );
+
+        sound(
+            90,
+            .12,
+            "sawtooth",
+            .06
+        );
+
+    },150);
+
+}
+
+
+/* HUD */
+
+function updateHud(){
+
+    $("money").textContent =
+        money;
+
+    $("fame").textContent =
+        fame;
+
+    $("streak").textContent =
+        streak;
+
+}
+
+
+/* TUR */
+
+function prepareRound(){
 
     clearTimeout(timer);
 
+    clearTimeout(enemyTimer);
+
+    playing = true;
+
     canShoot = false;
 
-    fireButton.classList.remove("ready");
+    resetGuns();
 
-    const enemyData =
+    const enemy =
+        enemies[
+            Math.min(
+                currentEnemy,
+                enemies.length - 1
+            )
+        ];
+
+    $("enemyName").textContent =
+        enemy.name;
+
+    $("enemyTitle").textContent =
+        enemy.title;
+
+    $("health").style.width =
+        "100%";
+
+    $("fireButton").classList.remove(
+        "ready"
+    );
+
+    setText(
+        "HAZIR OL...",
+        "Rakibinin eline dikkat et."
+    );
+
+
+    /* RASTGELE BEKLEME */
+
+    const wait =
+        900 +
+        Math.random() * 1700;
+
+
+    timer = setTimeout(()=>{
+
+        if(!playing)
+            return;
+
+
+        $("fireButton").classList.add(
+            "ready"
+        );
+
+        canShoot = true;
+
+
+        setText(
+            "ATEŞ!",
+            "ŞİMDİ ÇEK!"
+        );
+
+
+        sound(
+            740,
+            .12,
+            "square",
+            .045
+        );
+
+
+        /* RAKİP TEPKİ */
+
+        const reaction =
+            Math.max(
+                250,
+                enemy.reaction +
+                (
+                    Math.random()*100-50
+                )
+            );
+
+
+        enemyTimer =
+            setTimeout(()=>{
+
+                if(!playing)
+                    return;
+
+
+                drawEnemy();
+
+                canShoot = false;
+
+
+                setText(
+                    "ÇOK GEÇ!",
+                    "Rakibin senden hızlıydı."
+                );
+
+
+                endRound(
+                    false,
+                    "Rakibin senden önce çekti."
+                );
+
+
+            },reaction);
+
+
+    },wait);
+
+}
+
+
+/* BAŞLAT */
+
+function startGame(){
+
+    $("startScreen")
+        .classList
+        .add("hidden");
+
+    $("resultScreen")
+        .classList
+        .add("hidden");
+
+
+    money = 0;
+    fame = 0;
+    streak = 0;
+
+    currentEnemy = 0;
+
+    updateHud();
+
+    prepareRound();
+
+}
+
+
+/* KAZAN */
+
+function winRound(){
+
+    if(!playing)
+        return;
+
+
+    playing = false;
+
+    canShoot = false;
+
+    clearTimeout(timer);
+
+    clearTimeout(enemyTimer);
+
+
+    const enemy =
         enemies[
             Math.min(
                 currentEnemy,
@@ -854,310 +1404,331 @@ function startDuel() {
         ];
 
 
-    enemyName.textContent =
-        enemyData.name;
+    /* SEN GERÇEKTEN ÇEKİYORSUN */
 
-    enemyTitle.textContent =
-        enemyData.title;
-
-    health.style.width = "100%";
+    drawPlayer();
 
 
-    message.textContent =
-        "HAZIR OL...";
-
-    submessage.textContent =
-        "Sakın erken ateş etme.";
+    $("health").style.width =
+        "0%";
 
 
-    /* BLÖF */
-
-    const bluffChance =
-        enemyData.bluff +
-        Math.min(streak * 0.015, 0.15);
+    $("enemy")
+        .classList
+        .add("hit");
 
 
-    if(Math.random() < bluffChance) {
+    setTimeout(()=>{
 
-        const bluffDelay =
-            1000 +
-            Math.random() * 2200;
+        $("enemy")
+            .classList
+            .remove("hit");
 
-        setTimeout(() => {
-
-            if(!playing)
-                return;
-
-            enemy.classList.add("bluff");
-
-            message.textContent =
-                "🤨";
-
-            submessage.textContent =
-                "Rakibin eline gitti...";
+    },260);
 
 
-            setTimeout(() => {
+    streak++;
 
-                enemy.classList.remove("bluff");
+    money += enemy.reward;
 
-                if(!canShoot) {
-
-                    message.textContent =
-                        "BEKLE...";
-
-                    submessage.textContent =
-                        "Bu bir blöf olabilir.";
-
-                }
-
-            }, 400);
-
-        }, bluffDelay);
-
-    }
+    fame +=
+        5 +
+        streak * 2;
 
 
-    /* GERÇEK ATEŞ */
-
-    const wait =
-        1800 +
-        Math.random() * 3300;
+    updateHud();
 
 
-    timer = setTimeout(() => {
+    /* YENİ RAKİP */
 
-        if(!playing)
-            return;
-
-        canShoot = true;
-
-        fireButton.classList.add("ready");
-
-        message.textContent =
-            "🔥 ATEŞ!";
-
-        submessage.textContent =
-            "ŞİMDİ ÇEK!";
+    const newEnemy =
+        streak > 0 &&
+        streak % 3 === 0 &&
+        currentEnemy <
+        enemies.length - 1;
 
 
-        /* RAKİP HIZI */
-
-        const difficulty =
-            Math.min(
-                streak * 18,
-                180
-            );
+    setText(
+        "VURDUN!",
+        "Rakibinden daha hızlısın."
+    );
 
 
-        const reaction =
-            Math.max(
-                250,
-                enemyData.reaction -
-                difficulty +
-                Math.random() * 100
-            );
+    setTimeout(()=>{
+
+        $("resultTitle").textContent =
+            newEnemy
+            ? "🏆"
+            : "💥";
 
 
-        timer = setTimeout(() => {
+        if(newEnemy){
 
-            if(canShoot) {
+            $("resultText").innerHTML =
 
-                lose(
-                    "Rakibin senden önce çekti!"
+                "<b>" +
+                enemy.name +
+                "</b> düştü!" +
+
+                "<br><br>" +
+
+                "Yeni rakip geliyor: " +
+
+                "<b>" +
+                enemies[
+                    currentEnemy + 1
+                ].name +
+                "</b>" +
+
+                "<br><br>" +
+
+                "💰 +" +
+                enemy.reward +
+
+                " &nbsp; ⭐ +" +
+
+                (
+                    5 +
+                    streak * 2
                 );
 
-            }
+        }else{
 
-        }, reaction);
+            $("resultText").innerHTML =
+
+                "<b>" +
+                enemy.name +
+                "</b> düştü!" +
+
+                "<br><br>" +
+
+                "💰 +" +
+                enemy.reward +
+
+                " &nbsp; ⭐ +" +
+
+                (
+                    5 +
+                    streak * 2
+                ) +
+
+                "<br>" +
+
+                "🔥 Seri: " +
+                streak;
+
+        }
 
 
-    }, wait);
+        $("resultScreen")
+            .classList
+            .remove("hidden");
+
+
+        if(newEnemy)
+            currentEnemy++;
+
+
+    },650);
 
 }
 
 
-/* ==============================
-   ATEŞ
-============================== */
+/* ERKEN ATEŞ */
 
-fireButton.addEventListener(
-    "pointerdown",
-    shoot
-);
-
-
-function shoot(e) {
-
-    e.preventDefault();
+function loseEarly(){
 
     if(!playing)
         return;
 
 
-    /* ERKEN ATEŞ */
+    playing = false;
 
-    if(!canShoot) {
+    canShoot = false;
 
-        clearTimeout(timer);
+    clearTimeout(timer);
 
-        lose(
-            "Çok erken ateş ettin!"
+    clearTimeout(enemyTimer);
+
+
+    streak = 0;
+
+    updateHud();
+
+
+    drawEnemy();
+
+
+    setText(
+        "ERKEN ATEŞ!",
+        "Rakibin seni vurdu."
+    );
+
+
+    setTimeout(()=>{
+
+        $("resultTitle").textContent =
+            "💀";
+
+
+        $("resultText").innerHTML =
+
+            "Silahına çok erken davrandın." +
+
+            "<br><br>" +
+
+            "🔥 Seri sıfırlandı.";
+
+
+        $("resultScreen")
+            .classList
+            .remove("hidden");
+
+    },600);
+
+}
+
+
+/* KAYBET */
+
+function endRound(
+    win,
+    text
+){
+
+    if(!playing)
+        return;
+
+
+    playing = false;
+
+    canShoot = false;
+
+    clearTimeout(timer);
+
+    clearTimeout(enemyTimer);
+
+
+    streak = 0;
+
+    updateHud();
+
+
+    setText(
+        win
+        ? "KAZANDIN!"
+        : "KAYBETTİN!",
+        text
+    );
+
+
+    setTimeout(()=>{
+
+        $("resultTitle").textContent =
+            win
+            ? "🤠"
+            : "💀";
+
+
+        $("resultText").textContent =
+            text;
+
+
+        $("resultScreen")
+            .classList
+            .remove("hidden");
+
+
+    },650);
+
+}
+
+
+/* ÇEK */
+
+function shoot(){
+
+    if(!playing)
+        return;
+
+
+    if(!canShoot){
+
+        sound(
+            130,
+            .06
         );
+
+        loseEarly();
 
         return;
 
     }
 
 
-    /* DOĞRU ATEŞ */
+    winRound();
 
-    clearTimeout(timer);
-
-    canShoot = false;
-
-    fireButton.classList.remove("ready");
+}
 
 
-    const reward =
-        100 +
-        streak * 30;
+/* BUTONLAR */
+
+$("startButton")
+    .addEventListener(
+        "click",
+        ()=>{
+            sound(440,.06);
+            startGame();
+        }
+    );
 
 
-    score += reward;
+$("againButton")
+    .addEventListener(
+        "click",
+        ()=>{
 
-    money +=
-        25 +
-        streak * 5;
+            sound(440,.06);
 
-    fame += 1;
+            $("resultScreen")
+                .classList
+                .add("hidden");
 
-    streak++;
+            prepareRound();
 
-
-    fameText.textContent =
-        fame;
-
-    moneyText.textContent =
-        money;
-
-    streakText.textContent =
-        streak;
+        }
+    );
 
 
-    health.style.width =
-        "0%";
+$("fireButton")
+    .addEventListener(
+        "click",
+        shoot
+    );
 
 
-    message.textContent =
-        "💥 VURDUN!";
+/* KLAVYE */
 
-    submessage.textContent =
-        "+" + reward + " puan";
+document.addEventListener(
+    "keydown",
+    event=>{
 
+        if(
+            event.code === "Space" ||
+            event.code === "Enter"
+        ){
 
-    /* RAKİP DEĞİŞİMİ */
+            event.preventDefault();
 
-    if(
-        streak === 3 ||
-        streak === 6 ||
-        streak === 10
-    ) {
-
-        currentEnemy =
-            Math.min(
-                currentEnemy + 1,
-                enemies.length - 1
-            );
-
-    }
-
-
-    /* YENİ DÜELLO */
-
-    setTimeout(() => {
-
-        if(playing) {
-
-            startDuel();
+            shoot();
 
         }
 
-    }, 950);
-
-}
-
-
-/* ==============================
-   KAYBET
-============================== */
-
-function lose(reason) {
-
-    clearTimeout(timer);
-
-    playing = false;
-
-    canShoot = false;
-
-    fireButton.classList.remove("ready");
+    }
+);
 
 
-    resultTitle.textContent =
-        "💀 DUELLO BİTTİ";
-
-
-    resultText.innerHTML =
-
-        reason +
-
-        "<br><br>" +
-
-        "⭐ Ün: <b>" +
-        fame +
-        "</b><br>" +
-
-        "💰 Para: <b>" +
-        money +
-        "</b><br>" +
-
-        "🔥 Seri: <b>" +
-        streak +
-        "</b>";
-
-
-    resultScreen.classList.remove(
-        "hidden"
-    );
-
-}
-
-
-/* ==============================
-   TEKRAR
-============================== */
-
-againButton.onclick = () => {
-
-    resultScreen.classList.add(
-        "hidden"
-    );
-
-    score = 0;
-    money = 0;
-    fame = 0;
-    streak = 0;
-    currentEnemy = 0;
-
-    fameText.textContent = "0";
-    moneyText.textContent = "0";
-    streakText.textContent = "0";
-
-    playing = true;
-
-    startDuel();
-
-};
+updateHud();
 
 </script>
 
