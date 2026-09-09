@@ -2,90 +2,87 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,
-      initial-scale=1.0,
-      maximum-scale=1.0,
-      user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>SON KURŞUN</title>
 
 <style>
 
 * {
-    box-sizing:border-box;
-    user-select:none;
-    -webkit-user-select:none;
-    -webkit-tap-highlight-color:transparent;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
-html,body {
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#120b08;
-    font-family:Georgia,serif;
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #120b08;
+    font-family: Georgia, serif;
 }
 
 body {
-    color:#f5dfad;
+    color: #f5dfad;
 }
 
 .game {
-    position:relative;
-    width:100%;
-    height:100vh;
-    overflow:hidden;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
 
     background:
         linear-gradient(
-            rgba(20,8,4,.15),
-            rgba(20,8,4,.72)
+            rgba(20, 8, 4, .15),
+            rgba(20, 8, 4, .72)
         ),
-        url("0510AF5B-D9F9-407E-8F54-6A32B9EDFF43.png") center center / cover no-repeat;
+        url("0510AF5B-D9F9-407E-8F54-6A32B9EDFF43.png")
+        center center / cover no-repeat;
 }
 
 /* KARARTMA */
 
 .game::after {
-    content:"";
-    position:absolute;
-    inset:0;
-    pointer-events:none;
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
 
     background:
         radial-gradient(
             circle at center,
             transparent 30%,
-            rgba(0,0,0,.72) 100%
+            rgba(0, 0, 0, .72) 100%
         );
 }
 
 /* ÜST BAR */
 
 .topbar {
-    position:absolute;
-    z-index:5;
+    position: absolute;
+    z-index: 5;
 
-    top:14px;
-    left:14px;
-    right:14px;
+    top: 14px;
+    left: 14px;
+    right: 14px;
 
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    padding:10px 15px;
+    padding: 10px 15px;
 
     background:
         linear-gradient(
-            rgba(35,21,15,.96),
-            rgba(20,12,9,.96)
+            rgba(35, 21, 15, .96),
+            rgba(20, 12, 9, .96)
         );
 
-    border:1px solid #9b7040;
-    border-radius:9px;
+    border: 1px solid #9b7040;
+    border-radius: 9px;
 
     box-shadow:
         0 5px 20px rgba(0,0,0,.55),
@@ -93,48 +90,47 @@ body {
 }
 
 .logo {
-    font-size:18px;
-    font-weight:bold;
-    letter-spacing:2px;
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
 
-    color:#e8c178;
+    color: #e8c178;
 
-    text-shadow:
-        2px 2px #000;
+    text-shadow: 2px 2px #000;
 }
 
 .stats {
-    display:flex;
-    gap:14px;
-    font-size:13px;
+    display: flex;
+    gap: 14px;
+    font-size: 13px;
 }
 
 .stat {
-    display:flex;
-    align-items:center;
-    gap:4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 /* RAKİP */
 
 .enemy {
-    position:absolute;
-    z-index:4;
+    position: absolute;
+    z-index: 4;
 
-    top:17%;
-    left:50%;
+    top: 17%;
+    left: 50%;
 
-    transform:translateX(-50%);
+    transform: translateX(-50%);
 
-    text-align:center;
+    text-align: center;
 
-    width:90%;
+    width: 90%;
 }
 
 .enemy-name {
-    font-size:31px;
-    font-weight:bold;
-    letter-spacing:3px;
+    font-size: 31px;
+    font-weight: bold;
+    letter-spacing: 3px;
 
     text-shadow:
         3px 3px 0 #1a0905,
@@ -142,59 +138,59 @@ body {
 }
 
 .enemy-title {
-    margin-top:5px;
+    margin-top: 5px;
 
-    font-size:14px;
+    font-size: 14px;
 
-    color:#d9bb83;
+    color: #d9bb83;
 }
 
 /* CAN */
 
 .health {
-    width:190px;
-    height:8px;
+    width: 190px;
+    height: 8px;
 
-    margin:12px auto;
+    margin: 12px auto;
 
-    background:#1b0d08;
+    background: #1b0d08;
 
-    border:1px solid #6e4126;
-    border-radius:8px;
+    border: 1px solid #6e4126;
+    border-radius: 8px;
 
-    overflow:hidden;
+    overflow: hidden;
 }
 
 .health-fill {
-    height:100%;
-    width:100%;
+    height: 100%;
+    width: 100%;
 
-    background:#a9281e;
+    background: #a9281e;
 
-    transition:.3s;
+    transition: .3s;
 }
 
 /* DURUM */
 
 .status {
-    position:absolute;
-    z-index:6;
+    position: absolute;
+    z-index: 6;
 
-    top:38%;
-    left:50%;
+    top: 38%;
+    left: 50%;
 
-    transform:translateX(-50%);
+    transform: translateX(-50%);
 
-    text-align:center;
+    text-align: center;
 
-    width:100%;
+    width: 100%;
 }
 
 .message {
-    font-size:34px;
-    font-weight:bold;
+    font-size: 34px;
+    font-weight: bold;
 
-    letter-spacing:3px;
+    letter-spacing: 3px;
 
     text-shadow:
         3px 3px 0 #1a0905,
@@ -202,56 +198,56 @@ body {
 }
 
 .submessage {
-    margin-top:8px;
+    margin-top: 8px;
 
-    font-size:14px;
+    font-size: 14px;
 
-    color:#e5cc9b;
+    color: #e5cc9b;
 }
 
 /* OYUNCU */
 
 .player {
-    position:absolute;
-    z-index:4;
+    position: absolute;
+    z-index: 4;
 
-    bottom:3%;
-    left:50%;
+    bottom: 3%;
+    left: 50%;
 
-    transform:translateX(-50%);
+    transform: translateX(-50%);
 
-    width:100%;
-    text-align:center;
+    width: 100%;
+    text-align: center;
 }
 
 .player-label {
-    font-size:13px;
-    letter-spacing:3px;
+    font-size: 13px;
+    letter-spacing: 3px;
 
-    color:#c9a66d;
+    color: #c9a66d;
 }
 
 /* TABANCA */
 
 .gun-holster {
-    position:relative;
+    position: relative;
 
-    width:170px;
-    height:100px;
+    width: 170px;
+    height: 100px;
 
-    margin:0 auto 5px;
+    margin: 0 auto 5px;
 
-    opacity:.95;
+    opacity: .95;
 }
 
 .gun {
-    position:absolute;
+    position: absolute;
 
-    width:115px;
-    height:25px;
+    width: 115px;
+    height: 25px;
 
-    right:5px;
-    bottom:25px;
+    right: 5px;
+    bottom: 25px;
 
     background:
         linear-gradient(
@@ -259,26 +255,26 @@ body {
             #141312
         );
 
-    border:3px solid #0b0908;
+    border: 3px solid #0b0908;
 
-    border-radius:4px;
+    border-radius: 4px;
 
-    transform:rotate(-12deg);
+    transform: rotate(-12deg);
 
     box-shadow:
         0 6px 12px rgba(0,0,0,.7);
 }
 
 .gun::after {
-    content:"";
+    content: "";
 
-    position:absolute;
+    position: absolute;
 
-    width:25px;
-    height:42px;
+    width: 25px;
+    height: 42px;
 
-    right:65px;
-    top:18px;
+    right: 65px;
+    top: 18px;
 
     background:
         linear-gradient(
@@ -287,33 +283,33 @@ body {
             #2b170d
         );
 
-    border:2px solid #140b07;
+    border: 2px solid #140b07;
 
-    transform:rotate(28deg);
+    transform: rotate(28deg);
 }
 
 /* ÇEK BUTONU */
 
 .fire-area {
-    position:absolute;
-    z-index:10;
+    position: absolute;
+    z-index: 10;
 
-    bottom:15%;
-    left:50%;
+    bottom: 15%;
+    left: 50%;
 
-    transform:translateX(-50%);
+    transform: translateX(-50%);
 
-    text-align:center;
+    text-align: center;
 }
 
 .fire-button {
 
-    width:145px;
-    height:145px;
+    width: 145px;
+    height: 145px;
 
-    border-radius:50%;
+    border-radius: 50%;
 
-    border:7px solid #21110b;
+    border: 7px solid #21110b;
 
     background:
         radial-gradient(
@@ -323,23 +319,23 @@ body {
             #482012
         );
 
-    color:#28130b;
+    color: #28130b;
 
-    font-family:Georgia,serif;
+    font-family: Georgia, serif;
 
-    font-size:26px;
-    font-weight:bold;
+    font-size: 26px;
+    font-weight: bold;
 
     box-shadow:
         0 8px 0 #160b07,
         0 15px 35px rgba(0,0,0,.65),
         inset 0 2px rgba(255,240,180,.5);
 
-    transition:.08s;
+    transition: .08s;
 }
 
 .fire-button:active {
-    transform:translateY(7px);
+    transform: translateY(7px);
 
     box-shadow:
         0 2px 0 #160b07;
@@ -355,14 +351,16 @@ body {
 @keyframes readyPulse {
 
     from {
-        transform:scale(1);
+        transform: scale(1);
+
         box-shadow:
             0 8px 0 #160b07,
             0 0 15px #d9a642;
     }
 
     to {
-        transform:scale(1.07);
+        transform: scale(1.07);
+
         box-shadow:
             0 8px 0 #160b07,
             0 0 45px #ffcf64;
@@ -370,35 +368,35 @@ body {
 
 }
 
-/* DUELLO BAŞLANGIÇ */
+/* EKRAN */
 
 .overlay {
 
-    position:absolute;
-    z-index:50;
+    position: absolute;
+    z-index: 50;
 
-    inset:0;
+    inset: 0;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    padding:25px;
+    padding: 25px;
 
     background:
         rgba(13,7,4,.78);
 
-    backdrop-filter:blur(4px);
+    backdrop-filter: blur(4px);
 }
 
 .panel {
 
-    width:100%;
-    max-width:420px;
+    width: 100%;
+    max-width: 420px;
 
-    padding:32px 24px;
+    padding: 32px 24px;
 
-    text-align:center;
+    text-align: center;
 
     background:
         linear-gradient(
@@ -407,9 +405,9 @@ body {
             #1b100b
         );
 
-    border:2px solid #9c713e;
+    border: 2px solid #9c713e;
 
-    border-radius:12px;
+    border-radius: 12px;
 
     box-shadow:
         0 25px 70px rgba(0,0,0,.8),
@@ -418,13 +416,13 @@ body {
 
 .panel h1 {
 
-    margin:0;
+    margin: 0;
 
-    font-size:42px;
+    font-size: 42px;
 
-    letter-spacing:3px;
+    letter-spacing: 3px;
 
-    color:#e8c178;
+    color: #e8c178;
 
     text-shadow:
         3px 3px #160906;
@@ -432,48 +430,41 @@ body {
 
 .panel p {
 
-    color:#d8c29a;
+    color: #d8c29a;
 
-    line-height:1.6;
+    line-height: 1.6;
 }
 
 .start-button {
 
-    margin-top:15px;
+    margin-top: 15px;
 
-    padding:16px 30px;
+    padding: 16px 30px;
 
-    border:2px solid #b9894c;
+    border: 2px solid #b9894c;
 
-    border-radius:7px;
+    border-radius: 7px;
 
-    background:#9c602a;
+    background: #9c602a;
 
-    color:#fff0c9;
+    color: #fff0c9;
 
-    font-family:Georgia,serif;
+    font-family: Georgia, serif;
 
-    font-weight:bold;
-    font-size:17px;
+    font-weight: bold;
+    font-size: 17px;
 
     box-shadow:
         0 5px 0 #3b1b0e;
 }
 
 .start-button:active {
-    transform:translateY(5px);
-    box-shadow:none;
-}
-
-/* SONUÇ */
-
-.result-title {
-    font-size:38px;
-    margin-bottom:10px;
+    transform: translateY(5px);
+    box-shadow: none;
 }
 
 .hidden {
-    display:none!important;
+    display: none !important;
 }
 
 /* BLÖF */
@@ -488,7 +479,7 @@ body {
 @keyframes handMove {
 
     0% {
-        transform:translateX(-50%);
+        transform: translateX(-50%);
     }
 
     50% {
@@ -498,40 +489,7 @@ body {
     }
 
     100% {
-        transform:translateX(-50%);
-    }
-
-}
-
-/* VURUŞ */
-
-.hit {
-
-    animation:
-        damage .35s;
-
-}
-
-@keyframes damage {
-
-    0% {
-        transform:translateX(-50%);
-    }
-
-    25% {
-        transform:translateX(calc(-50% - 15px));
-    }
-
-    50% {
-        transform:translateX(calc(-50% + 15px));
-    }
-
-    75% {
-        transform:translateX(calc(-50% - 8px));
-    }
-
-    100% {
-        transform:translateX(-50%);
+        transform: translateX(-50%);
     }
 
 }
@@ -541,25 +499,25 @@ body {
 @media(max-height:700px) {
 
     .enemy {
-        top:13%;
+        top: 13%;
     }
 
     .status {
-        top:34%;
+        top: 34%;
     }
 
     .fire-area {
-        bottom:9%;
+        bottom: 9%;
     }
 
     .fire-button {
-        width:115px;
-        height:115px;
-        font-size:21px;
+        width: 115px;
+        height: 115px;
+        font-size: 21px;
     }
 
     .enemy-name {
-        font-size:25px;
+        font-size: 25px;
     }
 
 }
@@ -569,7 +527,9 @@ body {
 
 <body>
 
-<div class="game" id="game">
+<div class="game">
+
+    <!-- ÜST BAR -->
 
     <div class="topbar">
 
@@ -609,10 +569,12 @@ body {
         </div>
 
         <div class="health">
+
             <div
                 class="health-fill"
                 id="health">
             </div>
+
         </div>
 
     </div>
@@ -625,13 +587,17 @@ body {
         <div
             class="message"
             id="message">
+
             HAZIR OL...
+
         </div>
 
         <div
             class="submessage"
             id="submessage">
+
             Rakibini izle.
+
         </div>
 
     </div>
@@ -654,7 +620,7 @@ body {
     </div>
 
 
-    <!-- BUTON -->
+    <!-- ATEŞ -->
 
     <div class="fire-area">
 
@@ -689,7 +655,7 @@ body {
             </p>
 
             <p>
-                Rakibinin blöflerine dikkat et.
+                Rakibinin hareketlerine dikkat et.
                 <br>
                 <b>ATEŞ!</b> anını bekle.
             </p>
@@ -715,11 +681,9 @@ body {
 
         <div class="panel">
 
-            <div
-                class="result-title"
-                id="resultTitle">
+            <h1 id="resultTitle">
                 💀
-            </div>
+            </h1>
 
             <p id="resultText"></p>
 
@@ -740,9 +704,9 @@ body {
 
 <script>
 
-/* ===============================
-   OYUN
-================================ */
+/* ==============================
+   OYUN DEĞİŞKENLERİ
+============================== */
 
 let playing = false;
 let canShoot = false;
@@ -757,53 +721,53 @@ let streak = 0;
 let currentEnemy = 0;
 
 
-/* ===============================
+/* ==============================
    RAKİPLER
-================================ */
+============================== */
 
 const enemies = [
 
     {
-        name:"BILLY KANE",
-        title:"Kasabanın en hızlısı",
-        reaction:720,
-        bluff:.12
+        name: "BILLY KANE",
+        title: "Kasabanın en hızlısı",
+        reaction: 720,
+        bluff: 0.12
     },
 
     {
-        name:"JACK DALTON",
-        title:"Sinsi kumarbaz",
-        reaction:610,
-        bluff:.20
+        name: "JACK DALTON",
+        title: "Sinsi kumarbaz",
+        reaction: 610,
+        bluff: 0.20
     },
 
     {
-        name:"MAD DOG",
-        title:"Ne zaman ateş edeceği belli değil",
-        reaction:520,
-        bluff:.28
+        name: "MAD DOG",
+        title: "Ne zaman ateş edeceği belli değil",
+        reaction: 520,
+        bluff: 0.28
     },
 
     {
-        name:"BLACK JACK",
-        title:"Üç kasabanın aranan adamı",
-        reaction:440,
-        bluff:.35
+        name: "BLACK JACK",
+        title: "Üç kasabanın aranan adamı",
+        reaction: 440,
+        bluff: 0.35
     },
 
     {
-        name:"EL DIABLO",
-        title:"Efsane silahşor",
-        reaction:360,
-        bluff:.42
+        name: "EL DIABLO",
+        title: "Efsane silahşor",
+        reaction: 360,
+        bluff: 0.42
     }
 
 ];
 
 
-/* ===============================
+/* ==============================
    ELEMENTLER
-================================ */
+============================== */
 
 const message =
     document.getElementById("message");
@@ -854,9 +818,9 @@ const againButton =
     document.getElementById("againButton");
 
 
-/* ===============================
+/* ==============================
    BAŞLAT
-================================ */
+============================== */
 
 startButton.onclick = () => {
 
@@ -869,9 +833,9 @@ startButton.onclick = () => {
 };
 
 
-/* ===============================
-   DÜELLO
-================================ */
+/* ==============================
+   YENİ DÜELLO
+============================== */
 
 function startDuel() {
 
@@ -906,22 +870,23 @@ function startDuel() {
         "Sakın erken ateş etme.";
 
 
-    /*
-       Rakip bazen blöf yapıyor.
-    */
+    /* BLÖF */
 
     const bluffChance =
         enemyData.bluff +
-        Math.min(streak * .015, .15);
+        Math.min(streak * 0.015, 0.15);
 
 
     if(Math.random() < bluffChance) {
 
         const bluffDelay =
-            1100 +
-            Math.random() * 1800;
+            1000 +
+            Math.random() * 2200;
 
-        timer = setTimeout(() => {
+        setTimeout(() => {
+
+            if(!playing)
+                return;
 
             enemy.classList.add("bluff");
 
@@ -929,17 +894,22 @@ function startDuel() {
                 "🤨";
 
             submessage.textContent =
-                "Rakibin hareket etti...";
+                "Rakibin eline gitti...";
+
 
             setTimeout(() => {
 
                 enemy.classList.remove("bluff");
 
-                message.textContent =
-                    "BEKLE...";
+                if(!canShoot) {
 
-                submessage.textContent =
-                    "Bu bir blöf olabilir.";
+                    message.textContent =
+                        "BEKLE...";
+
+                    submessage.textContent =
+                        "Bu bir blöf olabilir.";
+
+                }
 
             }, 400);
 
@@ -948,9 +918,7 @@ function startDuel() {
     }
 
 
-    /*
-       Gerçek ateş zamanı
-    */
+    /* GERÇEK ATEŞ */
 
     const wait =
         1800 +
@@ -958,6 +926,9 @@ function startDuel() {
 
 
     timer = setTimeout(() => {
+
+        if(!playing)
+            return;
 
         canShoot = true;
 
@@ -970,16 +941,14 @@ function startDuel() {
             "ŞİMDİ ÇEK!";
 
 
-        /*
-           Rakibin tepki süresi.
-           Seri arttıkça zorlaşır.
-        */
+        /* RAKİP HIZI */
 
         const difficulty =
             Math.min(
                 streak * 18,
                 180
             );
+
 
         const reaction =
             Math.max(
@@ -1008,9 +977,9 @@ function startDuel() {
 }
 
 
-/* ===============================
+/* ==============================
    ATEŞ
-================================ */
+============================== */
 
 fireButton.addEventListener(
     "pointerdown",
@@ -1026,9 +995,7 @@ function shoot(e) {
         return;
 
 
-    /*
-       ERKEN ATEŞ
-    */
+    /* ERKEN ATEŞ */
 
     if(!canShoot) {
 
@@ -1043,9 +1010,7 @@ function shoot(e) {
     }
 
 
-    /*
-       DOĞRU ATIŞ
-    */
+    /* DOĞRU ATEŞ */
 
     clearTimeout(timer);
 
@@ -1054,19 +1019,6 @@ function shoot(e) {
     fireButton.classList.remove("ready");
 
 
-    const enemyData =
-        enemies[
-            Math.min(
-                currentEnemy,
-                enemies.length - 1
-            )
-        ];
-
-
-    /*
-       Ödül
-    */
-
     const reward =
         100 +
         streak * 30;
@@ -1074,7 +1026,9 @@ function shoot(e) {
 
     score += reward;
 
-    money += 25 + streak * 5;
+    money +=
+        25 +
+        streak * 5;
 
     fame += 1;
 
@@ -1091,7 +1045,8 @@ function shoot(e) {
         streak;
 
 
-    health.style.width = "0%";
+    health.style.width =
+        "0%";
 
 
     message.textContent =
@@ -1101,9 +1056,7 @@ function shoot(e) {
         "+" + reward + " puan";
 
 
-    /*
-       Rakip ilerliyor.
-    */
+    /* RAKİP DEĞİŞİMİ */
 
     if(
         streak === 3 ||
@@ -1120,22 +1073,24 @@ function shoot(e) {
     }
 
 
-    /*
-       Sonraki düello
-    */
+    /* YENİ DÜELLO */
 
     setTimeout(() => {
 
-        startDuel();
+        if(playing) {
+
+            startDuel();
+
+        }
 
     }, 950);
 
 }
 
 
-/* ===============================
+/* ==============================
    KAYBET
-================================ */
+============================== */
 
 function lose(reason) {
 
@@ -1153,7 +1108,9 @@ function lose(reason) {
 
 
     resultText.innerHTML =
+
         reason +
+
         "<br><br>" +
 
         "⭐ Ün: <b>" +
@@ -1176,9 +1133,9 @@ function lose(reason) {
 }
 
 
-/* ===============================
-   YENİ OYUN
-================================ */
+/* ==============================
+   TEKRAR
+============================== */
 
 againButton.onclick = () => {
 
