@@ -2,3539 +2,759 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
-<title>KAÇ!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Vahşi Batı - Son Kurşun</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    user-select:none;
-    -webkit-user-select:none;
-    -webkit-tap-highlight-color:transparent;
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
 
-html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#bdeaff;
-    font-family:"Comic Sans MS","Chalkboard SE",cursive;
-    touch-action:none;
+body {
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: Georgia, serif;
+    background:
+        radial-gradient(circle at 50% 35%, #d9a45b 0%, #9a542d 45%, #321813 100%);
+    color: #fff4d6;
 }
 
-#game{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
+.game {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
 }
 
-canvas{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
+.sky {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,196,91,.15),
+            rgba(50,20,10,.4)
+        );
+    pointer-events: none;
 }
 
-#hud{
-    position:absolute;
-    z-index:10;
-    top:10px;
-    left:10px;
-    right:10px;
+/* ÜST BİLGİ */
 
-    display:flex;
-    justify-content:space-between;
-    gap:7px;
-
-    pointer-events:none;
+.top {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 18px;
+    background: rgba(45,20,12,.72);
+    border-bottom: 2px solid rgba(255,218,151,.25);
 }
 
-.hud{
-    background:#fff8df;
-    border:3px solid #222;
-    border-radius:10px;
-    padding:5px 10px;
-    font-size:16px;
-    box-shadow:3px 3px 0 #222;
+.logo {
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
-#message{
-    display:none;
-
-    position:absolute;
-    z-index:20;
-
-    left:50%;
-    top:22%;
-
-    transform:translate(-50%,-50%);
-
-    background:#fff8df;
-    border:4px solid #222;
-    border-radius:13px;
-
-    padding:9px 18px;
-
-    font-size:28px;
-    font-weight:bold;
-
-    box-shadow:4px 4px 0 #222;
-    white-space:nowrap;
+.stats {
+    display: flex;
+    gap: 12px;
+    font-size: 14px;
 }
 
-.screen{
-    position:absolute;
-    inset:0;
-    z-index:50;
+/* ARENA */
 
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    background:#fff8df;
-
-    text-align:center;
+.arena {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 20px;
 }
 
-#startScreen h1{
-    margin:0;
+/* GÜNEŞ */
 
-    color:#e33b36;
-
-    font-size:82px;
-    line-height:.8;
-
-    transform:rotate(-4deg);
-
-    text-shadow:
-        3px 3px 0 #222;
+.sun {
+    position: absolute;
+    top: 7%;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: #ffd36b;
+    box-shadow: 0 0 45px rgba(255,194,72,.7);
+    opacity: .8;
 }
 
-#startScreen p{
-    font-size:20px;
-    line-height:1.5;
-    margin:20px;
+/* RAKİP */
+
+.enemy-area,
+.player-area {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
-.button{
-    border:5px solid #222;
-    border-radius:15px;
-
-    background:#ffd84d;
-
-    padding:12px 30px;
-
-    font-family:inherit;
-    font-size:25px;
-    font-weight:bold;
-
-    box-shadow:5px 5px 0 #222;
+.name {
+    font-size: 21px;
+    font-weight: bold;
+    text-shadow: 2px 2px #29120d;
 }
 
-.button:active{
-    transform:translate(3px,3px);
-    box-shadow:2px 2px 0 #222;
+.title {
+    margin-top: 4px;
+    font-size: 13px;
+    opacity: .8;
 }
 
-#gameOver{
-    display:none;
+.character {
+    width: 105px;
+    height: 125px;
+    margin: 12px auto;
+    position: relative;
 }
 
-#gameOver h2{
-    font-size:45px;
-    margin:4px;
+/* KOVBOY */
+
+.head {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: #c88354;
+    position: absolute;
+    left: 25px;
+    top: 20px;
+    border: 3px solid #512619;
 }
 
-.result{
-    font-size:21px;
-    margin:4px;
+.hat {
+    position: absolute;
+    width: 95px;
+    height: 22px;
+    background: #4b2719;
+    border-radius: 50%;
+    left: 5px;
+    top: 11px;
+    border: 3px solid #29130d;
 }
 
-#rotate{
-    display:none;
+.hat::after {
+    content: "";
+    position: absolute;
+    width: 48px;
+    height: 25px;
+    background: #4b2719;
+    left: 21px;
+    bottom: 8px;
+    border-radius: 5px;
+    border: 3px solid #29130d;
 }
 
-@media(max-aspect-ratio:1/1){
+.body {
+    width: 68px;
+    height: 62px;
+    background: #4a2b20;
+    position: absolute;
+    bottom: 0;
+    left: 18px;
+    border-radius: 18px 18px 8px 8px;
+    border: 3px solid #29130d;
+}
 
-    #rotate{
-        position:absolute;
-        inset:0;
-        z-index:100;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        background:#fff8df;
-        text-align:center;
-        font-size:25px;
+.eye {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #21110c;
+    border-radius: 50%;
+    top: 42px;
+}
+
+.eye.left {
+    left: 40px;
+}
+
+.eye.right {
+    right: 40px;
+}
+
+/* TABANCA */
+
+.gun {
+    width: 65px;
+    height: 17px;
+    background: #2c211c;
+    position: absolute;
+    right: -18px;
+    bottom: 17px;
+    transform: rotate(-8deg);
+    border-radius: 3px;
+    border: 2px solid #120b08;
+}
+
+.gun::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 25px;
+    background: #543322;
+    right: 42px;
+    top: 10px;
+    transform: rotate(25deg);
+}
+
+/* DURUM */
+
+.status {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    min-height: 90px;
+}
+
+.message {
+    font-size: 27px;
+    font-weight: bold;
+    text-shadow: 3px 3px #29120d;
+}
+
+.submessage {
+    margin-top: 8px;
+    font-size: 14px;
+    opacity: .85;
+}
+
+/* ATEŞ BUTONU */
+
+.fire-button {
+    position: relative;
+    z-index: 20;
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    border: 7px solid #3b1710;
+    background:
+        radial-gradient(circle, #e8a34b 0%, #a74a22 60%, #5c1c14 100%);
+    color: white;
+    font-family: Georgia, serif;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow:
+        0 8px 0 #30100c,
+        0 15px 30px rgba(0,0,0,.4);
+    cursor: pointer;
+}
+
+.fire-button:active {
+    transform: translateY(7px);
+    box-shadow: 0 1px 0 #30100c;
+}
+
+.fire-button.ready {
+    animation: pulse .45s infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+        box-shadow: 0 8px 0 #30100c, 0 0 15px #ffcf66;
+    }
+    to {
+        transform: scale(1.08);
+        box-shadow: 0 8px 0 #30100c, 0 0 40px #ffd36b;
+    }
+}
+
+/* EKRANLAR */
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    background: rgba(24,10,7,.88);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+}
+
+.panel {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    background: #4b2719;
+    border: 3px solid #d49a52;
+    border-radius: 16px;
+    padding: 28px 22px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.panel h1 {
+    font-size: 35px;
+    margin: 0 0 10px;
+}
+
+.panel p {
+    line-height: 1.5;
+    opacity: .9;
+}
+
+.start-button,
+.next-button {
+    border: 0;
+    border-radius: 10px;
+    padding: 16px 30px;
+    background: #d08b3d;
+    color: #27110c;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Georgia, serif;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* HASAR */
+
+.hit {
+    animation: shake .25s linear;
+}
+
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-12px); }
+    50% { transform: translateX(12px); }
+    75% { transform: translateX(-8px); }
+    100% { transform: translateX(0); }
+}
+
+.flash {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 40;
+}
+
+.flash.active {
+    animation: flash .18s;
+}
+
+@keyframes flash {
+    0% { opacity: .8; }
+    100% { opacity: 0; }
+}
+
+/* MOBİL */
+
+@media (max-height: 650px) {
+    .character {
+        transform: scale(.75);
+        margin: 0 auto;
     }
 
+    .arena {
+        padding: 5px;
+    }
+
+    .fire-button {
+        width: 120px;
+        height: 120px;
+        font-size: 20px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<div id="game">
+<div class="game">
 
-<canvas id="canvas"></canvas>
+<div class="sky"></div>
 
-<div id="hud">
+<div class="top">
+    <div class="logo">🤠 SON KURŞUN</div>
 
-    <div class="hud">
-        📏 <span id="distance">0</span> m
+    <div class="stats">
+        <span>🏆 <b id="score">0</b></span>
+        <span>🔥 <b id="streak">0</b></span>
+    </div>
+</div>
+
+<div class="arena">
+
+    <div class="sun"></div>
+
+    <!-- RAKİP -->
+
+    <div class="enemy-area">
+
+        <div class="name" id="enemyName">Billy Kane</div>
+        <div class="title" id="enemyTitle">Kasabanın en hızlısı</div>
+
+        <div class="character" id="enemyCharacter">
+            <div class="hat"></div>
+            <div class="head"></div>
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="body"></div>
+            <div class="gun"></div>
+        </div>
+
     </div>
 
-    <div class="hud">
-        ⏱️ <span id="time">0:00</span>
+    <!-- DURUM -->
+
+    <div class="status">
+        <div class="message" id="message">Hazır mısın?</div>
+        <div class="submessage" id="submessage">
+            Rakibin gözlerini takip et...
+        </div>
     </div>
 
-    <div class="hud">
-        🔫 <span id="ammo">-</span>
+    <!-- OYUNCU -->
+
+    <div class="player-area">
+
+        <div class="character">
+            <div class="hat"></div>
+            <div class="head"></div>
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="body"></div>
+            <div class="gun"></div>
+        </div>
+
+        <div class="name">SEN</div>
+
     </div>
 
-    <div class="hud">
-        🏆 <span id="record">0</span> m
-    </div>
+    <button class="fire-button" id="fireButton">
+        ÇEK!
+    </button>
 
 </div>
 
-<div id="message"></div>
+<!-- FLASH -->
 
+<div class="flash" id="flash"></div>
 
 <!-- BAŞLANGIÇ -->
 
-<div id="startScreen" class="screen">
+<div class="overlay" id="startScreen">
 
-    <h1>KAÇ!</h1>
+    <div class="panel">
 
-    <p>
-        🏃 Koş.<br>
-        👆 Dokunarak zıpla.<br>
-        🧟 Zombileri geç.<br>
-        🔫 Silahı bul.<br>
-        🏆 Rekorunu kır!
-    </p>
+        <h1>🤠 SON KURŞUN</h1>
 
-    <button
-        id="startButton"
-        class="button">
-        BAŞLA
-    </button>
+        <p>
+            Kasabanın en hızlı silahşoru olduğunu kanıtla.
+        </p>
+
+        <p>
+            <b>“ATEŞ!”</b> yazısını gördüğünde ateş et.
+            <br>
+            Erken basarsan kaybedersin.
+        </p>
+
+        <button class="start-button" id="startButton">
+            DÜELLOYA BAŞLA
+        </button>
+
+    </div>
 
 </div>
 
+<!-- SONUÇ -->
 
-<!-- GAME OVER -->
+<div class="overlay hidden" id="resultScreen">
 
-<div id="gameOver" class="screen">
+    <div class="panel">
 
-    <h2>💀 YAKALANDIN!</h2>
+        <h1 id="resultTitle">💥 VURULDUN</h1>
 
-    <div class="result">
-        📏 <span id="finalDistance">0</span> m
+        <p id="resultText"></p>
+
+        <button class="next-button" id="nextButton">
+            TEKRAR DÜELLO
+        </button>
+
     </div>
-
-    <div class="result">
-        ⏱️ <span id="finalTime">0:00</span>
-    </div>
-
-    <div class="result">
-        🧟 <span id="finalKills">0</span> zombi
-    </div>
-
-    <div class="result">
-        🏆 Rekor:
-        <span id="finalRecord">0</span> m
-    </div>
-
-    <br>
-
-    <button
-        id="restartButton"
-        class="button">
-        TEKRAR KOŞ
-    </button>
 
 </div>
 
-
-<div id="rotate">
-    📱↔️<br><br>
-    Oyunu yatay çevir!
 </div>
-
-</div>
-
 
 <script>
 
-/* =====================================================
-   CANVAS
-===================================================== */
+/* =========================
+   OYUN DEĞİŞKENLERİ
+========================= */
 
-const canvas =
-document.getElementById("canvas");
+let gameStarted = false;
+let canShoot = false;
+let duelTimer = null;
 
-const ctx =
-canvas.getContext("2d");
+let score = 0;
+let streak = 0;
 
-let W=innerWidth;
-let H=innerHeight;
+let enemyReaction = 700;
 
-let DPR=1;
+const enemies = [
+    {
+        name: "Billy Kane",
+        title: "Kasabanın en hızlısı",
+        reaction: 650
+    },
+    {
+        name: "Jack Dalton",
+        title: "Sinsi bir kumarbaz",
+        reaction: 850
+    },
+    {
+        name: "Black Jack",
+        title: "Üç kasabanın aranan adamı",
+        reaction: 550
+    },
+    {
+        name: "Mad Dog",
+        title: "Ne zaman ateş edeceği belli değil",
+        reaction: 450
+    },
+    {
+        name: "El Diablo",
+        title: "Efsane silahşor",
+        reaction: 350
+    }
+];
 
-function resize(){
 
-    W=innerWidth;
-    H=innerHeight;
+/* =========================
+   ELEMENTLER
+========================= */
 
-    DPR=Math.min(
-        window.devicePixelRatio || 1,
-        2
-    );
+const startScreen = document.getElementById("startScreen");
+const resultScreen = document.getElementById("resultScreen");
 
-    canvas.width=W*DPR;
-    canvas.height=H*DPR;
+const startButton = document.getElementById("startButton");
+const nextButton = document.getElementById("nextButton");
 
-    canvas.style.width=W+"px";
-    canvas.style.height=H+"px";
+const fireButton = document.getElementById("fireButton");
 
-    ctx.setTransform(
-        DPR,0,0,DPR,0,0
-    );
-}
+const message = document.getElementById("message");
+const submessage = document.getElementById("submessage");
 
-resize();
+const scoreText = document.getElementById("score");
+const streakText = document.getElementById("streak");
 
-window.addEventListener(
-    "resize",
-    resize
-);
+const enemyName = document.getElementById("enemyName");
+const enemyTitle = document.getElementById("enemyTitle");
 
+const resultTitle = document.getElementById("resultTitle");
+const resultText = document.getElementById("resultText");
 
-/* =====================================================
-   RENKLER
-===================================================== */
+const flash = document.getElementById("flash");
 
-const ink="#222";
 
-const sky="#bfe9ff";
+/* =========================
+   BAŞLAT
+========================= */
 
-const grass="#74c85f";
+startButton.addEventListener("click", () => {
 
-const grassDark="#3d8f45";
+    startScreen.classList.add("hidden");
 
-const dirt="#9b6037";
+    gameStarted = true;
 
-const dirtDark="#71412d";
+    startDuel();
 
-const water="#50bde8";
+});
 
 
-/* =====================================================
-   OYUN
-===================================================== */
+/* =========================
+   YENİ DÜELLO
+========================= */
 
-let running=false;
+function startDuel() {
 
-let worldX=0;
+    clearTimeout(duelTimer);
 
-let speed=270;
+    canShoot = false;
 
-let distance=0;
+    fireButton.classList.remove("ready");
 
-let elapsed=0;
+    message.textContent = "HAZIR OL...";
+    submessage.textContent = "Sakın erken ateş etme.";
 
-let kills=0;
+    const enemy =
+        enemies[Math.min(streak, enemies.length - 1)];
 
-let ammo=0;
+    enemyName.textContent = enemy.name;
+    enemyTitle.textContent = enemy.title;
 
-let armed=false;
+    /*
+        Rastgele bekleme.
+        Oyuncu ne zaman geleceğini bilemez.
+    */
 
-let jumpY=0;
+    const waitTime =
+        1800 + Math.random() * 4000;
 
-let jumpVelocity=0;
+    duelTimer = setTimeout(() => {
 
-const gravity=1550;
+        canShoot = true;
 
-const jumpPower=660;
+        message.textContent = "🔥 ATEŞ!";
+        submessage.textContent = "ŞİMDİ!";
 
-let animationTime=0;
-
-let lastTime=0;
-
-let shotTimer=0;
-
-let shake=0;
-
-
-/* =====================================================
-   REKOR
-===================================================== */
-
-let best=
-Number(
-    localStorage.getItem("kac_rekor") || 0
-);
-
-document.getElementById("record")
-.textContent=best;
-
-
-/* =====================================================
-   OYUNCU
-===================================================== */
-
-const player={
-
-    x:W*.20,
-
-    width:40,
-
-    height:80
-
-};
-
-
-/* =====================================================
-   HARİTA
-===================================================== */
-
-let terrain=[];
-
-let objects=[];
-
-
-/*
-    Terrain tipi:
-
-    normal
-    gap
-
-    Her normal bölüm iki nokta arasında
-    çiziliyor.
-
-    Gap ise gerçek vadi.
-*/
-
-function generateMap(){
-
-    terrain=[];
-
-    let x=-1000;
-
-    let y=H*.70;
-
-    terrain.push({
-        x:x,
-        y:y
-    });
-
-    while(x<15000){
-
-        let section=
-            180+
-            Math.random()*220;
+        fireButton.classList.add("ready");
 
         /*
-            Çok hafif iniş çıkış
+            Rakibin ateş süresi.
         */
 
-        let ny=
-            y+
-            (Math.random()-.5)*70;
+        const reaction =
+            enemy.reaction + Math.random() * 350;
 
-        ny=Math.max(
-            H*.54,
-            Math.min(
-                H*.73,
-                ny
-            )
-        );
+        duelTimer = setTimeout(() => {
 
-        /*
-            NORMAL ZEMİN
-        */
+            if (canShoot) {
 
-        terrain.push({
-            x:x+section,
-            y:ny
-        });
-
-        x+=section;
-
-        y=ny;
-
-
-        /*
-            ÇUKUR
-        */
-
-        if(
-            x>900 &&
-            Math.random()<.20
-        ){
-
-            let gapWidth=
-                120+
-                Math.random()*120;
-
-            /*
-                Gap başlangıcı
-            */
-
-            terrain.push({
-                x:x,
-                y:y,
-                type:"gapStart"
-            });
-
-            /*
-                Gap sonu,
-                özellikle farklı yükseklik
-            */
-
-            x+=gapWidth;
-
-            let landing=
-                y+
-                (Math.random()-.5)*40;
-
-            landing=Math.max(
-                H*.56,
-                Math.min(
-                    H*.72,
-                    landing
-                )
-            );
-
-            terrain.push({
-                x:x,
-                y:landing,
-                type:"gapEnd"
-            });
-
-            y=landing;
-
-        }
-
-    }
-
-}
-
-
-/* =====================================================
-   ZEMİN NOKTASI
-===================================================== */
-
-function groundAt(wx){
-
-    for(
-        let i=0;
-        i<terrain.length-1;
-        i++
-    ){
-
-        const a=terrain[i];
-        const b=terrain[i+1];
-
-        if(
-            wx>=a.x &&
-            wx<=b.x
-        ){
-
-            /*
-                Gap başlangıç ve bitiş
-                arasında zemin yok.
-            */
-
-            if(
-                a.type==="gapStart" &&
-                b.type==="gapEnd"
-            ){
-
-                return null;
-
-            }
-
-            let t=
-                (wx-a.x)/
-                (b.x-a.x);
-
-            return a.y+
-                (b.y-a.y)*t;
-
-        }
-
-    }
-
-    return H*.70;
-}
-
-
-/* =====================================================
-   NESNELER
-===================================================== */
-
-function addObject(
-    type,
-    x,
-    extra={}
-){
-
-    objects.push({
-
-        type:type,
-
-        x:x,
-
-        dead:false,
-
-        ...extra
-
-    });
-
-}
-
-
-/* =====================================================
-   NESNELERİ OLUŞTUR
-===================================================== */
-
-function generateObjects(){
-
-    objects=[];
-
-    let x=900;
-
-    while(x<14500){
-
-        let r=Math.random();
-
-        /*
-            ZOMBİ
-        */
-
-        if(r<.32){
-
-            addObject(
-                "zombie",
-                x
-            );
-
-            x+=
-                300+
-                Math.random()*230;
-
-        }
-
-        /*
-            KAZIK
-        */
-
-        else if(r<.52){
-
-            addObject(
-                "spikes",
-                x
-            );
-
-            x+=
-                330+
-                Math.random()*250;
-
-        }
-
-        /*
-            MERMİ
-        */
-
-        else if(r<.67){
-
-            addObject(
-                "ammo",
-                x,
-                {
-                    heightOffset:
-                    -65-
-                    Math.random()*70
-                }
-            );
-
-            x+=
-                380+
-                Math.random()*260;
-
-        }
-
-        /*
-            KASA
-        */
-
-        else if(r<.82){
-
-            addObject(
-                "crate",
-                x
-            );
-
-            x+=
-                300+
-                Math.random()*220;
-
-        }
-
-        /*
-            İKİ ZOMBİ
-        */
-
-        else{
-
-            addObject(
-                "zombie",
-                x
-            );
-
-            addObject(
-                "zombie",
-                x+95
-            );
-
-            x+=
-                440+
-                Math.random()*250;
-
-        }
-
-    }
-
-}
-
-
-/* =====================================================
-   ARKA PLAN
-===================================================== */
-
-function drawBackground(){
-
-    /*
-        GÖKYÜZÜ
-    */
-
-    ctx.fillStyle=sky;
-
-    ctx.fillRect(
-        0,0,W,H
-    );
-
-
-    /*
-        Güneş
-    */
-
-    drawSun(
-        W*.80,
-        H*.16,
-        34
-    );
-
-
-    /*
-        Bulutlar
-    */
-
-    drawCloud(
-        W*.18,
-        H*.17,
-        1
-    );
-
-    drawCloud(
-        W*.52,
-        H*.11,
-        .75
-    );
-
-    drawCloud(
-        W*.70,
-        H*.27,
-        .55
-    );
-
-
-    /*
-        Uzak dağlar
-    */
-
-    ctx.fillStyle="#a7d8d8";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-
-    ctx.moveTo(0,H*.52);
-
-    for(
-        let x=0;
-        x<=W;
-        x+=80
-    ){
-
-        let yy=
-            H*.52-
-            Math.sin(
-                x*.009+
-                worldX*.0002
-            )*55;
-
-        ctx.lineTo(
-            x,
-            yy
-        );
-
-    }
-
-    ctx.lineTo(W,H*.72);
-
-    ctx.lineTo(0,H*.72);
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        Uzak ağaçlar
-    */
-
-    let offset=
-        -(worldX*.10)%150;
-
-    for(
-        let x=-150+offset;
-        x<W+150;
-        x+=150
-    ){
-
-        drawSmallTree(
-            x,
-            H*.55
-        );
-
-    }
-
-
-    /*
-        Evler arada görünür
-    */
-
-    let houseOffset=
-        -(worldX*.045)%430;
-
-    for(
-        let x=-430+houseOffset;
-        x<W+430;
-        x+=430
-    ){
-
-        drawHouse(
-            x,
-            H*.57
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   GÜNEŞ
-===================================================== */
-
-function drawSun(x,y,r){
-
-    ctx.fillStyle="#ffe34f";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        x,y,r,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    for(let i=0;i<10;i++){
-
-        let a=
-            i*Math.PI*2/10;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            x+
-            Math.cos(a)*(r+7),
-            y+
-            Math.sin(a)*(r+7)
-        );
-
-        ctx.lineTo(
-            x+
-            Math.cos(a)*(r+18),
-            y+
-            Math.sin(a)*(r+18)
-        );
-
-        ctx.stroke();
-
-    }
-
-}
-
-
-/* =====================================================
-   BULUT
-===================================================== */
-
-function drawCloud(x,y,s){
-
-    ctx.fillStyle="#fff";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        x,
-        y,
-        20*s,
-        Math.PI,
-        0
-    );
-
-    ctx.arc(
-        x+25*s,
-        y-10*s,
-        17*s,
-        Math.PI,
-        0
-    );
-
-    ctx.arc(
-        x+48*s,
-        y,
-        20*s,
-        Math.PI,
-        0
-    );
-
-    ctx.lineTo(
-        x+48*s,
-        y+15*s
-    );
-
-    ctx.lineTo(
-        x,
-        y+15*s
-    );
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-}
-
-
-/* =====================================================
-   AĞAÇ
-===================================================== */
-
-function drawSmallTree(x,y){
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=3;
-
-    ctx.fillStyle="#64b45b";
-
-    ctx.beginPath();
-
-    ctx.moveTo(x,y);
-
-    ctx.lineTo(x-24,y-55);
-
-    ctx.lineTo(x,y-45);
-
-    ctx.lineTo(x+20,y-75);
-
-    ctx.lineTo(x+30,y);
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-}
-
-
-/* =====================================================
-   EV
-===================================================== */
-
-function drawHouse(x,y){
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=3;
-
-    ctx.fillStyle="#fff0d0";
-
-    ctx.fillRect(
-        x-25,
-        y-45,
-        50,
-        45
-    );
-
-    ctx.strokeRect(
-        x-25,
-        y-45,
-        50,
-        45
-    );
-
-    ctx.fillStyle="#e45d4f";
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        x-34,y-45
-    );
-
-    ctx.lineTo(
-        x,y-75
-    );
-
-    ctx.lineTo(
-        x+34,y-45
-    );
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-}
-
-
-/* =====================================================
-   TERRAIN
-===================================================== */
-
-function drawTerrain(){
-
-    for(
-        let i=0;
-        i<terrain.length-1;
-        i++
-    ){
-
-        let a=terrain[i];
-
-        let b=terrain[i+1];
-
-        let ax=
-            a.x-worldX;
-
-        let bx=
-            b.x-worldX;
-
-
-        if(
-            bx<-100 ||
-            ax>W+100
-        ){
-
-            continue;
-
-        }
-
-
-        /*
-            ÇUKUR
-        */
-
-        if(
-            a.type==="gapStart" &&
-            b.type==="gapEnd"
-        ){
-
-            drawGap(
-                ax,
-                bx,
-                a.y,
-                b.y
-            );
-
-            continue;
-
-        }
-
-
-        /*
-            TOPRAK
-        */
-
-        ctx.fillStyle=dirt;
-
-        ctx.strokeStyle=ink;
-
-        ctx.lineWidth=5;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            ax,a.y
-        );
-
-        ctx.lineTo(
-            bx,b.y
-        );
-
-        ctx.lineTo(
-            bx,H
-        );
-
-        ctx.lineTo(
-            ax,H
-        );
-
-        ctx.closePath();
-
-        ctx.fill();
-
-        ctx.stroke();
-
-
-        /*
-            ÇİMENLİ ÜST
-        */
-
-        drawGrassLine(
-            ax,
-            bx,
-            a.y,
-            b.y
-        );
-
-
-        /*
-            Taşlar
-        */
-
-        for(
-            let sx=ax+45;
-            sx<bx;
-            sx+=100
-        ){
-
-            let t=
-                (sx-ax)/
-                Math.max(1,bx-ax);
-
-            let sy=
-                a.y+
-                (b.y-a.y)*t+
-                75;
-
-            drawRock(
-                sx,
-                sy
-            );
-
-        }
-
-    }
-
-}
-
-
-/* =====================================================
-   ÇUKUR
-===================================================== */
-
-function drawGap(
-    ax,
-    bx,
-    ay,
-    by
-){
-
-    /*
-        SOL DUVAR
-    */
-
-    ctx.fillStyle=dirt;
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=5;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        ax,
-        ay
-    );
-
-    ctx.lineTo(
-        ax,
-        H
-    );
-
-    ctx.lineTo(
-        ax+55,
-        H
-    );
-
-    ctx.lineTo(
-        ax+32,
-        ay+75
-    );
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        SAĞ DUVAR
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        bx,
-        by
-    );
-
-    ctx.lineTo(
-        bx,
-        H
-    );
-
-    ctx.lineTo(
-        bx-55,
-        H
-    );
-
-    ctx.lineTo(
-        bx-32,
-        by+75
-    );
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        VADİNİN İÇİ
-    */
-
-    ctx.fillStyle=water;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        ax+32,
-        ay+75
-    );
-
-    ctx.lineTo(
-        bx-32,
-        by+75
-    );
-
-    ctx.lineTo(
-        bx-55,
-        H
-    );
-
-    ctx.lineTo(
-        ax+55,
-        H
-    );
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        SU DALGALARI
-    */
-
-    ctx.strokeStyle="#2385a9";
-
-    ctx.lineWidth=3;
-
-    for(
-        let yy=ay+100;
-        yy<H;
-        yy+=28
-    ){
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            ax+62,
-            yy
-        );
-
-        ctx.quadraticCurveTo(
-            (ax+bx)/2,
-            yy-8,
-            bx-62,
-            yy
-        );
-
-        ctx.stroke();
-
-    }
-
-
-    /*
-        KÖPRÜ
-    */
-
-    drawBridge(
-        ax+8,
-        bx-8,
-        Math.min(ay,by)-5
-    );
-
-}
-
-
-/* =====================================================
-   KÖPRÜ
-===================================================== */
-
-function drawBridge(
-    ax,
-    bx,
-    y
-){
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    /*
-        ipler
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        ax,y
-    );
-
-    ctx.quadraticCurveTo(
-        (ax+bx)/2,
-        y+28,
-        bx,y
-    );
-
-    ctx.stroke();
-
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        ax,y+10
-    );
-
-    ctx.quadraticCurveTo(
-        (ax+bx)/2,
-        y+38,
-        bx,y+10
-    );
-
-    ctx.stroke();
-
-
-    /*
-        tahtalar
-    */
-
-    let count=
-        Math.max(
-            3,
-            Math.floor(
-                (bx-ax)/20
-            )
-        );
-
-    for(
-        let i=0;
-        i<=count;
-        i++
-    ){
-
-        let t=i/count;
-
-        let x=
-            ax+
-            (bx-ax)*t;
-
-        let yy=
-            y+
-            Math.sin(t*Math.PI)*28;
-
-        ctx.fillStyle="#bd804b";
-
-        ctx.fillRect(
-            x-7,
-            yy-3,
-            14,
-            10
-        );
-
-        ctx.strokeRect(
-            x-7,
-            yy-3,
-            14,
-            10
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ÇİMEN
-===================================================== */
-
-function drawGrassLine(
-    ax,
-    bx,
-    ay,
-    by
-){
-
-    ctx.strokeStyle=grassDark;
-
-    ctx.lineWidth=4;
-
-    for(
-        let x=ax;
-        x<bx;
-        x+=14
-    ){
-
-        let t=
-            (x-ax)/
-            Math.max(1,bx-ax);
-
-        let y=
-            ay+
-            (by-ay)*t;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            x,y
-        );
-
-        ctx.lineTo(
-            x+2,
-            y-9
-        );
-
-        ctx.stroke();
-
-    }
-
-}
-
-
-/* =====================================================
-   KAYA
-===================================================== */
-
-function drawRock(x,y){
-
-    if(
-        x<0 ||
-        x>W ||
-        y>H
-    ) return;
-
-    ctx.fillStyle=dirtDark;
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=2;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        x-9,y
-    );
-
-    ctx.lineTo(
-        x-5,y-9
-    );
-
-    ctx.lineTo(
-        x+7,y-6
-    );
-
-    ctx.lineTo(
-        x+11,y+3
-    );
-
-    ctx.lineTo(
-        x+2,y+9
-    );
-
-    ctx.lineTo(
-        x-8,y+6
-    );
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-}
-
-
-/* =====================================================
-   OYUNCU
-===================================================== */
-
-function drawPlayer(){
-
-    let wx=
-        worldX+
-        player.x;
-
-    let gy=
-        groundAt(wx);
-
-
-    /*
-        Çukurun üzerindeysek
-        oyuncu havada kalabilir.
-    */
-
-    if(gy===null){
-
-        gy=
-            H*.68;
-
-    }
-
-
-    let x=
-        player.x;
-
-    let y=
-        gy-
-        82-
-        jumpY;
-
-
-    /*
-        KOŞU ANİMASYONU
-
-        Bacaklar ve kollar
-        sürekli karşılıklı hareket.
-    */
-
-    let run=
-        Math.sin(
-            animationTime*14
-        );
-
-    let leg1=
-        run*.65;
-
-    let leg2=
-        -run*.65;
-
-    let arm1=
-        -run*.45;
-
-    let arm2=
-        run*.45;
-
-
-    /*
-        HAVADA POZ
-    */
-
-    if(jumpY>8){
-
-        leg1=.5;
-        leg2=-.5;
-
-        arm1=-.8;
-        arm2=.7;
-
-    }
-
-
-    ctx.save();
-
-    ctx.translate(
-        x,
-        y
-    );
-
-
-    /*
-        Gövde
-    */
-
-    ctx.rotate(
-        jumpY>8
-        ? -.08
-        : run*.025
-    );
-
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=6;
-
-    ctx.lineCap="round";
-
-    ctx.lineJoin="round";
-
-
-    /*
-        KIRMIZI ATKI
-    */
-
-    ctx.strokeStyle="#e63e39";
-
-    ctx.lineWidth=7;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -3,
-        34
-    );
-
-    ctx.quadraticCurveTo(
-        -25,
-        29,
-        -40-run*5,
-        42
-    );
-
-    ctx.stroke();
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -28-run*5,
-        39
-    );
-
-    ctx.lineTo(
-        -48-run*8,
-        34
-    );
-
-    ctx.stroke();
-
-
-    /*
-        KAFAT
-    */
-
-    ctx.fillStyle="#f2d0a8";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=5;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        17,
-        18,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        KARİZMATİK SAÇ
-    */
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=5;
-
-    for(let i=-2;i<=2;i++){
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            i*6,
-            5
-        );
-
-        ctx.lineTo(
-            i*8-3,
-            -7-Math.abs(i)*3
-        );
-
-        ctx.stroke();
-
-    }
-
-
-    /*
-        GÖZLÜK
-    */
-
-    ctx.fillStyle=ink;
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    ctx.fillRect(
-        -15,
-        11,
-        12,
-        8
-    );
-
-    ctx.fillRect(
-        3,
-        11,
-        12,
-        8
-    );
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -3,
-        15
-    );
-
-    ctx.lineTo(
-        3,
-        15
-    );
-
-    ctx.stroke();
-
-
-    /*
-        GÜLÜMSEME
-    */
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=3;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        21,
-        7,
-        0,
-        Math.PI
-    );
-
-    ctx.stroke();
-
-
-    /*
-        BOYUN
-    */
-
-    ctx.lineWidth=5;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,34
-    );
-
-    ctx.lineTo(
-        0,39
-    );
-
-    ctx.stroke();
-
-
-    /*
-        GÖVDE
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,39
-    );
-
-    ctx.lineTo(
-        0,65
-    );
-
-    ctx.stroke();
-
-
-    /*
-        SOL KOL
-    */
-
-    ctx.save();
-
-    ctx.translate(
-        0,
-        42
-    );
-
-    ctx.rotate(
-        arm1
-    );
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,0
-    );
-
-    ctx.lineTo(
-        21,15
-    );
-
-    ctx.stroke();
-
-    ctx.restore();
-
-
-    /*
-        SAĞ KOL
-    */
-
-    ctx.save();
-
-    ctx.translate(
-        0,
-        42
-    );
-
-    /*
-        Silahlıysa iki el silaha yakın
-    */
-
-    if(armed){
-
-        ctx.rotate(
-            -.35+
-            arm2*.2
-        );
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            0,0
-        );
-
-        ctx.lineTo(
-            24,5
-        );
-
-        ctx.stroke();
-
-    }
-    else{
-
-        ctx.rotate(
-            arm2
-        );
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            0,0
-        );
-
-        ctx.lineTo(
-            -21,15
-        );
-
-        ctx.stroke();
-
-    }
-
-    ctx.restore();
-
-
-    /*
-        BACAK 1
-    */
-
-    ctx.save();
-
-    ctx.translate(
-        0,
-        64
-    );
-
-    ctx.rotate(
-        leg1
-    );
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,0
-    );
-
-    ctx.lineTo(
-        4,30
-    );
-
-    ctx.stroke();
-
-    ctx.restore();
-
-
-    /*
-        BACAK 2
-    */
-
-    ctx.save();
-
-    ctx.translate(
-        0,
-        64
-    );
-
-    ctx.rotate(
-        leg2
-    );
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,0
-    );
-
-    ctx.lineTo(
-        -5,30
-    );
-
-    ctx.stroke();
-
-    ctx.restore();
-
-
-    /*
-        SİLAH
-    */
-
-    if(armed){
-
-        drawGun();
-
-    }
-
-
-    ctx.restore();
-
-}
-
-
-/* =====================================================
-   SİLAH
-===================================================== */
-
-function drawGun(){
-
-    /*
-        Artık basit gri çubuk değil.
-
-        Küçük karalama tarzı
-        makineli tüfek.
-    */
-
-    ctx.save();
-
-    ctx.translate(
-        17,
-        40
-    );
-
-    ctx.rotate(-.04);
-
-
-    /*
-        Gövde
-    */
-
-    ctx.fillStyle="#454545";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    ctx.beginPath();
-
-    ctx.roundRect(
-        0,
-        -7,
-        38,
-        13,
-        3
-    );
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        Namlu
-    */
-
-    ctx.lineWidth=5;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        36,-3
-    );
-
-    ctx.lineTo(
-        55,-3
-    );
-
-    ctx.stroke();
-
-
-    /*
-        Şarjör
-    */
-
-    ctx.fillStyle="#c78336";
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        14,5
-    );
-
-    ctx.lineTo(
-        23,5
-    );
-
-    ctx.lineTo(
-        20,18
-    );
-
-    ctx.lineTo(
-        12,15
-    );
-
-    ctx.closePath();
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        Dipçik
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,-2
-    );
-
-    ctx.lineTo(
-        -10,5
-    );
-
-    ctx.lineTo(
-        0,9
-    );
-
-    ctx.stroke();
-
-
-    /*
-        Atış efekti
-    */
-
-    if(
-        shotTimer>0
-    ){
-
-        ctx.fillStyle="#ffd43b";
-
-        ctx.strokeStyle="#e85d39";
-
-        ctx.lineWidth=3;
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            55,-8
-        );
-
-        ctx.lineTo(
-            69,-3
-        );
-
-        ctx.lineTo(
-            57,2
-        );
-
-        ctx.lineTo(
-            68,9
-        );
-
-        ctx.lineTo(
-            51,5
-        );
-
-        ctx.closePath();
-
-        ctx.fill();
-
-        ctx.stroke();
-
-    }
-
-    ctx.restore();
-
-}
-
-
-/* =====================================================
-   ZOMBİ
-===================================================== */
-
-function drawZombie(o){
-
-    let x=
-        o.x-worldX;
-
-    if(
-        x<-100 ||
-        x>W+100
-    ) return;
-
-    let gy=
-        groundAt(o.x);
-
-    if(gy===null)
-        return;
-
-    let y=
-        gy-70;
-
-    let walk=
-        Math.sin(
-            animationTime*8+
-            o.x
-        );
-
-
-    ctx.save();
-
-    ctx.translate(
-        x,y
-    );
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=5;
-
-    ctx.lineCap="round";
-
-
-    /*
-        Kafa
-    */
-
-    ctx.fillStyle="#9bc47b";
-
-    ctx.beginPath();
-
-    ctx.arc(
-        0,
-        17,
-        18,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        Saç
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -12,4
-    );
-
-    ctx.lineTo(
-        -16,-5
-    );
-
-    ctx.moveTo(
-        -4,2
-    );
-
-    ctx.lineTo(
-        -4,-9
-    );
-
-    ctx.moveTo(
-        5,3
-    );
-
-    ctx.lineTo(
-        11,-6
-    );
-
-    ctx.stroke();
-
-
-    /*
-        Gözler
-    */
-
-    ctx.fillStyle=ink;
-
-    ctx.beginPath();
-
-    ctx.arc(
-        -6,
-        16,
-        3,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-    ctx.beginPath();
-
-    ctx.arc(
-        7,
-        13,
-        3,
-        0,
-        Math.PI*2
-    );
-
-    ctx.fill();
-
-
-    /*
-        Ağız
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        -9,25
-    );
-
-    ctx.lineTo(
-        10,23
-    );
-
-    ctx.stroke();
-
-
-    /*
-        GÖVDE
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,35
-    );
-
-    ctx.lineTo(
-        0,61
-    );
-
-    ctx.stroke();
-
-
-    /*
-        Kollar
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,39
-    );
-
-    ctx.lineTo(
-        22,
-        31+walk*5
-    );
-
-    ctx.stroke();
-
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,40
-    );
-
-    ctx.lineTo(
-        -22,
-        34-walk*5
-    );
-
-    ctx.stroke();
-
-
-    /*
-        Bacaklar
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,60
-    );
-
-    ctx.lineTo(
-        7+walk*8,
-        82
-    );
-
-    ctx.stroke();
-
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        0,60
-    );
-
-    ctx.lineTo(
-        -7-walk*8,
-        82
-    );
-
-    ctx.stroke();
-
-
-    ctx.restore();
-
-}
-
-
-/* =====================================================
-   KAZIK
-===================================================== */
-
-function drawSpikes(o){
-
-    let x=
-        o.x-worldX;
-
-    if(
-        x<-100 ||
-        x>W+100
-    ) return;
-
-    let gy=
-        groundAt(o.x);
-
-    if(gy===null)
-        return;
-
-
-    /*
-        Tahta taban
-    */
-
-    ctx.fillStyle="#a87845";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    ctx.fillRect(
-        x-48,
-        gy-12,
-        96,
-        12
-    );
-
-    ctx.strokeRect(
-        x-48,
-        gy-12,
-        96,
-        12
-    );
-
-
-    /*
-        5 sivri kazık
-    */
-
-    for(
-        let i=-2;
-        i<=2;
-        i++
-    ){
-
-        let sx=
-            x+i*19;
-
-        ctx.fillStyle="#e65a4f";
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            sx-10,
-            gy-12
-        );
-
-        ctx.lineTo(
-            sx,
-            gy-57
-        );
-
-        ctx.lineTo(
-            sx+10,
-            gy-12
-        );
-
-        ctx.closePath();
-
-        ctx.fill();
-
-        ctx.stroke();
-
-    }
-
-}
-
-
-/* =====================================================
-   KASA
-===================================================== */
-
-function drawCrate(o){
-
-    let x=
-        o.x-worldX;
-
-    if(
-        x<-80 ||
-        x>W+80
-    ) return;
-
-    let gy=
-        groundAt(o.x);
-
-    if(gy===null)
-        return;
-
-    ctx.fillStyle="#b9783e";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    ctx.fillRect(
-        x-25,
-        gy-44,
-        50,
-        44
-    );
-
-    ctx.strokeRect(
-        x-25,
-        gy-44,
-        50,
-        44
-    );
-
-
-    /*
-        Çapraz tahtalar
-    */
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-        x-21,
-        gy-40
-    );
-
-    ctx.lineTo(
-        x+21,
-        gy-5
-    );
-
-    ctx.moveTo(
-        x+21,
-        gy-40
-    );
-
-    ctx.lineTo(
-        x-21,
-        gy-5
-    );
-
-    ctx.stroke();
-
-}
-
-
-/* =====================================================
-   MERMİ
-===================================================== */
-
-function drawAmmo(o){
-
-    let x=
-        o.x-worldX;
-
-    if(
-        x<-80 ||
-        x>W+80
-    ) return;
-
-    let gy=
-        groundAt(o.x);
-
-    if(gy===null)
-        return;
-
-    let y=
-        gy+
-        o.heightOffset+
-        Math.sin(
-            animationTime*5+
-            o.x
-        )*5;
-
-
-    ctx.fillStyle="#ffd53e";
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    ctx.beginPath();
-
-    ctx.roundRect(
-        x-23,
-        y-21,
-        46,
-        42,
-        7
-    );
-
-    ctx.fill();
-
-    ctx.stroke();
-
-
-    /*
-        Mermi çizimleri
-    */
-
-    ctx.strokeStyle=ink;
-
-    ctx.lineWidth=4;
-
-    for(let i=-1;i<=1;i++){
-
-        ctx.beginPath();
-
-        ctx.moveTo(
-            x+i*9,
-            y+9
-        );
-
-        ctx.lineTo(
-            x+i*9,
-            y-10
-        );
-
-        ctx.stroke();
-
-    }
-
-}
-
-
-/* =====================================================
-   OBJELERİ ÇİZ
-===================================================== */
-
-function drawObjects(){
-
-    for(
-        const o of objects
-    ){
-
-        if(o.dead)
-            continue;
-
-        if(
-            o.type==="zombie"
-        )
-            drawZombie(o);
-
-        else if(
-            o.type==="spikes"
-        )
-            drawSpikes(o);
-
-        else if(
-            o.type==="crate"
-        )
-            drawCrate(o);
-
-        else if(
-            o.type==="ammo"
-        )
-            drawAmmo(o);
-
-    }
-
-}
-
-
-/* =====================================================
-   BULLETLAR
-===================================================== */
-
-let bullets=[];
-
-function drawBullets(){
-
-    ctx.fillStyle=ink;
-
-    for(
-        const b of bullets
-    ){
-
-        let x=
-            b.x-worldX;
-
-        ctx.fillRect(
-            x,
-            b.y,
-            17,
-            5
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   OTOMATİK ATEŞ
-===================================================== */
-
-function shoot(){
-
-    if(
-        !armed ||
-        ammo<=0
-    )
-        return;
-
-
-    let nearest=null;
-
-    let nearestD=Infinity;
-
-    let playerWorld=
-        worldX+
-        player.x;
-
-
-    for(
-        const o of objects
-    ){
-
-        if(
-            o.type!=="zombie" ||
-            o.dead
-        )
-            continue;
-
-        let d=
-            o.x-
-            playerWorld;
-
-        if(
-            d>20 &&
-            d<650 &&
-            d<nearestD
-        ){
-
-            nearest=o;
-
-            nearestD=d;
-
-        }
-
-    }
-
-
-    if(!nearest)
-        return;
-
-
-    ammo--;
-
-    shotTimer=.11;
-
-
-    bullets.push({
-
-        x:
-            playerWorld+40,
-
-        y:
-            getPlayerY()+35,
-
-        target:nearest
-
-    });
-
-}
-
-
-/* =====================================================
-   BULLET UPDATE
-===================================================== */
-
-function updateBullets(dt){
-
-    for(
-        let i=bullets.length-1;
-        i>=0;
-        i--
-    ){
-
-        let b=bullets[i];
-
-        b.x+=
-            1000*dt;
-
-
-        if(
-            !b.target ||
-            b.target.dead
-        ){
-
-            bullets.splice(i,1);
-
-            continue;
-
-        }
-
-
-        if(
-            b.x>=
-            b.target.x-8
-        ){
-
-            b.target.dead=true;
-
-            kills++;
-
-            bullets.splice(i,1);
-
-        }
-
-
-        if(
-            b.x>
-            worldX+
-            W+300
-        ){
-
-            bullets.splice(i,1);
-
-        }
-
-    }
-
-}
-
-
-/* =====================================================
-   OYUNCU Y
-===================================================== */
-
-function getPlayerY(){
-
-    let gy=
-        groundAt(
-            worldX+
-            player.x
-        );
-
-    if(gy===null){
-
-        gy=
-            H*.69;
-
-    }
-
-    return gy-
-        82-
-        jumpY;
-
-}
-
-
-/* =====================================================
-   ÇARPIŞMA
-===================================================== */
-
-function collisions(){
-
-    let px=
-        worldX+
-        player.x;
-
-    let gy=
-        groundAt(px);
-
-
-    /*
-        ÇUKURA DÜŞME
-    */
-
-    if(
-        gy===null &&
-        jumpY<25
-    ){
-
-        gameOver();
-
-        return;
-
-    }
-
-
-    for(
-        const o of objects
-    ){
-
-        if(o.dead)
-            continue;
-
-
-        let dx=
-            Math.abs(
-                o.x-px
-            );
-
-
-        /*
-            ZOMBİ
-        */
-
-        if(
-            o.type==="zombie" &&
-            dx<45 &&
-            jumpY<38
-        ){
-
-            gameOver();
-
-            return;
-
-        }
-
-
-        /*
-            KAZIK
-        */
-
-        if(
-            o.type==="spikes" &&
-            dx<55 &&
-            jumpY<50
-        ){
-
-            gameOver();
-
-            return;
-
-        }
-
-
-        /*
-            KASA
-        */
-
-        if(
-            o.type==="crate" &&
-            dx<48 &&
-            jumpY<40
-        ){
-
-            gameOver();
-
-            return;
-
-        }
-
-
-        /*
-            MERMİ
-        */
-
-        if(
-            o.type==="ammo" &&
-            dx<48
-        ){
-
-            let gy2=
-                groundAt(o.x);
-
-            if(gy2===null)
-                continue;
-
-            let ay=
-                gy2+
-                o.heightOffset;
-
-            let py=
-                gy-
-                jumpY-
-                40;
-
-            if(
-                Math.abs(py-ay)<65
-            ){
-
-                ammo+=12;
-
-                armed=true;
-
-                o.dead=true;
-
-                showMessage(
-                    "🔫 MERMİ +12!"
+                playerLoses(
+                    "Rakibin senden önce çekti!"
                 );
 
             }
 
-        }
+        }, reaction);
 
-    }
+    }, waitTime);
 
 }
 
 
-/* =====================================================
-   TEMİZLE
-===================================================== */
+/* =========================
+   ATEŞ
+========================= */
 
-function cleanup(){
+fireButton.addEventListener("pointerdown", shoot);
 
-    objects=
-        objects.filter(
-            o=>
-                !o.dead &&
-                o.x>
-                worldX-300
+function shoot(e) {
+
+    e.preventDefault();
+
+    if (!gameStarted) return;
+
+    /*
+        ERKEN ATEŞ
+    */
+
+    if (!canShoot) {
+
+        clearTimeout(duelTimer);
+
+        playerLoses(
+            "Çok erken ateş ettin!"
         );
 
-}
-
-
-/* =====================================================
-   ZIPLAMA
-===================================================== */
-
-function jump(){
-
-    if(!running)
         return;
 
-    if(jumpY<=2){
-
-        jumpVelocity=
-            jumpPower;
-
     }
+
+    /*
+        DOĞRU ATEŞ
+    */
+
+    clearTimeout(duelTimer);
+
+    canShoot = false;
+
+    fireButton.classList.remove("ready");
+
+    flash.classList.add("active");
+
+    setTimeout(() => {
+        flash.classList.remove("active");
+    }, 200);
+
+    score += 100 + streak * 25;
+    streak++;
+
+    scoreText.textContent = score;
+    streakText.textContent = streak;
+
+    message.textContent = "💥 VURDUN!";
+    submessage.textContent =
+        `+${100 + (streak - 1) * 25} puan`;
+
+    /*
+        Küçük gecikmeden sonra yeni düello
+    */
+
+    setTimeout(() => {
+
+        startDuel();
+
+    }, 1200);
 
 }
 
 
-/*
-    Telefon
-*/
+/* =========================
+   KAYBETME
+========================= */
 
-canvas.addEventListener(
-    "pointerdown",
-    function(e){
+function playerLoses(reason) {
 
-        e.preventDefault();
+    canShoot = false;
 
-        jump();
+    clearTimeout(duelTimer);
 
-    },
-    {
-        passive:false
-    }
-);
+    fireButton.classList.remove("ready");
 
+    gameStarted = false;
 
-/*
-    Bilgisayar
-*/
+    resultTitle.textContent = "💀 DUELLO BİTTİ";
 
-document.addEventListener(
-    "keydown",
-    function(e){
+    resultText.innerHTML =
+        `${reason}<br><br>
+        Skorun: <b>${score}</b><br>
+        Serin: <b>${streak}</b>`;
 
-        if(
-            e.code==="Space" ||
-            e.code==="ArrowUp"
-        ){
-
-            e.preventDefault();
-
-            jump();
-
-        }
-
-    }
-);
-
-
-/* =====================================================
-   BAŞLAT
-===================================================== */
-
-function startGame(){
-
-    if(running)
-        return;
-
-    running=true;
-
-    worldX=0;
-
-    speed=270;
-
-    distance=0;
-
-    elapsed=0;
-
-    kills=0;
-
-    ammo=0;
-
-    armed=false;
-
-    jumpY=0;
-
-    jumpVelocity=0;
-
-    animationTime=0;
-
-    shotTimer=0;
-
-    bullets=[];
-
-    generateMap();
-
-    generateObjects();
-
-    document
-        .getElementById(
-            "startScreen"
-        )
-        .style.display="none";
-
-    document
-        .getElementById(
-            "gameOver"
-        )
-        .style.display="none";
-
-    showMessage("KOŞ!");
-
-    lastTime=
-        performance.now();
-
-    requestAnimationFrame(
-        loop
-    );
+    resultScreen.classList.remove("hidden");
 
 }
 
 
-/* =====================================================
-   BAŞLAT BUTONU
-===================================================== */
-
-const startButton=
-document.getElementById(
-    "startButton"
-);
-
-startButton.addEventListener(
-    "click",
-    startGame
-);
-
-startButton.addEventListener(
-    "touchend",
-    function(e){
-
-        e.preventDefault();
-
-        startGame();
-
-    },
-    {
-        passive:false
-    }
-);
-
-
-/* =====================================================
-   ANA DÖNGÜ
-===================================================== */
-
-function loop(now){
-
-    if(!running)
-        return;
-
-
-    let dt=
-        Math.min(
-            (now-lastTime)/1000,
-            .035
-        );
-
-    lastTime=now;
-
-
-    /*
-        ZAMAN
-    */
-
-    elapsed+=dt;
-
-
-    /*
-        HIZLANMA
-
-        Başlangıç 270
-        Sonlara doğru 650'ye kadar.
-    */
-
-    speed+=
-        8*dt+
-        distance*.0005*dt;
-
-    speed=
-        Math.min(
-            speed,
-            650
-        );
-
-
-    /*
-        DÜNYA
-    */
-
-    worldX+=
-        speed*dt;
-
-
-    /*
-        MESAFE
-    */
-
-    distance+=
-        speed*
-        dt*
-        .19;
-
-
-    /*
-        ANİMASYON
-    */
-
-    animationTime+=dt;
-
-
-    /*
-        ZIPLAMA
-    */
-
-    if(
-        jumpY>0 ||
-        jumpVelocity>0
-    ){
-
-        jumpY+=
-            jumpVelocity*dt;
-
-        jumpVelocity-=
-            gravity*dt;
-
-
-        if(jumpY<=0){
-
-            jumpY=0;
-
-            jumpVelocity=0;
-
-        }
-
-    }
-
-
-    /*
-        ATEŞ
-    */
-
-    shotTimer=
-        Math.max(
-            0,
-            shotTimer-dt
-        );
-
-
-    if(
-        armed &&
-        ammo>0
-    ){
-
-        shoot();
-
-    }
-
-
-    updateBullets(dt);
-
-    collisions();
-
-    cleanup();
-
-
-    /*
-        HUD
-    */
-
-    document
-        .getElementById(
-            "distance"
-        )
-        .textContent=
-        Math.floor(distance);
-
-
-    let minutes=
-        Math.floor(
-            elapsed/60
-        );
-
-    let seconds=
-        Math.floor(
-            elapsed%60
-        )
-        .toString()
-        .padStart(2,"0");
-
-
-    document
-        .getElementById(
-            "time"
-        )
-        .textContent=
-        minutes+":"+seconds;
-
-
-    document
-        .getElementById(
-            "ammo"
-        )
-        .textContent=
-        armed
-        ? ammo
-        : "-";
-
-
-    /*
-        ÇİZİM
-    */
-
-    drawBackground();
-
-    drawTerrain();
-
-    drawObjects();
-
-    drawBullets();
-
-    drawPlayer();
-
-
-    requestAnimationFrame(
-        loop
-    );
-
-}
-
-
-/* =====================================================
-   MESAJ
-===================================================== */
-
-let messageTimeout=null;
-
-function showMessage(text){
-
-    const el=
-        document.getElementById(
-            "message"
-        );
-
-    clearTimeout(
-        messageTimeout
-    );
-
-    el.textContent=text;
-
-    el.style.display="block";
-
-    messageTimeout=
-        setTimeout(
-            function(){
-
-                el.style.display=
-                    "none";
-
-            },
-            1200
-        );
-
-}
-
-
-/* =====================================================
-   GAME OVER
-===================================================== */
-
-function gameOver(){
-
-    if(!running)
-        return;
-
-    running=false;
-
-
-    let final=
-        Math.floor(distance);
-
-
-    if(
-        final>best
-    ){
-
-        best=final;
-
-        localStorage.setItem(
-            "kac_rekor",
-            best
-        );
-
-    }
-
-
-    document
-        .getElementById(
-            "finalDistance"
-        )
-        .textContent=
-        final;
-
-
-    let minutes=
-        Math.floor(
-            elapsed/60
-        );
-
-    let seconds=
-        Math.floor(
-            elapsed%60
-        )
-        .toString()
-        .padStart(2,"0");
-
-
-    document
-        .getElementById(
-            "finalTime"
-        )
-        .textContent=
-        minutes+":"+seconds;
-
-
-    document
-        .getElementById(
-            "finalKills"
-        )
-        .textContent=
-        kills;
-
-
-    document
-        .getElementById(
-            "finalRecord"
-        )
-        .textContent=
-        best;
-
-
-    document
-        .getElementById(
-            "record"
-        )
-        .textContent=
-        best;
-
-
-    document
-        .getElementById(
-            "gameOver"
-        )
-        .style.display=
-        "flex";
-
-}
-
-
-/* =====================================================
+/* =========================
    TEKRAR
-===================================================== */
+========================= */
 
-const restartButton=
-document.getElementById(
-    "restartButton"
-);
+nextButton.addEventListener("click", () => {
 
-restartButton.addEventListener(
-    "click",
-    startGame
-);
+    resultScreen.classList.add("hidden");
 
-restartButton.addEventListener(
-    "touchend",
-    function(e){
+    score = 0;
+    streak = 0;
 
-        e.preventDefault();
+    scoreText.textContent = "0";
+    streakText.textContent = "0";
 
-        startGame();
+    gameStarted = true;
 
-    },
-    {
-        passive:false
-    }
-);
+    startDuel();
 
-
-/* =====================================================
-   İLK EKRAN
-===================================================== */
-
-generateMap();
-
-drawBackground();
-
-drawTerrain();
-
-player.x=
-    W*.20;
-
-drawPlayer();
+});
 
 </script>
 
